@@ -1,0 +1,23 @@
+{
+  "name": "design-tokens",
+  "version": "1.0.0",
+  "description": "Figma design tokens implementation for Runroom template file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Runroom/design-tokens.git"
+  },
+  "keywords": [
+    "figma",
+    "designtokens"
+  ],
+  "author": "Runroom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Runroom/design-tokens/issues"
+  },
+  "homepage": "https://github.com/Runroom/design-tokens#readme"
+}
