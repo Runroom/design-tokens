@@ -14,7 +14,7 @@ const genFile = (name, tokens, outDir) =>
     JSON.stringify(tokens, null, 2),
     err => {
       if (err) {
-        throw new Error(`\x1b[31m\n\n❌ ${err}\n\n`)
+        throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`)
       }
       // eslint-disable-next-line no-console
       console.log(
@@ -55,10 +55,10 @@ const getTokens = (apikey, id, outDir, pageName) => {
         }
       })
       .catch(err => {
-        throw new Error(`\x1b[31m\n\n❌ ${err}\n\n`);
+        throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
       })
   } catch (err) {
-    throw new Error(`\x1b[31m\n\n❌ ${err}\n\n`);
+    throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
   }
 }
 
