@@ -8,9 +8,6 @@ const parserRuntime = require('yargs-parser')(process.argv.slice(2));
 const defaultSettings = require('./defaults.config.json');
 const configFileDefaultPath = 'designtokens.config.json';
 const emojis = require('./src/utils').emojis;
-
-console.log(defaultSettings);
-
 const configFilePath = parserRuntime['config-file'] ? parserRuntime['config-file'] : configFileDefaultPath;
 
 fs.access(configFilePath, fs.F_OK, err => {

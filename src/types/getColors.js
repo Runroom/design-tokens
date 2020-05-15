@@ -11,8 +11,6 @@ const getColors = (layerName, stylesArtboard) => {
         value: `${fullColorHex(colorRGBA.r, colorRGBA.g, colorRGBA.b)}`
       }
     }
-    // console.log(palette.color);
-
     Object.assign(palette.color, tokens)
   }
 
