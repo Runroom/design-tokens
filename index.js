@@ -12,7 +12,7 @@ const configFilePath = parserRuntime['config'] ? parserRuntime['config'] : defau
 fs.access(configFilePath, fs.F_OK, err => {
   fs.readFile(configFilePath, "utf8", (err, data) => {
     if (err) throw new Error(`\x1b[31m❌ Config file not found. Trying to use: '${configFilePath}'\n\n`);
-    const { FIGMA_APIKEY, FIGMA_ID, FIGMA_OUTDIR } = JSON.parse(data);
+    const { FIGMA_APIKEY, FIGMA_ID, FIGMA_OUTDIR, FIGMA_PAGE_NAME } = JSON.parse(data);
     if (!FIGMA_APIKEY) {
       return console.error("❌ No Figma API Key found");
     } else if (!FIGMA_ID) {
@@ -23,7 +23,7 @@ fs.access(configFilePath, fs.F_OK, err => {
       }
       fs.mkdir(`${FIGMA_OUTDIR}`, null, (err) => {
         if (err) throw err;
-        figmaConnector.getTokens(FIGMA_APIKEY, FIGMA_ID, FIGMA_OUTDIR);
+        figmaConnector.getTokens(FIGMA_APIKEY, FIGMA_ID, FIGMA_OUTDIR, FIGMA_PAGE_NAME);
       });
     }
   });
