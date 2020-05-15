@@ -1,0 +1,19 @@
+{
+  "FIGMA_APIKEY": "",
+  "FIGMA_ID": "",
+  "FIGMA_OUTDIR": "tokens",
+  "source": ["tokens/**/*.json"],
+  "platforms": {
+    "scss": {
+      "transformGroup": "scss",
+      "buildPath": "tokens/",
+      "files": [
+        {
+          "destination": "_variables.scss",
+          "format": "scss/variables"
+        }
+      ]
+    }
+  },
+  "pageName": ""
+}
