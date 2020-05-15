@@ -6,7 +6,7 @@ import {
   getSpacing,
   getTypography
 } from './types';
-import settings from '../default.config.json';
+// import settings from '../designtokens.config.json';
 
 const emojis = {
   color: '🎨',
