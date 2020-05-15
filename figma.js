@@ -3,7 +3,7 @@
 require = require("esm")(module /*, options */);
 
 const fs = require('file-system');
-const figmaConnector = require('./src/figma-connector');
+const figmaParser = require('./src/figma-parser');
 const parserRuntime = require('yargs-parser')(process.argv.slice(2));
 const defaultConfigFilePath = './designtokens.config.json';
 const emojis = require('./src/utils').emojis;
@@ -29,7 +29,7 @@ fs.access(configFilePath, fs.F_OK, err => {
       }
       fs.mkdir(outDir, null, (err) => {
         if (err) throw err;
-        figmaConnector.getTokens(FIGMA_APIKEY, FIGMA_ID, outDir, FIGMA_PAGE_NAME);
+        figmaParser.getTokens(FIGMA_APIKEY, FIGMA_ID, outDir, FIGMA_PAGE_NAME);
       });
     }
   });

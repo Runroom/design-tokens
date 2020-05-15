@@ -69,7 +69,7 @@ export const emojis = {
   color: '🎨',
   typography: '🖋 ',
   spacing: '📐',
-  error: '🍪',
+  breakpoint: '🍪',
   success: '✅',
   error: '❌',
   warning: '⚠️'

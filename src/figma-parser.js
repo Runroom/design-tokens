@@ -40,7 +40,7 @@ const getTokens = (apikey, id, outDir, pageName) => {
     fetch(FETCH_URL, FETCH_DATA)
       .then(response => {
         // eslint-disable-next-line no-console
-        console.log(`Connection with Figma is successful ${emojis.success}\n\n`);
+        console.log(` Connection with Figma is successful ${emojis.success}\n\n`);
         return response.json();
       })
       .then(styles => {
