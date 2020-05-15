@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tokens:figma": "rm -rf tokens && bin/figma-tokens.js",
-    "tokens:build": "style-dictionary build --config ./default.config.json",
+    "tokens:figma": "rm -rf tokens && node index.js",
+    "tokens:build": "style-dictionary build --config ./designtokens.config.json",
     "tokens": "npm run tokens:figma && npm run tokens:build"
   },
   "repository": {
@@ -31,6 +31,7 @@
     "style-dictionary": "^2.8.3"
   },
   "dependencies": {
+    "@runroom/eslint-config-runroom": "^1.1.0",
     "yargs-parser": "^18.1.3"
   }
 }

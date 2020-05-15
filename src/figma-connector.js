@@ -32,11 +32,10 @@ const genFile = (name, tokens, outDir) =>
     }
   )
 
-export const getTokens = (apikey, id, outDir) => {
+const getTokens = (apikey, id, outDir) => {
   // eslint-disable-next-line no-console
   console.log('\x1b[40m Connecting with Figma... \x1b[0m\n')
-  // const FETCH_URL = `https://api.figma.com/v1/files/${id}`
-  const FETCH_URL = `https://api.figma.com/v1/projects/4158566/files/`
+  const FETCH_URL = `https://api.figma.com/v1/files/${id}`
   const FETCH_DATA = {
     method: 'GET',
     headers: {
@@ -44,16 +43,20 @@ export const getTokens = (apikey, id, outDir) => {
     }
   }
 
+  console.log(FETCH_URL, FETCH_DATA);
+
   try {
     fetch(FETCH_URL, FETCH_DATA)
       .then(response => {
         // eslint-disable-next-line no-console
-        console.log(' Connection with Figma is successful...\n\n----------------\n');
+        console.log(
+          ' Connection with Figma is successful...\n\n----------------\n'
+        )
         console.log(response);
-
         return response.json()
       })
       .then(styles => {
+        console.log('Json response');
         console.log(styles);
 
         if (styles.status !== 403 && styles.status !== 404) {
@@ -76,4 +79,6 @@ export const getTokens = (apikey, id, outDir) => {
   } catch (err) {
     throw new Error(`\x1b[31m\n\n❌ ${err}\n\n`)
   }
-};
+}
+
+export { getTokens };
