@@ -29,5 +29,8 @@
     "glob-all": "3.2.1",
     "node-fetch": "^2.6.0",
     "style-dictionary": "^2.8.3"
+  },
+  "dependencies": {
+    "yargs-parser": "^18.1.3"
   }
 }

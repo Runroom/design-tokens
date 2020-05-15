@@ -4,19 +4,13 @@ require = require("esm")(module /*, options */);
 // require('../src/cli').cli();
 const fs = require('file-system');
 const figmaConnector = require('../src/figma-connector');
-const path = "./default.config.json";
+const defaultConfigFilePath = "./default.config.json";
+const parserRuntime = require('yargs-parser')(process.argv.slice(2));
 
-fs.access(path, fs.F_OK, (err) => {
-    // Shouldnt happen, we're providing a default config file
-    // if (err) {
-    //     console.error("❌");
-    //     console.error("\x1b[31m Config file was not found!");
-    //     console.error(
-    //         "\x1b[31m Please, create a `xxx.config.json` with a config parameters"
-    //     );
-    //     return;
-    // }
-    fs.readFile(path, "utf8", (err, data) => {
+const configFilePath = parserRuntime['config'] ? parserRuntime['config'] : defaultConfigFilePath;
+
+fs.access(configFilePath, fs.F_OK, (err) => {
+    fs.readFile(configFilePath, "utf8", (err, data) => {
         if (err) throw err;
         const { FIGMA_APIKEY, FIGMA_ID, FIGMA_OUTDIR } = JSON.parse(data);
         if (!FIGMA_APIKEY) {
