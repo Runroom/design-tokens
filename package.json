@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tokens:figma": "rm -rf tokens && bin/figma-tokens",
+    "tokens:figma": "rm -rf tokens && bin/figma-tokens.js",
     "tokens:build": "style-dictionary build --config ./default.config.json",
     "tokens": "npm run tokens:figma && npm run tokens:build"
   },

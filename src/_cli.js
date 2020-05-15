@@ -1,6 +1,6 @@
 import fs from "file-system";
 import getTokens from "./getTokens";
-const path = "./designtokens.config.json";
+const path = "./default.config.json";
 // allow other config file
 
 export function cli() {

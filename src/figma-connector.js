@@ -1,10 +1,12 @@
 import fs from 'fs';
 import fetch from 'node-fetch'
-import getColors from './types/getColors';
-import getTypography from './types/getTypography';
-import getSpacing from './types/getSpacing';
-import getBreakpoints from './types/getBreakpoints';
-import settings from '../designtokens.config.json';
+import {
+  getBreakpoints,
+  getColors,
+  getSpacing,
+  getTypography
+} from './types';
+import settings from '../default.config.json';
 
 const emojis = {
   color: '🎨',
@@ -30,7 +32,7 @@ const genFile = (name, tokens, outDir) =>
     }
   )
 
-const genTokens = (apikey, id, outDir) => {
+export const getTokens = (apikey, id, outDir) => {
   // eslint-disable-next-line no-console
   console.log('\x1b[40m Connecting with Figma... \x1b[0m\n')
   const FETCH_URL = `https://api.figma.com/v1/files/${id}`
@@ -71,6 +73,4 @@ const genTokens = (apikey, id, outDir) => {
   } catch (err) {
     throw new Error(`\x1b[31m\n\n❌ ${err}\n\n`)
   }
-}
-
-export default genTokens
+};
