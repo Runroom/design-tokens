@@ -1,0 +1,17 @@
+{
+  "figmaPageName": "Design Tokens",
+  "outDir": "tokens",
+  "source": ["tokens/**/*.json"],
+  "platforms": {
+    "scss": {
+      "transformGroup": "scss",
+      "buildPath": "tokens/variables/scss/",
+      "files": [
+        {
+          "destination": "variables.scss",
+          "format": "scss/variables"
+        }
+      ]
+    }
+  }
+}
