@@ -14,7 +14,7 @@ const genFile = (name, tokens, outDir) =>
     JSON.stringify(tokens, null, 2),
     err => {
       if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
-      console.log(`\x1b[32m ${emojis[name]} ${name.toUpperCase()} tokens created!\x1b[0m`);
+      console.log(` ${emojis[name]} ${name} tokens created!`);
     }
   );
 

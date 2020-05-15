@@ -4,4 +4,5 @@ const defaultConfigFilePath = './designtokens.config.json';
 const configFilePath = parserRuntime['config'] ? parserRuntime['config'] : defaultConfigFilePath;
 const StyleDictionary = require('style-dictionary').extend(configFilePath);
 
+console.log(` Compiling styles...`);
 StyleDictionary.buildAllPlatforms();
