@@ -11,15 +11,15 @@ const configFilePath = parserRuntime['config'] ? parserRuntime['config'] : defau
 
 fs.access(configFilePath, fs.F_OK, err => {
   fs.readFile(configFilePath, "utf8", (err, data) => {
-    if (err) throw new Error(`\x1b[31m❌ No config file found.\nCreate a file named designtokens.config.json or specify another file.\n\n`);
+    if (err) throw new Error(`\x1b[31m❌ Config file not found. Trying to use: '${configFilePath}'\n\n`);
     const { FIGMA_APIKEY, FIGMA_ID, FIGMA_OUTDIR } = JSON.parse(data);
     if (!FIGMA_APIKEY) {
-      return console.log("❌ No Figma API Key found");
+      return console.error("❌ No Figma API Key found");
     } else if (!FIGMA_ID) {
-      return console.log("❌ No Figma ID found");
+      return console.error("❌ No Figma ID found");
     } else {
       if (!FIGMA_OUTDIR) {
-        console.log("⚠️ No outdir found, default outdir is `tokens`");
+        console.warn("⚠️ No outdir found, default outdir is 'tokens'\n");
       }
       fs.mkdir(`${FIGMA_OUTDIR}`, null, (err) => {
         if (err) throw err;
