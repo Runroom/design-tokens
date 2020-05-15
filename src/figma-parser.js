@@ -13,20 +13,12 @@ const genFile = (name, tokens, outDir) =>
     `${outDir}/${name}.json`,
     JSON.stringify(tokens, null, 2),
     err => {
-      if (err) {
-        throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`)
-      }
-      // eslint-disable-next-line no-console
-      console.log(
-        `\x1b[32m ${
-        emojis[name]
-        } ${name.toUpperCase()} tokens created!\x1b[0m`
-      )
+      if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
+      console.log(`\x1b[32m ${emojis[name]} ${name.toUpperCase()} tokens created!\x1b[0m`);
     }
   );
 
 const getTokens = (apikey, id, outDir, pageName) => {
-  // eslint-disable-next-line no-console
   console.log('\x1b[40m Connecting with Figma... \x1b[0m');
   const FETCH_URL = `https://api.figma.com/v1/files/${id}`
   const FETCH_DATA = {
@@ -39,7 +31,6 @@ const getTokens = (apikey, id, outDir, pageName) => {
   try {
     fetch(FETCH_URL, FETCH_DATA)
       .then(response => {
-        // eslint-disable-next-line no-console
         console.log(` Connection with Figma is successful ${emojis.success}!`);
         return response.json();
       })
