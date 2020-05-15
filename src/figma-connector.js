@@ -6,13 +6,7 @@ import {
   getSpacing,
   getTypography
 } from './types';
-
-const emojis = {
-  color: '🎨',
-  typography: '🖋 ',
-  spacing: '📐',
-  breakpoint: '🍪',
-}
+import { emojis } from './utils';
 
 const genFile = (name, tokens, outDir) =>
   fs.writeFile(
@@ -42,13 +36,11 @@ const getTokens = (apikey, id, outDir, pageName) => {
     }
   }
 
-  console.log(FETCH_URL, FETCH_DATA);
-
   try {
     fetch(FETCH_URL, FETCH_DATA)
       .then(response => {
         // eslint-disable-next-line no-console
-        console.log(' Connection with Figma is successful...\n\n----------------\n');
+        console.log(`Connection with Figma is successful ${emojis.success}\n\n`);
         return response.json();
       })
       .then(styles => {
@@ -59,11 +51,7 @@ const getTokens = (apikey, id, outDir, pageName) => {
           genFile('color', getColors('Colors', figmaTree[0]), outDir)
           genFile('spacing', getSpacing('Spacings', figmaTree[0]), outDir)
           genFile('typography', getTypography('Typography', figmaTree[0]), outDir)
-          genFile(
-            'breakpoint',
-            getBreakpoints('Breakpoints', figmaTree[0]),
-            outDir
-          )
+          genFile('breakpoint', getBreakpoints('Breakpoints', figmaTree[0]), outDir)
         }
       })
       .catch(err => {
