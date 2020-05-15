@@ -47,20 +47,16 @@ const getTokens = (apikey, id, outDir, pageName) => {
         if (styles.status !== 403 && styles.status !== 404) {
           const figmaTree = styles.document.children.filter(page => page.name === pageName);
           if (figmaTree.length === 0) throw new Error(`There is no page called '${pageName}'`);
-
           console.log(` Parsing Figma tokens...`);
           genFile('color', getColors('Colors', figmaTree[0]), outDir);
           genFile('spacing', getSpacing('Spacings', figmaTree[0]), outDir);
           genFile('typography', getTypography('Typography', figmaTree[0]), outDir);
           genFile('breakpoint', getBreakpoints('Breakpoints', figmaTree[0]), outDir);
-
-          // Promise.all()
-          // console.log(` Figma tokens parsed ${emojis.success}!`);
         }
       })
       .catch(err => {
         throw new Error(`\x1b[31m\n\n${emojis.error} ${err}\n`);
-      })
+      });
   } catch (err) {
     throw new Error(`\x1b[31m\n\n${emojis.error} ${err}\n`);
   }
