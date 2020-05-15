@@ -5,15 +5,20 @@ require = require("esm")(module /*, options */);
 const fs = require('file-system');
 const figmaParser = require('./src/figma-parser');
 const parserRuntime = require('yargs-parser')(process.argv.slice(2));
-const defaultConfigFilePath = './designtokens.config.json';
+const defaultSettings = require('./defaults.config.json');
+const configFileDefaultPath = 'designtokens.config.json';
 const emojis = require('./src/utils').emojis;
 
-const configFilePath = parserRuntime['config'] ? parserRuntime['config'] : defaultConfigFilePath;
+console.log(defaultSettings);
+
+const configFilePath = parserRuntime['config-file'] ? parserRuntime['config-file'] : configFileDefaultPath;
 
 fs.access(configFilePath, fs.F_OK, err => {
   fs.readFile(configFilePath, "utf8", (err, data) => {
     if (err) throw new Error(`\x1b[31m${emojis.error} Config file not found. Trying to use: '${configFilePath}'\n\n`);
-    const { FIGMA_APIKEY, FIGMA_ID, FIGMA_OUTDIR, FIGMA_PAGE_NAME } = JSON.parse(data);
+    const settings = { ...defaultSettings, ...JSON.parse(data) };
+    const { FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR } = settings;
+
     if (!FIGMA_APIKEY) {
       return console.error(`${emojis.error} No Figma API Key found`);
     } else if (!FIGMA_ID) {
@@ -21,11 +26,11 @@ fs.access(configFilePath, fs.F_OK, err => {
     } else if (!FIGMA_PAGE_NAME) {
       return console.error(`${emojis.error} No Figma Page Name found`);
     } else {
-      if (!FIGMA_OUTDIR || FIGMA_OUTDIR === '') {
+      if (!TOKENS_DIR || TOKENS_DIR === '') {
         console.warn(`${emojis.warning} No outdir found, default outdir is 'tokens'\n`);
         outDir = 'tokens';
       } else {
-        outDir = FIGMA_OUTDIR;
+        outDir = TOKENS_DIR;
       }
       fs.mkdir(outDir, null, (err) => {
         if (err) throw err;

@@ -1,6 +1,8 @@
 {
-  "figmaPageName": "Design Tokens",
-  "outDir": "tokens",
+  "FIGMA_APIKEY": "",
+  "FIGMA_ID": "",
+  "FIGMA_PAGE_NAME": "Design Tokens",
+  "TOKENS_DIR": "tokens",
   "source": ["tokens/**/*.json"],
   "platforms": {
     "scss": {
