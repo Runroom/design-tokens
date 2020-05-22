@@ -8,11 +8,12 @@ const parserRuntime = require('yargs-parser')(process.argv.slice(2));
 const defaultSettings = require('./defaults.config.json');
 const configFileDefaultPath = 'designtokens.config.json';
 const emojis = require('./src/utils').emojis;
+
 const configFilePath = parserRuntime['config-file'] ? parserRuntime['config-file'] : configFileDefaultPath;
 
 fs.access(configFilePath, fs.F_OK, err => {
   fs.readFile(configFilePath, "utf8", (err, data) => {
-    if (err) throw new Error(`\x1b[31m${emojis.error} Config file not found. Trying to use: '${configFilePath}'\n\n`);
+    if (err) throw new Error(`\n\x1b[31m${emojis.error} Config file not found.\nUse default '${configFileDefaultPath}' or specify a different one by using --config-file=FILENAME\n`);
     const settings = { ...defaultSettings, ...JSON.parse(data) };
     const { FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR } = settings;
 
