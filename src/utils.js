@@ -1,15 +1,16 @@
-export const filterArtboard = (layerName, stylesArtboard) =>
-  stylesArtboard.children.filter(item => item.name === layerName)[0].children;
+export const filterArtboard = (layerName, stylesArtboard) => {
+  return stylesArtboard.children.filter(item => item.name === layerName)[0].children;
+}
 
-export const filterElements = (layerName, stylesArtboard) =>
-  filterArtboard(layerName, stylesArtboard).filter(
-    item => item.type === 'COMPONENT'
-  );
+export const filterElements = (layerName, stylesArtboard) => {
+  return filterArtboard(layerName, stylesArtboard).filter(item => item.type === 'COMPONENT');
+}
 
 export const getTokens = (layerName, stylesArtboard, palette, decorator) => {
   const elements = filterElements(layerName, stylesArtboard)
   elements.map(element => decorator(element))
-  return palette
+
+  return palette;
 }
 
 export const camelCase = string => {
