@@ -18,12 +18,6 @@ function designTokens(argv) {
       console.log('DEFAULT');
       break;
   }
-
-  // console.log(argv)
-  // if()
-
-  // if(parserRuntime['sync']) console.log('Sync');
-  // if(parserRuntime['config-file']) console.log('Config file');
 }
 
 module.exports = designTokens;
