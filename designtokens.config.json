@@ -3,5 +3,17 @@
   "FIGMA_ID": "HnUXTlBr1m7UBacEWRg0Et",
   "FIGMA_PAGE_NAME": "🔄 Design Tokens",
   "TOKENS_DIR": "figma-tokens",
-  "source": ["figma-tokens/**/*.json"]
+  "source": ["figma-tokens/**/*.json"],
+  "platforms": {
+    "scss": {
+      "transformGroup": "scss",
+      "buildPath": "tokens/variables/scss/",
+      "files": [
+        {
+          "destination": "variables.scss",
+          "format": "scss/variables"
+        }
+      ]
+    }
+  }
 }

@@ -1,19 +1,19 @@
 {
   "FIGMA_APIKEY": "",
   "FIGMA_ID": "",
-  "FIGMA_OUTDIR": "tokens",
-  "source": ["tokens/**/*.json"],
+  "FIGMA_PAGE_NAME": "Design Tokens",
+  "TOKENS_DIR": "design-tokens",
+  "source": ["design-tokens/**/*.json"],
   "platforms": {
     "scss": {
       "transformGroup": "scss",
-      "buildPath": "tokens/",
+      "buildPath": "tokens/variables/scss/",
       "files": [
         {
-          "destination": "_variables.scss",
+          "destination": "variables.scss",
           "format": "scss/variables"
         }
       ]
     }
-  },
-  "pageName": ""
+  }
 }
