@@ -105,3 +105,6 @@ dist
 
 # Tokens
 tokens
+
+# Config file
+designtokens.config.json
