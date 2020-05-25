@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+require = require("esm")(module /*, options */);
+
+const designTokens = require('../index.js');
+designTokens(process.argv);

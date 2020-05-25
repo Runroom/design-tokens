@@ -1,13 +1,16 @@
 {
-  "name": "design-tokens",
-  "version": "1.0.0",
-  "description": "Figma design tokens implementation",
+  "name": "@runroom/design-tokens",
+  "version": "0.0.1",
+  "description": "Figma design tokens implementation for Runroom design archetype",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tokens:figma": "rm -rf tokens && node figma.js --config-file=designtokens.config.json",
-    "tokens:build": "node style-dictionary.js",
+    "tokens:figma": "rm -rf tokens && npm run src/figma-cli.js --config-file=designtokens.config.json",
+    "tokens:build": "npm run src/style-dictionary.js",
     "tokens": "npm run tokens:figma && npm run tokens:build"
+  },
+  "bin": {
+    "design-tokens": "bin/design-tokens"
   },
   "repository": {
     "type": "git",
@@ -15,10 +18,11 @@
   },
   "keywords": [
     "figma",
-    "designtokens"
+    "designtokens",
+    "runroom"
   ],
-  "author": "Runroom",
-  "license": "ISC",
+  "author": "Jose Sentis <jose.sentis1987@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Runroom/design-tokens/issues"
   },
