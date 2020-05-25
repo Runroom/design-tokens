@@ -9,7 +9,7 @@ function designTokens(argv) {
   console.log(configFile);
 
   switch (command) {
-    case 'sync':
+    case 'figma':
       console.log('Sync');
       break;
     case 'build':
