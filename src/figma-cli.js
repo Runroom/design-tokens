@@ -4,9 +4,9 @@ require = require("esm")(module /*, options */);
 
 const fs = require('file-system');
 const figmaParser = require('../src/figma-parser');
-const parserRuntime = require('yargs-parser')(process.argv.slice(2));
+// const parserRuntime = require('yargs-parser')(process.argv.slice(2));
 const defaultSettings = require('../defaults.config.json');
-const configFileDefaultPath = '../designtokens.config.json';
+// const configFileDefaultPath = '../designtokens.config.json';
 const emojis = require('../src/utils').emojis;
 
 const configFilePath = parserRuntime['config-file'] ? parserRuntime['config-file'] : configFileDefaultPath;
