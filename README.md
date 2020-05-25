@@ -1,6 +1,7 @@
 Design tokens
 ========================
 
+It is inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
 
 ## License
 
