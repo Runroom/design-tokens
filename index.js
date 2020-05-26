@@ -12,10 +12,14 @@ function designTokens(argv) {
       figmaCli(configFile);
       break;
     case 'build':
-      styleDictionary(configFile)
+      styleDictionary(configFile);
       break;
     default:
-      console.log('DEFAULT');
+      async function awaitFigma() {
+        await figmaCli(configFile);
+        styleDictionary(configFile);
+      }
+      awaitFigma();
       break;
   }
 }
