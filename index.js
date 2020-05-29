@@ -15,11 +15,10 @@ function designTokens(argv) {
       styleDictionary(configFile);
       break;
     default:
-      async function awaitFigma() {
-        await figmaCli(configFile);
+      figmaCli(configFile).then(() => {
+        console.log('Figma cli done');
         styleDictionary(configFile);
-      }
-      awaitFigma();
+      });
       break;
   }
 }
