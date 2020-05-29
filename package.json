@@ -9,6 +9,9 @@
     "tokens:build": "node src/style-dictionary.js",
     "tokens": "npm run tokens:figma && npm run tokens:build"
   },
+  "engines": {
+    "node": ">=13.13.0"
+  },
   "bin": {
     "design-tokens": "bin/design-tokens"
   },
