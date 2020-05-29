@@ -20,7 +20,6 @@ function designTokens(argv) {
       break;
     default:
       figmaCli(configFile).then(() => {
-        console.log('Figma cli done');
         styleDictionary(configFile);
       });
       break;
