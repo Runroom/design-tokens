@@ -2,8 +2,8 @@ const fs = require('file-system');
 const figmaParser = require('../src/figma-parser');
 const emojis = require('../src/utils').emojis;
 
-function figmaCli(configFilePath, callback) {
-  return new Promise(resolve => {
+const figmaCli = configFilePath =>
+  new Promise((resolve, reject) => {
     fs.access(configFilePath, fs.F_OK, err => {
       fs.readFile(configFilePath, "utf8", (err, data) => {
         if (err) throw new Error(`\n\x1b[31m${emojis.error} Config file not found.\nUse default 'designtokens.config.json' or specify a different one by using --config-file=FILENAME\n`);
@@ -27,13 +27,16 @@ function figmaCli(configFilePath, callback) {
           }
           fs.mkdir(outDir, null, (err) => {
             if (err) throw err;
-            figmaParser.getTokens(FIGMA_APIKEY, FIGMA_ID, outDir, FIGMA_PAGE_NAME);
+            figmaParser.getTokens(FIGMA_APIKEY, FIGMA_ID, outDir, FIGMA_PAGE_NAME).then(() => {
+              resolve();
+            }).catch(err => {
+              reject();
+            });
           });
         }
       });
     });
-    resolve();
   });
-}
+
 
 module.exports = figmaCli;
