@@ -8,7 +8,7 @@
     "tokens": "node bin/design-tokens"
   },
   "engines": {
-    "node": ">=14.4.0"
+    "node": "^12 || ^14"
   },
   "bin": {
     "design-tokens": "bin/design-tokens"
@@ -29,9 +29,9 @@
   },
   "homepage": "https://github.com/Runroom/design-tokens#readme",
   "devDependencies": {
-    "esm": "^3.2.25",
+    "esm": "^3.2",
     "file-system": "^2.2.2",
-    "glob-all": "3.2.1",
+    "glob-all": "^3.2",
     "node-fetch": "^2.6.0"
   },
   "dependencies": {
