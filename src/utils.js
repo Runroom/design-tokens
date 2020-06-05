@@ -1,19 +1,17 @@
-export const filterArtboard = (layerName, stylesArtboard) => {
-  return stylesArtboard.children.filter(item => item.name === layerName)[0].children;
+const filterArtboardElements = (artboardName, stylesArtboard) => {
+  return stylesArtboard
+    .filter(item => item.name === artboardName)[0].children
+    .filter(item => item.type === 'COMPONENT');
 }
 
-export const filterElements = (layerName, stylesArtboard) => {
-  return filterArtboard(layerName, stylesArtboard).filter(item => item.type === 'COMPONENT');
-}
-
-export const generateTokens = (layerName, stylesArtboard, decorator) => {
-  const tokensName = camelCase(layerName);
+export const generateTokens = (artboardName, stylesArtboard, decorator) => {
+  const elementName = camelCase(artboardName);
   const tokens = {
-    [tokensName]: {}
+    [elementName]: {}
   };
-  const elements = filterElements(layerName, stylesArtboard);
+  const elements = filterArtboardElements(artboardName, stylesArtboard);
   elements.map(element => {
-    Object.assign(tokens[tokensName], decorator(element));
+    Object.assign(tokens[elementName], decorator(element));
   });
 
   return tokens;
