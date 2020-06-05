@@ -1,6 +1,6 @@
 {
   "name": "@runroom/design-tokens",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Figma design tokens implementation for Runroom design archetype",
   "main": "index.js",
   "scripts": {
@@ -32,10 +32,10 @@
     "esm": "^3.2.25",
     "file-system": "^2.2.2",
     "glob-all": "3.2.1",
-    "node-fetch": "^2.6.0",
-    "style-dictionary": "^2.8.3"
+    "node-fetch": "^2.6.0"
   },
   "dependencies": {
+    "style-dictionary": "^2.8.3",
     "yargs-parser": "^18.1.3"
   }
 }
