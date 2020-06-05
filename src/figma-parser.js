@@ -18,7 +18,7 @@ const genFile = (name, tokens, outDir) =>
     }
   );
 
-const getTokens = (apikey, id, outDir, pageName) =>
+const parseTokens = (apikey, id, outDir, pageName) =>
   new Promise((resolve, reject) => {
     console.log('\x1b[40m Connecting with Figma... \x1b[0m');
     const FETCH_URL = `https://api.figma.com/v1/files/${id}`
@@ -37,7 +37,9 @@ const getTokens = (apikey, id, outDir, pageName) =>
         })
         .then(styles => {
           if (styles.status !== 403 && styles.status !== 404) {
+
             const figmaTree = styles.document.children.filter(page => page.name === pageName);
+
             if (figmaTree.length === 0) throw new Error(`There is no page called '${pageName}'`);
             console.log(` Parsing Figma tokens...`);
 
@@ -62,4 +64,4 @@ const getTokens = (apikey, id, outDir, pageName) =>
     }
   });
 
-export { getTokens };
+export { parseTokens };

@@ -7,10 +7,10 @@ export const filterElements = (layerName, stylesArtboard) => {
 }
 
 export const getTokens = (layerName, stylesArtboard, palette, decorator) => {
-  const elements = filterElements(layerName, stylesArtboard)
-  elements.map(element => decorator(element))
+  // const elements = filterElements(layerName, stylesArtboard)
+  // elements.map(element => decorator(element))
 
-  return palette;
+  // return palette;
 }
 
 export const camelCase = string => {

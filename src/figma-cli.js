@@ -27,7 +27,7 @@ const figmaCli = configFilePath =>
           }
           fs.mkdir(outDir, null, (err) => {
             if (err) throw err;
-            figmaParser.getTokens(FIGMA_APIKEY, FIGMA_ID, outDir, FIGMA_PAGE_NAME).then(() => {
+            figmaParser.parseTokens(FIGMA_APIKEY, FIGMA_ID, outDir, FIGMA_PAGE_NAME).then(() => {
               resolve();
             }).catch(err => {
               reject();
