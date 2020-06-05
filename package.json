@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tokens": "node bin/design-tokens"
+    "design-tokens": "node bin/design-tokens"
   },
   "engines": {
     "node": "^12 || ^14"

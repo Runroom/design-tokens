@@ -1,4 +1,4 @@
-import { getTokens, camelCase } from '../utils'
+import { generateTokens, camelCase } from '../utils'
 
 const getTypography = (layerName, stylesArtboard) => {
   const palette = { typography: {} }
@@ -22,7 +22,7 @@ const getTypography = (layerName, stylesArtboard) => {
     Object.assign(palette.typography, tokens)
   }
 
-  return getTokens(layerName, stylesArtboard, palette, decorator)
+  return generateTokens(layerName, stylesArtboard, palette, decorator)
 }
 
 export default getTypography

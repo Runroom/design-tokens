@@ -1,4 +1,4 @@
-import { getTokens, camelCase } from '../utils'
+import { generateTokens, camelCase } from '../utils'
 
 const getSpacing = (layerName, stylesArtboard) => {
   const palette = { spacing: {} }
@@ -10,7 +10,7 @@ const getSpacing = (layerName, stylesArtboard) => {
     Object.assign(palette.spacing, tokens)
   }
 
-  return getTokens(layerName, stylesArtboard, palette, decorator)
+  return generateTokens(layerName, stylesArtboard, palette, decorator)
 }
 
 export default getSpacing

@@ -6,11 +6,17 @@ export const filterElements = (layerName, stylesArtboard) => {
   return filterArtboard(layerName, stylesArtboard).filter(item => item.type === 'COMPONENT');
 }
 
-export const getTokens = (layerName, stylesArtboard, palette, decorator) => {
-  // const elements = filterElements(layerName, stylesArtboard)
-  // elements.map(element => decorator(element))
+export const generateTokens = (layerName, stylesArtboard, decorator) => {
+  const tokensName = camelCase(layerName);
+  const tokens = {
+    [tokensName]: {}
+  };
+  const elements = filterElements(layerName, stylesArtboard);
+  elements.map(element => {
+    Object.assign(tokens[tokensName], decorator(element));
+  });
 
-  // return palette;
+  return tokens;
 }
 
 export const camelCase = string => {
