@@ -44,10 +44,10 @@ const parseTokens = (apikey, id, outDir, pageName) =>
             console.log(` Parsing Figma tokens...`);
 
             Promise.all([
-              genFile('color', getColors('Colors', figmaTree[0]), outDir)
-              // genFile('spacing', getSpacing('Spacings', figmaTree[0]), outDir),
-              // genFile('typography', getTypography('Typography', figmaTree[0]), outDir),
-              // genFile('breakpoint', getBreakpoints('Breakpoints', figmaTree[0]), outDir)
+              genFile('color', getColors('Colors', figmaTree[0]), outDir),
+              genFile('spacing', getSpacing('Spacings', figmaTree[0]), outDir),
+              genFile('typography', getTypography('Typography', figmaTree[0]), outDir),
+              genFile('breakpoint', getBreakpoints('Breakpoints', figmaTree[0]), outDir)
             ]).then(() => {
               resolve();
             }).catch(err => {

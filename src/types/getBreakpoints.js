@@ -1,16 +1,11 @@
 import { generateTokens, camelCase } from '../utils'
 
 const getBreakpoints = (layerName, stylesArtboard) => {
-  const breakpoints = { breakpoint: {} };
-  const decorator = element => {
-    const {name, absoluteBoundingBox} = element;
-    const tokens = {
-      [camelCase(name)]: {value: `${absoluteBoundingBox.width}px`}
-    }
-    Object.assign(breakpoints.breakpoint, tokens);
-  }
+  const decorator = element => ({
+    [camelCase(element.name)]: { value: `${element.absoluteBoundingBox.width}px` }
+  });
 
-  return generateTokens(layerName, stylesArtboard, breakpoints, decorator);
+  return generateTokens(layerName, stylesArtboard, decorator);
 }
 
-export default getBreakpoints
+export default getBreakpoints;

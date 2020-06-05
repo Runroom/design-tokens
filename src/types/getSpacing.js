@@ -1,16 +1,11 @@
 import { generateTokens, camelCase } from '../utils'
 
 const getSpacing = (layerName, stylesArtboard) => {
-  const palette = { spacing: {} }
-  const decorator = element => {
-    const { name, absoluteBoundingBox } = element
-    const tokens = {
-      [camelCase(name)]: { value: `${absoluteBoundingBox.width}px` }
-    }
-    Object.assign(palette.spacing, tokens)
-  }
+  const decorator = element => ({
+    [camelCase(element.name)]: { value: `${element.absoluteBoundingBox.width}px` }
+  });
 
-  return generateTokens(layerName, stylesArtboard, palette, decorator)
+  return generateTokens(layerName, stylesArtboard, decorator);
 }
 
-export default getSpacing
+export default getSpacing;
