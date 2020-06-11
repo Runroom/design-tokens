@@ -1,7 +1,12 @@
-const filterArtboardElements = (artboardName, stylesArtboard) => stylesArtboard
+const filterArtboardElements = (artboardName, stylesArtboard) => {
+  const a = stylesArtboard
   .filter(item => item.name === artboardName)[0].children
   .filter(item => item.type === 'COMPONENT');
 
+  console.log(a);
+
+  return a;
+}
 export const generateTokens = (artboardName, stylesArtboard, decorator) => {
   const elementName = camelCase(artboardName);
   const tokens = {

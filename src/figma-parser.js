@@ -1,7 +1,11 @@
 import { promises as fsp } from 'fs';
 import fetch from 'node-fetch'
 
-import { getColors } from './decorators';
+import {
+  getColors,
+  getSpacing,
+  getTypography
+} from './decorators';
 import { emojis, generateTokens } from './utils';
 
 const genFile = (name, tokens, outDir) =>
@@ -41,9 +45,9 @@ const parseTokens = (apikey, id, outDir, pageName) =>
             // console.log(figmaTree[0].children);
 
             Promise.all([
-              genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
-              // genFile('spacing', getSpacing('Spacings', figmaTree[0].children), outDir),
-              // genFile('typography', getTypography('Typography', figmaTree[0].children), outDir),
+              // genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
+              // genFile('spacing', getSpacing('Spacings', figmaTree[0].children, getSpacing), outDir),
+              genFile('typography', generateTokens('Typography', figmaTree[0].children, getTypography), outDir),
               // genFile('breakpoint', getBreakpoints('Breakpoints', figmaTree[0].children), outDir)
             ]).then(() => {
               resolve();

@@ -9,8 +9,32 @@ const getColors = element => {
       value: `${fullColorHex(colorRGBA.r, colorRGBA.g, colorRGBA.b)}`
     }
   };
-}
+};
+
+const getSpacing = element => ({
+  [camelCase(element.name)]: { value: `${element.absoluteBoundingBox.width}px` }
+});
+
+const getTypography = element => {
+  const {
+    fontFamily,
+    fontSize,
+    lineHeightPx,
+    fontWeight
+  } = element.children[0].style;
+
+  return {
+    [camelCase(element.name)]: {
+      fontFamily: { value: `'${fontFamily}'` },
+      fontSize: { value: `${fontSize}px` },
+      lineHeight: { value: `${Math.floor(lineHeightPx)}px` },
+      fontWeight: { value: fontWeight }
+    }
+  }
+};
 
 export {
-  getColors
+  getColors,
+  getSpacing,
+  getTypography
 };
