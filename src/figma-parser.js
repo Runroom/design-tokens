@@ -42,13 +42,11 @@ const parseTokens = (apikey, id, outDir, pageName) =>
             if (figmaTree.length === 0) throw new Error(`There is no page called '${pageName}'`);
             console.log(` Parsing Figma tokens...`);
 
-            // console.log(figmaTree[0].children);
-
             Promise.all([
-              // genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
-              genFile('spacing', generateTokens('Spacings', figmaTree[0].children, getSpacings), outDir),
-              // genFile('typography', generateTokens('Typography', figmaTree[0].children, getTypography), outDir),
-              // genFile('breakpoint', getBreakpoints('Breakpoints', figmaTree[0].children), outDir)
+              genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
+              genFile('spacings', generateTokens('Spacings', figmaTree[0].children, getSpacings), outDir),
+              genFile('typography', generateTokens('Typography', figmaTree[0].children, getTypography), outDir),
+              // genFile('breakpoint', generateTokens('Breakpoints', figmaTree[0].children, getBreakpoints), outDir)
             ]).then(() => {
               resolve();
             }).catch(err => {

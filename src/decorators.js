@@ -33,7 +33,12 @@ const getTypography = element => {
   }
 };
 
+const getBreakpoints = element => ({
+  [camelCase(element.name)]: { value: `${element.absoluteBoundingBox.width}px` }
+});
+
 export {
+  getBreakpoints,
   getColors,
   getSpacings,
   getTypography
