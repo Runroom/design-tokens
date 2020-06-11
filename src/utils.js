@@ -68,6 +68,8 @@ export const genShadow = (color, offset, radius) => {
   return `${x}px ${y}px ${radius}px ${parseRGBA(color)}`
 };
 
+export const pixelate = value => `${Math.floor(value)}px`;
+
 export const emojis = {
   color: '🎨',
   typography: '🖋 ',

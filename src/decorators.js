@@ -1,4 +1,4 @@
-import { camelCase, rgbaGenObject, fullColorHex } from './utils';
+import { camelCase, rgbaGenObject, fullColorHex, pixelate } from './utils';
 
 const getColors = element => {
   const { r, g, b, a } = element.children[0].fills[0].color;
@@ -12,7 +12,7 @@ const getColors = element => {
 };
 
 const getSpacings = element => ({
-  [camelCase(element.name)]: { value: `${element.absoluteBoundingBox.width}px` }
+  [camelCase(element.name)]: { value: pixelate(element.absoluteBoundingBox.width) }
 });
 
 const getTypography = element => {
@@ -26,15 +26,15 @@ const getTypography = element => {
   return {
     [camelCase(element.name)]: {
       fontFamily: { value: `'${fontFamily}'` },
-      fontSize: { value: `${fontSize}px` },
+      fontSize: { value: pixelate(fontSize) },
       lineHeight: { value: `${Math.floor(lineHeightPx)}px` },
-      fontWeight: { value: fontWeight }
+      fontWeight: { value: pixelate(fontWeight) }
     }
   }
 };
 
 const getBreakpoints = element => ({
-  [camelCase(element.name)]: { value: `${element.absoluteBoundingBox.width}px` }
+  [camelCase(element.name)]: { value: pixelate(element.absoluteBoundingBox.width) }
 });
 
 export {
