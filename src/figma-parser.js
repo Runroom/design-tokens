@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 
 import {
   getColors,
-  getSpacing,
+  getSpacings,
   getTypography
 } from './decorators';
 import { emojis, generateTokens } from './utils';
@@ -46,8 +46,8 @@ const parseTokens = (apikey, id, outDir, pageName) =>
 
             Promise.all([
               // genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
-              // genFile('spacing', getSpacing('Spacings', figmaTree[0].children, getSpacing), outDir),
-              genFile('typography', generateTokens('Typography', figmaTree[0].children, getTypography), outDir),
+              genFile('spacing', generateTokens('Spacings', figmaTree[0].children, getSpacings), outDir),
+              // genFile('typography', generateTokens('Typography', figmaTree[0].children, getTypography), outDir),
               // genFile('breakpoint', getBreakpoints('Breakpoints', figmaTree[0].children), outDir)
             ]).then(() => {
               resolve();

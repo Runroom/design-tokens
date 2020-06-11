@@ -11,7 +11,7 @@ const getColors = element => {
   };
 };
 
-const getSpacing = element => ({
+const getSpacings = element => ({
   [camelCase(element.name)]: { value: `${element.absoluteBoundingBox.width}px` }
 });
 
@@ -35,6 +35,6 @@ const getTypography = element => {
 
 export {
   getColors,
-  getSpacing,
+  getSpacings,
   getTypography
 };
