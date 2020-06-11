@@ -1,12 +1,8 @@
 import { promises as fsp } from 'fs';
 import fetch from 'node-fetch'
-import {
-  getBreakpoints,
-  getColors,
-  getSpacing,
-  getTypography
-} from './types';
-import { emojis } from './utils';
+
+import { getColors } from './decorators';
+import { emojis, generateTokens } from './utils';
 
 const genFile = (name, tokens, outDir) =>
   fsp.writeFile(
@@ -42,8 +38,10 @@ const parseTokens = (apikey, id, outDir, pageName) =>
             if (figmaTree.length === 0) throw new Error(`There is no page called '${pageName}'`);
             console.log(` Parsing Figma tokens...`);
 
+            // console.log(figmaTree[0].children);
+
             Promise.all([
-              genFile('color', getColors('Colors', figmaTree[0].children), outDir),
+              genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
               // genFile('spacing', getSpacing('Spacings', figmaTree[0].children), outDir),
               // genFile('typography', getTypography('Typography', figmaTree[0].children), outDir),
               // genFile('breakpoint', getBreakpoints('Breakpoints', figmaTree[0].children), outDir)

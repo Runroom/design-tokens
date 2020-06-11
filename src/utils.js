@@ -1,7 +1,10 @@
 const filterArtboardElements = (artboardName, stylesArtboard) => {
-  return stylesArtboard
-    .filter(item => item.name === artboardName)[0].children
-    .filter(item => item.type === 'COMPONENT');
+  const a = stylesArtboard
+    .filter(item => item.name === artboardName);
+  // .filter(item => item.type === 'COMPONENT');
+  console.log(a[0].children);
+
+  return a[0].children.filter(item => item.type === 'COMPONENT');
 }
 
 export const generateTokens = (artboardName, stylesArtboard, decorator) => {
