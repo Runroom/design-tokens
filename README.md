@@ -30,5 +30,5 @@ You can specify a different config file name using the parameter `--config-file=
 For example:
 * `yarn design-tokens --config-file=myfile.json`
 
-## License
-This bundle is under the [MIT license](LICENSE).
+## Liscense
+This bundle is under the [MIT liscense](LISCENSE).
