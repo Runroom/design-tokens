@@ -31,4 +31,4 @@ For example:
 * `yarn design-tokens --config-file=myfile.json`
 
 ## Liscense
-This bundle is under the [MIT liscense](LISCENSE).
+This project is under the [MIT liscense](LISCENSE).
