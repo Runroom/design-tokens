@@ -12,13 +12,6 @@ describe('Utils functions', () => {
   const b = 33;
   const a = 0.8;
 
-  it('pixelate', () => {
-    const rndNum = Math.random() * 100;
-    const pxNum = utils.pixelate(rndNum);
-    expect(pxNum).to.be.a('string');
-    expect(pxNum).to.equal(`${Math.floor(rndNum)}px`);
-  });
-
   it('getColor', () => {
     const color = utils.getColor(c);
 
@@ -40,6 +33,29 @@ describe('Utils functions', () => {
 
     expect(rgbColor).to.be.a('string');
     expect(rgbColor).to.equal(`rgba(${r}, ${g}, ${b}, ${a})`);
+  });
+
+  describe('fullColorHex', () => {
+    it('shortHex', () => {
+      const shortHex = utils.fullColorHex(r, r, r);
+      const hexColor = `${utils.rgbToHex(r) + utils.rgbToHex(r) + utils.rgbToHex(r)}`.toLocaleLowerCase();
+      expect(shortHex).to.be.a('string');
+      expect(shortHex).to.equal(`#${hexColor.slice(0, 3)}`);
+    });
+
+    it('longHex', () => {
+      const longHex = utils.fullColorHex(r, g, b);
+      const hexColor = `${utils.rgbToHex(r) + utils.rgbToHex(g) + utils.rgbToHex(b)}`.toLocaleLowerCase();
+      expect(longHex).to.be.a('string');
+      expect(longHex).to.equal(`#${hexColor}`);
+    });
+  })
+
+  it('pixelate', () => {
+    const rndNum = Math.random() * 100;
+    const pxNum = utils.pixelate(rndNum);
+    expect(pxNum).to.be.a('string');
+    expect(pxNum).to.equal(`${Math.floor(rndNum)}px`);
   });
 
   it('genShadow', () => {
