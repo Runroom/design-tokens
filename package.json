@@ -4,7 +4,7 @@
   "description": "Figma design tokens implementation for Runroom design archetype",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "design-tokens": "node bin/design-tokens"
   },
   "engines": {
@@ -32,6 +32,7 @@
     "esm": "^3.2",
     "file-system": "^2.2.2",
     "glob-all": "^3.2",
+    "mocha": "^8.0.1",
     "node-fetch": "^2.6.0"
   },
   "dependencies": {
