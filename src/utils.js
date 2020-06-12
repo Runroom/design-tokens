@@ -13,7 +13,7 @@ const getColor = color => Math.round(color * 255);
 
 const rgbaGen = (r, g, b, a = 1) => `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`;
 
-const rgbaGenObject = (r, g, b, a) => ({ r: getColor(r), g: getColor(g), b: getColor(b), a });
+const rgbaGenObject = (r, g, b, a = 1) => ({ r: getColor(r), g: getColor(g), b: getColor(b), a });
 
 const rgbToHex = c => {
   const hex = Number(c).toString(16);

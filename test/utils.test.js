@@ -37,6 +37,21 @@ describe('Utils functions', () => {
     });
   });
 
+  describe('rgbaGenObject', () => {
+    const rgbaColor = utils.rgbaGenObject(r, g, b, a);
+    const rgbColor = utils.rgbaGenObject(r, g, b);
+
+    it('is object', () => {
+      expect(rgbaColor).to.be.a('object');
+    });
+    it('equals result rgb', () => {
+      expect(rgbColor).to.deep.equal({ r: utils.getColor(r), g: utils.getColor(g), b: utils.getColor(b), a: 1 });
+    });
+    it('equals result rgba', () => {
+      expect(rgbaColor).to.deep.equal({ r: utils.getColor(r), g: utils.getColor(g), b: utils.getColor(b), a });
+    });
+  });
+
   describe('parseRgba', () => {
     const rgbColor = utils.parseRgba({ r, g, b, a });
 
@@ -126,5 +141,4 @@ describe('Utils functions', () => {
       expect(ccStr).to.equal(`sampleStringToParse`);
     });
   });
-// rgbaGenObject
 });
