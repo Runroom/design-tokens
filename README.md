@@ -14,9 +14,9 @@ You can find a template for your config file [here](template.config.json)
 ### Execution
 Add script to your package.json with the executable bin from node_modules.
 ```
-  "scripts": {
-    "design-tokens": "node node_modules/.bin/design-tokens"
-  }
+"scripts": {
+  "design-tokens": "design-tokens"
+}
 ```
 
 Then execute:
