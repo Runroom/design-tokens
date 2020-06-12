@@ -32,8 +32,8 @@ const rgbaGen = (r, g, b, a = 1) => `rgba(${getColor(r)}, ${getColor(g)}, ${getC
 
 const rgbaGenObject = (r, g, b, a) => ({ r: getColor(r), g: getColor(g), b: getColor(b), a });
 
-const rgbToHex = rgb => {
-  const hex = Number(rgb).toString(16);
+const rgbToHex = c => {
+  const hex = Number(c).toString(16);
   return hex.length < 2 ? `0${hex}` : hex;
 };
 

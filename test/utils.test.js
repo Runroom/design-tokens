@@ -48,6 +48,17 @@ describe('Utils functions', () => {
     });
   });
 
+  describe('rgbToHex', () => {
+    const white = utils.rgbToHex(255);
+
+    it('is string', () => {
+      expect(white).to.be.a('string');
+    });
+    it('equals hex color', () => {
+      expect(white).to.equal('ff');
+    });
+  });
+
   describe('fullColorHex', () => {
     const shortHex = utils.fullColorHex(r, r, r);
     const longHex = utils.fullColorHex(r, g, b);
@@ -67,11 +78,6 @@ describe('Utils functions', () => {
       expect(longHex).to.equal(`#${hexColor}`);
     });
   });
-
-  // const rgbToHex = rgb => {
-  //   const hex = Number(rgb).toString(16);
-  //   return hex.length < 2 ? `0${hex}` : hex;
-  // };
 
   describe('pixelate', () => {
     const rndNum = Math.random() * 100;
