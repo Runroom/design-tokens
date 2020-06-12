@@ -47,9 +47,9 @@ const rgbToHex = rgb => {
 };
 
 const fullColorHex = (r, g, b) => {
-  const red = rgbToHex(r)
-  const green = rgbToHex(g)
-  const blue = rgbToHex(b)
+  const red = rgbToHex(r);
+  const green = rgbToHex(g);
+  const blue = rgbToHex(b);
   const hexColor = `${red + green + blue}`.toLocaleLowerCase();
 
   if (red === green && green === blue && red === blue) {
@@ -59,13 +59,13 @@ const fullColorHex = (r, g, b) => {
 };
 
 const parseRGBA = color => {
-  const { r, g, b, a } = color
-  return `rgba(${r}, ${g}, ${b}, ${a})`
+  const { r, g, b, a } = color;
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
 
 const genShadow = (color, offset, radius) => {
-  const { x, y } = offset
-  return `${x}px ${y}px ${radius}px ${parseRGBA(color)}`
+  const { x, y } = offset;
+  return `${x}px ${y}px ${radius}px ${parseRGBA(color)}`;
 };
 
 const pixelate = value => `${Math.floor(value)}px`;
