@@ -13,15 +13,34 @@ describe('Utils functions', () => {
     expect(pxNum).to.equal(`${Math.floor(rndNum)}px`);
   });
 
-  it('parseRGBA', () => {
+  describe('Color parsing functions', () => {
     const r = getRandomArbitrary(0, 255);
     const g = getRandomArbitrary(0, 255);
     const b = getRandomArbitrary(0, 255);
-    const a = getRandomArbitrary(0, 255);
-    const rgbColor = utils.parseRGBA({ r, g, b, a });
+    const a = Math.random();
 
-    expect(rgbColor).to.be.a('string');
-    expect(rgbColor).to.equal(`rgba(${r}, ${g}, ${b}, ${a})`);
+    it('getColor', () => {
+      const c = Math.random();
+      const color = utils.getColor(c);
+
+      expect(color).to.be.a('number');
+      expect(color).to.equal(Math.round(c * 255));
+    });
+
+    it('rgbaGen', () => {
+      const rgbColor = utils.rgbaGen(r, g, b, a);
+
+      expect(rgbColor).to.be.a('string');
+      expect(rgbColor).to.equal(`rgba(${utils.getColor(r)}, ${utils.getColor(g)}, ${utils.getColor(b)}, ${a})`);
+      expect(utils.rgbaGen(r, g, b)).to.equal(`rgba(${utils.getColor(r)}, ${utils.getColor(g)}, ${utils.getColor(b)}, 1)`);
+    });
+
+    it('parseRgba', () => {
+      const rgbColor = utils.parseRgba({ r, g, b, a });
+
+      expect(rgbColor).to.be.a('string');
+      expect(rgbColor).to.equal(`rgba(${r}, ${g}, ${b}, ${a})`);
+    });
   });
 
   it('genShadow', () => {
@@ -35,6 +54,6 @@ describe('Utils functions', () => {
     const shadow = utils.genShadow({ r, g, b, a }, { x, y }, radius);
 
     expect(shadow).to.be.a('string');
-    expect(shadow).to.equal(`${x}px ${y}px ${radius}px ${utils.parseRGBA({ r, g, b, a })}`);
+    expect(shadow).to.equal(`${x}px ${y}px ${radius}px ${utils.parseRgba({ r, g, b, a })}`);
   });
 });

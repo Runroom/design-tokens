@@ -24,26 +24,17 @@ const camelCase = string => {
   return stringUpdate.charAt(0).toLowerCase() + stringUpdate.substring(1)
 };
 
-const trim = str => str.replace(/^\s+|\s+$/gm, '')
+const trim = str => str.replace(/^\s+|\s+$/gm, '');
 
-const rgbaGen = (r, g, b, a) => {
-  const getColor = color => Math.round(color * 255)
-  return `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`
-};
+const getColor = color => Math.round(color * 255);
 
-const rgbaGenObject = (r, g, b, a) => {
-  const getColor = color => Math.round(color * 255)
-  return { r: getColor(r), g: getColor(g), b: getColor(b), a: a }
-};
+const rgbaGen = (r, g, b, a = 1) => `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`;
 
-const rgbGen = (r, g, b) => {
-  const getColor = color => Math.round(color * 255)
-  return `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)})`
-};
+const rgbaGenObject = (r, g, b, a) => ({ r: getColor(r), g: getColor(g), b: getColor(b), a });
 
 const rgbToHex = rgb => {
-  const hex = Number(rgb).toString(16)
-  return hex.length < 2 ? `0${hex}` : hex
+  const hex = Number(rgb).toString(16);
+  return hex.length < 2 ? `0${hex}` : hex;
 };
 
 const fullColorHex = (r, g, b) => {
@@ -58,14 +49,14 @@ const fullColorHex = (r, g, b) => {
   return `#${hexColor}`;
 };
 
-const parseRGBA = color => {
+const parseRgba = color => {
   const { r, g, b, a } = color;
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
 
 const genShadow = (color, offset, radius) => {
   const { x, y } = offset;
-  return `${x}px ${y}px ${radius}px ${parseRGBA(color)}`;
+  return `${x}px ${y}px ${radius}px ${parseRgba(color)}`;
 };
 
 const pixelate = value => `${Math.floor(value)}px`;
@@ -81,16 +72,16 @@ const emojis = {
 };
 
 module.exports = {
-  generateTokens,
   camelCase,
-  trim,
+  emojis,
+  fullColorHex,
+  generateTokens,
+  genShadow,
+  getColor,
   rgbaGen,
   rgbaGenObject,
-  rgbGen,
   rgbToHex,
-  fullColorHex,
-  parseRGBA,
-  genShadow,
+  parseRgba,
   pixelate,
-  emojis
+  trim
 };
