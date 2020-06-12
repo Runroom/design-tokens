@@ -115,4 +115,16 @@ describe('Utils functions', () => {
       expect(trimStr).to.equal(`test string`);
     });
   });
+
+  describe('camelCase', () => {
+    const ccStr = utils.camelCase('sample string_to-parse')
+
+    it('is string', () => {
+      expect(ccStr).to.be.a('string');
+    });
+    it('equals', () => {
+      expect(ccStr).to.equal(`sampleStringToParse`);
+    });
+  });
+// rgbaGenObject
 });

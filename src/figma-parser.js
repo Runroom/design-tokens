@@ -6,7 +6,24 @@ import {
   getSpacings,
   getTypography
 } from './decorators';
-import { emojis, generateTokens } from './utils';
+import { emojis } from './utils';
+
+const filterArtboardElements = (artboardName, stylesArtboard) => stylesArtboard
+  .filter(item => item.name === artboardName)[0].children
+  .filter(item => item.type === 'COMPONENT');
+
+const generateTokens = (artboardName, stylesArtboard, decorator) => {
+  const elementName = camelCase(artboardName);
+  const tokens = {
+    [elementName]: {}
+  };
+  const elements = filterArtboardElements(artboardName, stylesArtboard);
+  elements.map(element => {
+    Object.assign(tokens[elementName], decorator(element));
+  });
+
+  return tokens;
+}
 
 const genFile = (name, tokens, outDir) =>
   fsp.writeFile(

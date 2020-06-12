@@ -1,27 +1,10 @@
-const filterArtboardElements = (artboardName, stylesArtboard) => stylesArtboard
-  .filter(item => item.name === artboardName)[0].children
-  .filter(item => item.type === 'COMPONENT');
-
-const generateTokens = (artboardName, stylesArtboard, decorator) => {
-  const elementName = camelCase(artboardName);
-  const tokens = {
-    [elementName]: {}
-  };
-  const elements = filterArtboardElements(artboardName, stylesArtboard);
-  elements.map(element => {
-    Object.assign(tokens[elementName], decorator(element));
-  });
-
-  return tokens;
-}
-
 const camelCase = string => {
   const stringUpdate = string
     .toLowerCase()
     .replace(/(?:(^.)|([-_\s]+.))/g, match =>
       match.charAt(match.length - 1).toUpperCase()
-    )
-  return stringUpdate.charAt(0).toLowerCase() + stringUpdate.substring(1)
+    );
+  return stringUpdate.charAt(0).toLowerCase() + stringUpdate.substring(1);
 };
 
 const trim = str => str.replace(/^\s+|\s+$/gm, '');
@@ -75,7 +58,6 @@ module.exports = {
   camelCase,
   emojis,
   fullColorHex,
-  generateTokens,
   genShadow,
   getColor,
   rgbaGen,
