@@ -6,7 +6,7 @@ import {
   getSpacings,
   getTypography
 } from './decorators';
-import { emojis } from './utils';
+import { camelCase, emojis } from './utils';
 
 const filterArtboardElements = (artboardName, stylesArtboard) => stylesArtboard
   .filter(item => item.name === artboardName)[0].children
