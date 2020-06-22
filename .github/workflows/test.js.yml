@@ -6,25 +6,23 @@ on:
     branches: [ master ]
 
 jobs:
-  run:
+  build:
     name: Node ${{ matrix.node }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node: [12, 14]
+        node: [12.x, 14.x]
 
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v1
+    - name: Uses Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}  
+    - run: npm install -g yarn # Extra Step
 
-      - name: Set Node.js version
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Install npm dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm test
+    - name: yarn install and test
+    - run: |
+        yarn
+        yarn test
