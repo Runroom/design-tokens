@@ -7,22 +7,21 @@ on:
 
 jobs:
   build:
-    name: Node ${{ matrix.node }}
+
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node: [12.x, 14.x]
+        node-version: [12.x, 14.x] # Only run the 10.x build
 
     steps:
     - uses: actions/checkout@v1
-    - name: Uses Node.js ${{ matrix.node-version }}
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}  
-    - run: npm install -g yarn # Extra Step
-
+        node-version: ${{ matrix.node-version }}
+    - run: npm install -g yarn
     - name: yarn install and test
-    - run: |
+      run: |
         yarn
         yarn test
