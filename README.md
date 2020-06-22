@@ -5,7 +5,7 @@ Design tokens
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Testing](https://github.com/Runroom/design-tokens/workflows/Testing/badge.svg)
 
-Library inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
+Originally inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
 
 ## Installation
 `yarn add --dev @runroom/design-tokens`
