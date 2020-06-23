@@ -48,13 +48,13 @@ describe('Figma parser', () => {
     });
   });
 
-  // describe('Typography parser', () => {
-  //   const typography = parser.filterArtboardElements('Typography', mockJson);
-  //   const tokens = parser.generateTokens('Typography', mockJson, decorators.getTypography);
+  describe('Typography parser', () => {
+    const typography = parser.filterArtboardElements('Typography', mockJson);
+    const tokens = parser.generateTokens('Typography', mockJson, decorators.getTypography);
 
-  //   it('filtered artboard is array', () => {
-  //     expect(typography).to.be.a('array');
-  //   });
+    it('filtered artboard is array', () => {
+      expect(typography).to.be.a('array');
+    });
   //   it('tokens is object', () => {
   //     expect(tokens).to.be.a('object');
   //     expect(tokens['typography']).to.be.a('object');
@@ -63,5 +63,5 @@ describe('Figma parser', () => {
     //   const color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
     //   expect(color).to.be.a('string');
     // });
-  // });
+  });
 });
