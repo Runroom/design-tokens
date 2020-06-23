@@ -2,8 +2,9 @@ Design tokens
 ========================
 
 [![npm version](https://img.shields.io/npm/v/@runroom/design-tokens.svg)](https://www.npmjs.com/package/@runroom/design-tokens)
-![Node](https://img.shields.io/node/v/@runroom/design-tokens.svg)
-![Testing](https://github.com/Runroom/design-tokens/workflows/Testing/badge.svg)
+![node](https://img.shields.io/node/v/@runroom/design-tokens.svg)
+
+![test](https://github.com/Runroom/design-tokens/workflows/Testing/badge.svg)
 
 Originally inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
 
