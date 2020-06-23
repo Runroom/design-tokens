@@ -20,6 +20,7 @@ const getTypography = element => {
     fontFamily,
     fontSize,
     lineHeightPx,
+    lineHeightPercentFontSize,
     fontWeight
   } = element.children[0].style;
 
@@ -27,8 +28,9 @@ const getTypography = element => {
     [camelCase(element.name)]: {
       fontFamily: { value: `'${fontFamily}'` },
       fontSize: { value: pixelate(fontSize) },
-      lineHeight: { value: `${Math.floor(lineHeightPx)}px` },
-      fontWeight: { value: pixelate(fontWeight) }
+      lineHeight: { value: pixelate(Math.floor(lineHeightPx)) },
+      lineHeightRelative: { value: Math.floor(lineHeightPercentFontSize) / 100 },
+      fontWeight: { value: fontWeight }
     }
   }
 };

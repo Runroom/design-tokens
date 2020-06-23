@@ -104,8 +104,8 @@ dist
 .tern-port
 
 # Tokens
-tokens
-figma-tokens
+tokens*
+figma-tokens*
 
 # Config file
 designtokens.config.json

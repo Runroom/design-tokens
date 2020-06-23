@@ -1,7 +1,6 @@
 'use strict';
 
 const expect = require('chai').expect;
-
 const utils = require('../src/utils');
 
 describe('Utils functions', () => {

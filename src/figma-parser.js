@@ -13,15 +13,14 @@ const filterArtboardElements = (artboardName, stylesArtboard) => stylesArtboard
   .filter(item => item.type === 'COMPONENT');
 
 const generateTokens = (artboardName, stylesArtboard, decorator) => {
+  const elements = filterArtboardElements(artboardName, stylesArtboard);
   const elementName = camelCase(artboardName);
   const tokens = {
     [elementName]: {}
   };
-  const elements = filterArtboardElements(artboardName, stylesArtboard);
   elements.map(element => {
     Object.assign(tokens[elementName], decorator(element));
   });
-
   return tokens;
 }
 
@@ -80,4 +79,4 @@ const parseTokens = (apikey, id, outDir, pageName) =>
     }
   });
 
-export { parseTokens };
+export { filterArtboardElements, generateTokens, parseTokens };
