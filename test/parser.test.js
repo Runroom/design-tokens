@@ -67,5 +67,12 @@ describe('Figma parser', () => {
       expect(text.lineHeightRelative).to.not.be.undefined;
       expect(text.fontWeight).to.not.be.undefined;
     });
+    it('props have valid types', () => {
+      expect(/([0-9]+)px/.test(text.fontSize.value)).to.be.true;
+      expect(/([0-9]+)px/.test(text.lineHeight.value)).to.be.true;
+      expect(/[1-9]{1}00/.test(text.fontWeight.value)).to.be.true;
+      expect(text.fontFamily.value).to.be.a('string');
+      expect(text.lineHeightRelative.value).to.be.a('number');
+    });
   });
 });
