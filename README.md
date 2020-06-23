@@ -5,6 +5,7 @@ Design tokens
 ![node](https://img.shields.io/node/v/@runroom/design-tokens.svg)
 
 ![test](https://github.com/Runroom/design-tokens/workflows/test/badge.svg)
+[![codecov](https://codecov.io/gh/Runroom/design-tokens/branch/master/graph/badge.svg)](https://codecov.io/gh/Runroom/design-tokens)
 
 Originally inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
 
