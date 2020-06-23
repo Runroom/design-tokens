@@ -4,7 +4,6 @@ require = require("esm")(module /*, options */);
 const expect = require('chai').expect;
 const parser = require('../src/figma-parser');
 const utils = require('../src/utils');
-// filterArtboardElements, generateTokens, parseTokens
 const decorators = require('../src/decorators');
 const mockJson = require('./data2')[0].children;
 
@@ -12,10 +11,8 @@ describe('Figma parser', () => {
   describe('Color parser', () => {
     const colors = parser.filterArtboardElements('Colors', mockJson);
     const tokens = parser.generateTokens('Colors', mockJson, decorators.getColors);
-    // genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
-    // const artboardName = utils.camelCase('Colors');
+    const color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
 
-    // console.log(mockJson);
     it('filtered artboard is array', () => {
       expect(colors).to.be.a('array');
     });
@@ -24,8 +21,10 @@ describe('Figma parser', () => {
       expect(tokens['colors']).to.be.a('object');
     });
     it('value is string', () => {
-      const color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
       expect(color).to.be.a('string');
+    });
+    it('value is hexadecimal', () => {
+      expect(/#([0-9A-F]{3}|[0-9A-F]{6})/i.test(color)).to.be.true;
     });
   });
 
