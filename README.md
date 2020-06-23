@@ -2,8 +2,11 @@ Design tokens
 ========================
 
 [![npm version](https://img.shields.io/npm/v/@runroom/design-tokens.svg)](https://www.npmjs.com/package/@runroom/design-tokens)
+![node](https://img.shields.io/node/v/@runroom/design-tokens.svg)
 
-Library inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
+![test](https://github.com/Runroom/design-tokens/workflows/Testing/badge.svg)
+
+Originally inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
 
 ## Installation
 `yarn add --dev @runroom/design-tokens`
@@ -31,4 +34,6 @@ For example:
 * `yarn design-tokens --config-file=myfile.json`
 
 ## Liscense
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 This project is under the [MIT liscense](LISCENSE).
