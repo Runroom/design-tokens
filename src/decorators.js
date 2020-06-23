@@ -21,13 +21,14 @@ const getTypography = element => {
     fontSize,
     lineHeightPx,
     fontWeight
-  } = element.children[0].style;
+  } = element.children[0].children[0].style;
 
   return {
     [camelCase(element.name)]: {
       fontFamily: { value: `'${fontFamily}'` },
       fontSize: { value: pixelate(fontSize) },
       lineHeight: { value: `${Math.floor(lineHeightPx)}px` },
+      lineHeightPercentFontSize: { value: Math.floor(lineHeightPercentFontSize) / 100 },
       fontWeight: { value: pixelate(fontWeight) }
     }
   }
