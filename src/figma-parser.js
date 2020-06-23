@@ -18,6 +18,7 @@ const generateTokens = (artboardName, stylesArtboard, decorator) => {
     [elementName]: {}
   };
   const elements = filterArtboardElements(artboardName, stylesArtboard);
+
   elements.map(element => {
     Object.assign(tokens[elementName], decorator(element));
   });
@@ -45,6 +46,9 @@ const parseTokens = (apikey, id, outDir, pageName) =>
         'X-Figma-Token': apikey
       }
     }
+
+    console.log(FETCH_URL);
+    console.log(FETCH_DATA);
 
     try {
       fetch(FETCH_URL, FETCH_DATA)
