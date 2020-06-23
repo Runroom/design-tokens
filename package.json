@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha",
-    "codecov": "codecov --token=02c51fc0-1b72-4078-9e04-1e5abeb2731e",
+    "codecov": "codecov",
     "design-tokens": "node bin/design-tokens"
   },
   "engines": {
