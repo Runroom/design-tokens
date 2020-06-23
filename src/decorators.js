@@ -22,7 +22,7 @@ const getTypography = element => {
     lineHeightPx,
     lineHeightPercentFontSize,
     fontWeight
-  } = element.children[0].children[0].style;
+  } = element.children[0].style;
 
   return {
     [camelCase(element.name)]: {

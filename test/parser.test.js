@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const parser = require('../src/figma-parser');
 const utils = require('../src/utils');
 const decorators = require('../src/decorators');
-const mockJson = require('./data2')[0].children;
+const mockJson = require('./data')[0].children;
 
 describe('Figma parser', () => {
   describe('Color parser', () => {
