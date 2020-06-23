@@ -8,9 +8,9 @@ const utils = require('../src/utils');
 const decorators = require('../src/decorators');
 const mockJson = require('./data2')[0].children;
 
-describe('Figma cli', () => {
+describe('Figma parser', () => {
   describe('Color parser', () => {
-    const colors = parser.filterArtboardElements(ARTBOARD_NAME, mockJson);
+    const colors = parser.filterArtboardElements('Colors', mockJson);
     const tokens = parser.generateTokens('Colors', mockJson, decorators.getColors);
     // genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
     // const artboardName = utils.camelCase('Colors');
@@ -27,5 +27,22 @@ describe('Figma cli', () => {
       const color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
       expect(color).to.be.a('string');
     });
+  });
+
+  describe('Spacings parser', () => {
+    const spacings = parser.filterArtboardElements('Spacings', mockJson);
+    const tokens = parser.generateTokens('Spacings', mockJson, decorators.getSpacings);
+
+    it('filtered artboard is array', () => {
+      expect(spacings).to.be.a('array');
+    });
+    it('tokens is object', () => {
+      expect(tokens).to.be.a('object');
+      expect(tokens['spacings']).to.be.a('object');
+    });
+    // it('value is string', () => {
+    //   const color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
+    //   expect(color).to.be.a('string');
+    // });
   });
 });
