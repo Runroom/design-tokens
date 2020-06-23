@@ -20,6 +20,7 @@ const getTypography = element => {
     fontFamily,
     fontSize,
     lineHeightPx,
+    lineHeightPercentFontSize,
     fontWeight
   } = element.children[0].children[0].style;
 
@@ -28,7 +29,7 @@ const getTypography = element => {
       fontFamily: { value: `'${fontFamily}'` },
       fontSize: { value: pixelate(fontSize) },
       lineHeight: { value: `${Math.floor(lineHeightPx)}px` },
-      lineHeightPercentFontSize: { value: Math.floor(lineHeightPercentFontSize) / 100 },
+      lineHeightRelative: { value: Math.floor(lineHeightPercentFontSize) / 100 },
       fontWeight: { value: pixelate(fontWeight) }
     }
   }

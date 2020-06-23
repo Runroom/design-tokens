@@ -51,17 +51,21 @@ describe('Figma parser', () => {
   describe('Typography parser', () => {
     const typography = parser.filterArtboardElements('Typography', mockJson);
     const tokens = parser.generateTokens('Typography', mockJson, decorators.getTypography);
+    const text = tokens['typography'][Object.keys(tokens['typography'])[0]];
 
     it('filtered artboard is array', () => {
       expect(typography).to.be.a('array');
     });
-  //   it('tokens is object', () => {
-  //     expect(tokens).to.be.a('object');
-  //     expect(tokens['typography']).to.be.a('object');
-  //   });
-    // it('value is string', () => {
-    //   const color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
-    //   expect(color).to.be.a('string');
-    // });
+    it('tokens is object', () => {
+      expect(tokens).to.be.a('object');
+      expect(tokens['typography']).to.be.a('object');
+    });
+    it('has correct props', () => {
+      expect(text.fontFamily).to.not.be.undefined;
+      expect(text.fontSize).to.not.be.undefined;
+      expect(text.lineHeight).to.not.be.undefined;
+      expect(text.lineHeightRelative).to.not.be.undefined;
+      expect(text.fontWeight).to.not.be.undefined;
+    });
   });
 });
