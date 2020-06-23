@@ -10,7 +10,6 @@ const mockJson = require('./data2')[0].children;
 
 describe('Figma cli', () => {
   describe('Color parser', () => {
-    const ARTBOARD_NAME = 'Colors';
     const colors = parser.filterArtboardElements(ARTBOARD_NAME, mockJson);
     const tokens = parser.generateTokens('Colors', mockJson, decorators.getColors);
     // genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
