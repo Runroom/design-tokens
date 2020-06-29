@@ -3,6 +3,7 @@
 require = require("esm")(module /*, options */);
 const fetch = require('node-fetch');
 const expect = require('chai').expect;
+const assert = require('chai').assert;
 
 const FETCH_URL = `https://api.figma.com/v1/files/laOdxGSyWrN0Of2HpeOX7L`;
 const FETCH_DATA = {
@@ -12,17 +13,16 @@ const FETCH_DATA = {
   }
 };
 const PAGE_NAME = '🔄 Design Tokens v2';
+let figmaJson;
 
+before(async () => {
+  await fetch(FETCH_URL, FETCH_DATA)
+    .then(response => response.json())
+    .then(response => {
+      figmaJson = response;
+    });
+});
 describe('Figma project fetching', () => {
-  let figmaJson;
-
-  before(async () => {
-    await fetch(FETCH_URL, FETCH_DATA)
-      .then(response => response.json())
-      .then(response => {
-        figmaJson = response;
-      });
-  });
   it('Project exists', async () => {
     expect(figmaJson.status).to.not.equal(403);
     expect(figmaJson.status).to.not.equal(404);
@@ -30,5 +30,5 @@ describe('Figma project fetching', () => {
   it('Page exists', () => {
     const figmaTree = figmaJson.document.children.filter(page => page.name === PAGE_NAME);
     expect(figmaTree.length).to.be.greaterThan(0);
-  })
+  });
 });
