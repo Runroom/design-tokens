@@ -1,5 +1,5 @@
 import { promises as fsp } from 'fs';
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 
 import {
   getColors,
