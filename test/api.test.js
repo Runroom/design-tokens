@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const expect = require('chai').expect;
 const assert = require('chai').assert;
 
-const FETCH_URL = `https://api.figma.com/v1/files/laOdxGSyWrN0Of2HpeOX7La`;
+const FETCH_URL = `https://api.figma.com/v1/files/laOdxGSyWrN0Of2HpeOX7L`;
 const FETCH_DATA = {
   method: 'GET',
   headers: {
@@ -16,7 +16,6 @@ const PAGE_NAME = '🔄 Design Tokens v2';
 
 describe('Figma project fetching', () => {
   let figmaJson;
-  let fail = false;
 
   before(async () => {
     await fetch(FETCH_URL, FETCH_DATA)
@@ -25,15 +24,12 @@ describe('Figma project fetching', () => {
         figmaJson = response;
       });
   });
-  afterEach(function() {
-    if (fail) this.test.error(new Error('Couldn\'t complete tests'));
-  })
-
   it('Project exists', async () => {
     expect(figmaJson.status).to.not.equal(403);
     expect(figmaJson.status).to.not.equal(404);
   });
   it('Page exists', () => {
+    expect(figmaJson.document).to.exist;
     const figmaTree = figmaJson.document.children.filter(page => page.name === PAGE_NAME);
     expect(figmaTree.length).to.be.greaterThan(0);
   });
