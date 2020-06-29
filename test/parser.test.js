@@ -3,7 +3,6 @@
 require = require("esm")(module /*, options */);
 const expect = require('chai').expect;
 const parser = require('../src/figma-parser');
-const utils = require('../src/utils');
 const decorators = require('../src/decorators');
 const mockJson = require('./data')[0].children;
 
