@@ -36,8 +36,6 @@ describe('Figma connection', () => {
       expect(figmaJson.status).to.not.equal(404);
     });
     it(`Page ${PAGE_NAME} exists`, () => {
-      expect(figmaJson.document).to.exist;
-      figmaTree = figmaJson.document.children.filter(page => page.name === PAGE_NAME);
       expect(figmaTree.length).to.be.greaterThan(0);
     });
   });
