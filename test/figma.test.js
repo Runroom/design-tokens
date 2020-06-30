@@ -70,9 +70,15 @@ describe('Figma connection', () => {
     });
 
     describe('Spacings parser', () => {
-      const spacings = parser.filterArtboardElements('Spacings', figmaTree[0].children);
-      const tokens = parser.generateTokens('Spacings', figmaTree[0].children, decorators.getSpacings);
-      const spacing = tokens['spacings'][Object.keys(tokens['spacings'])[0]].value;
+      let spacings;
+      let tokens;
+      let spacing;
+
+      before(() => {
+        spacings = parser.filterArtboardElements('Spacings', figmaTree[0].children);
+        tokens = parser.generateTokens('Spacings', figmaTree[0].children, decorators.getSpacings);
+        spacing = tokens['spacings'][Object.keys(tokens['spacings'])[0]].value;
+      });
 
       it('filtered artboard is array', () => {
         expect(spacings).to.be.a('array');
@@ -90,9 +96,15 @@ describe('Figma connection', () => {
     });
 
     describe('Typography parser', () => {
-      const typography = parser.filterArtboardElements('Typography', figmaTree[0].children);
-      const tokens = parser.generateTokens('Typography', figmaTree[0].children, decorators.getTypography);
-      const text = tokens['typography'][Object.keys(tokens['typography'])[0]];
+      let typography;
+      let tokens;
+      let text;
+
+      before(() => {
+        typography = parser.filterArtboardElements('Typography', figmaTree[0].children);
+        tokens = parser.generateTokens('Typography', figmaTree[0].children, decorators.getTypography);
+        text = tokens['typography'][Object.keys(tokens['typography'])[0]];
+      });
 
       it('filtered artboard is array', () => {
         expect(typography).to.be.a('array');
