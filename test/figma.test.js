@@ -5,10 +5,10 @@ const fetch = require('node-fetch');
 const expect = require('chai').expect;
 const parser = require('../src/figma-parser');
 const decorators = require('../src/decorators');
-const mockJson = require('./data')[0].children;
+// const mockJson = require('./data')[0].children;
 // const assert = require('chai').assert;
 
-const FETCH_URL = `https://api.figma.com/v1/files/laOdxGSyWrN0Of2HpeOX7La`;
+const FETCH_URL = `https://api.figma.com/v1/files/laOdxGSyWrN0Of2HpeOX7L`;
 const FETCH_DATA = {
   method: 'GET',
   headers: {
@@ -21,20 +21,21 @@ describe('Figma connection', () => {
   let figmaJson;
   let figmaTree;
 
-  before(async () => {
+  beforeEach(async () => {
     await fetch(FETCH_URL, FETCH_DATA)
       .then(response => response.json())
       .then(response => {
         figmaJson = response;
+        figmaTree = figmaJson.document.children.filter(page => page.name === PAGE_NAME);
       });
   });
 
   describe('Json fetching', () => {
-    it('Project exists', async () => {
+    it(`Project with ID ${`laOdxGSyWrN0Of2HpeOX7L`} exists`, async () => {
       expect(figmaJson.status).to.not.equal(403);
       expect(figmaJson.status).to.not.equal(404);
     });
-    it('Page exists', () => {
+    it(`Page ${PAGE_NAME} exists`, () => {
       expect(figmaJson.document).to.exist;
       figmaTree = figmaJson.document.children.filter(page => page.name === PAGE_NAME);
       expect(figmaTree.length).to.be.greaterThan(0);
@@ -42,11 +43,13 @@ describe('Figma connection', () => {
   });
 
   describe('Json parsing', () => {
-    // const mockJson = figmaTree[0].children;
-
     describe('Color parser', () => {
-      const colors = parser.filterArtboardElements('Colors', mockJson);
-      const tokens = parser.generateTokens('Colors', mockJson, decorators.getColors);
+      // const mockJson = figmaTree[0].children;
+      console.log(figmaJson);
+      console.log(figmaTree);
+
+      const colors = parser.filterArtboardElements('Colors', figmaTree[0].children);
+      const tokens = parser.generateTokens('Colors', figmaTree[0].children, decorators.getColors);
       const color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
 
       it('filtered artboard is array', () => {
@@ -65,8 +68,8 @@ describe('Figma connection', () => {
     });
 
     describe('Spacings parser', () => {
-      const spacings = parser.filterArtboardElements('Spacings', mockJson);
-      const tokens = parser.generateTokens('Spacings', mockJson, decorators.getSpacings);
+      const spacings = parser.filterArtboardElements('Spacings', figmaTree[0].children);
+      const tokens = parser.generateTokens('Spacings', figmaTree[0].children, decorators.getSpacings);
       const spacing = tokens['spacings'][Object.keys(tokens['spacings'])[0]].value;
 
       it('filtered artboard is array', () => {
@@ -85,8 +88,8 @@ describe('Figma connection', () => {
     });
 
     describe('Typography parser', () => {
-      const typography = parser.filterArtboardElements('Typography', mockJson);
-      const tokens = parser.generateTokens('Typography', mockJson, decorators.getTypography);
+      const typography = parser.filterArtboardElements('Typography', figmaTree[0].children);
+      const tokens = parser.generateTokens('Typography', figmaTree[0].children, decorators.getTypography);
       const text = tokens['typography'][Object.keys(tokens['typography'])[0]];
 
       it('filtered artboard is array', () => {
