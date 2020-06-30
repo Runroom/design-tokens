@@ -21,7 +21,7 @@ describe('Figma connection', () => {
   let figmaJson;
   let figmaTree;
 
-  beforeEach(async () => {
+  before(async () => {
     await fetch(FETCH_URL, FETCH_DATA)
       .then(response => response.json())
       .then(response => {
