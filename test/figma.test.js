@@ -5,8 +5,6 @@ const fetch = require('node-fetch');
 const expect = require('chai').expect;
 const parser = require('../src/figma-parser');
 const decorators = require('../src/decorators');
-// const mockJson = require('./data')[0].children;
-// const assert = require('chai').assert;
 
 const FETCH_URL = `https://api.figma.com/v1/files/laOdxGSyWrN0Of2HpeOX7L`;
 const FETCH_DATA = {
