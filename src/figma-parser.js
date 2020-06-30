@@ -1,5 +1,5 @@
 import { promises as fsp } from 'fs';
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 
 import {
   getColors,
@@ -37,13 +37,13 @@ const genFile = (name, tokens, outDir) =>
 const parseTokens = (apikey, id, outDir, pageName) =>
   new Promise((resolve, reject) => {
     console.log('\x1b[40m Connecting with Figma... \x1b[0m');
-    const FETCH_URL = `https://api.figma.com/v1/files/${id}`
+    const FETCH_URL = `https://api.figma.com/v1/files/${id}`;
     const FETCH_DATA = {
       method: 'GET',
       headers: {
         'X-Figma-Token': apikey
       }
-    }
+    };
 
     try {
       fetch(FETCH_URL, FETCH_DATA)
