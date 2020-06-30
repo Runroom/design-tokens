@@ -44,13 +44,15 @@ describe('Figma connection', () => {
 
   describe('Json parsing', () => {
     describe('Color parser', () => {
-      // const mockJson = figmaTree[0].children;
-      console.log(figmaJson);
-      console.log(figmaTree);
+      let colors;
+      let tokens;
+      let color;
 
-      const colors = parser.filterArtboardElements('Colors', figmaTree[0].children);
-      const tokens = parser.generateTokens('Colors', figmaTree[0].children, decorators.getColors);
-      const color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
+      before(() => {
+        colors = parser.filterArtboardElements('Colors', figmaTree[0].children);
+        tokens = parser.generateTokens('Colors', figmaTree[0].children, decorators.getColors);
+        color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
+      });
 
       it('filtered artboard is array', () => {
         expect(colors).to.be.a('array');
