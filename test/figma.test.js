@@ -6,11 +6,13 @@ const expect = require('chai').expect;
 const parser = require('../src/figma-parser');
 const decorators = require('../src/decorators');
 
-const FETCH_URL = `https://api.figma.com/v1/files/laOdxGSyWrN0Of2HpeOX7L`;
+const FILE_ID = 'laOdxGSyWrN0Of2HpeOX7L';
+const TOKEN = '44495-d07c957b-fe6b-49f6-9d4e-7a8c3156433c';
+const FETCH_URL = `https://api.figma.com/v1/files/${FILE_ID}`;
 const FETCH_DATA = {
   method: 'GET',
   headers: {
-    'X-Figma-Token': '44495-d07c957b-fe6b-49f6-9d4e-7a8c3156433c'
+    'X-Figma-Token': TOKEN
   }
 };
 const PAGE_NAME = '🔄 Design Tokens v2';
