@@ -4,7 +4,7 @@
   "description": "Figma design tokens implementation for Runroom design archetype",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --bail",
+    "test": "nyc mocha --bail --timeout 10000",
     "codecov": "codecov",
     "design-tokens": "node bin/design-tokens"
   },
