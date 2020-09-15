@@ -1,6 +1,6 @@
 'use strict';
 
-require = require("esm")(module /*, options */);
+require = require('esm')(module /*, options */);
 const fetch = require('node-fetch');
 const expect = require('chai').expect;
 const parser = require('../src/figma-parser');
@@ -15,7 +15,7 @@ const FETCH_DATA = {
     'X-Figma-Token': TOKEN
   }
 };
-const PAGE_NAME = '🔄 Design Tokens v2';
+const PAGE_NAME = '🔄 Design Tokens';
 
 describe('Figma connection', () => {
   let figmaJson;
@@ -24,9 +24,13 @@ describe('Figma connection', () => {
   before(async () => {
     await fetch(FETCH_URL, FETCH_DATA)
       .then(response => response.json())
-      .then(response => {
+      .then(async response => {
         figmaJson = response;
-        figmaTree = figmaJson.document.children.filter(page => page.name === PAGE_NAME);
+        figmaTree = await figmaJson.document.children.filter(page => page.name === PAGE_NAME);
+        console.log(figmaTree);
+      })
+      .catch(error => {
+        console.log(error.message);
       });
   });
 
@@ -35,6 +39,7 @@ describe('Figma connection', () => {
       expect(figmaJson.status).to.not.equal(403);
       expect(figmaJson.status).to.not.equal(404);
     });
+
     it(`Page ${PAGE_NAME} exists`, () => {
       expect(figmaTree.length).to.be.greaterThan(0);
     });
@@ -100,7 +105,11 @@ describe('Figma connection', () => {
 
       before(() => {
         typography = parser.filterArtboardElements('Typography', figmaTree[0].children);
-        tokens = parser.generateTokens('Typography', figmaTree[0].children, decorators.getTypography);
+        tokens = parser.generateTokens(
+          'Typography',
+          figmaTree[0].children,
+          decorators.getTypography
+        );
         text = tokens['typography'][Object.keys(tokens['typography'])[0]];
       });
 
