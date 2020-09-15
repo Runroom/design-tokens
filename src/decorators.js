@@ -1,47 +1,63 @@
 import { camelCase, rgbaGenObject, fullColorHex, pixelate } from './utils';
 
+const _getBoundingWidth = element => {
+  let name = 'empty-name';
+  let value = 'empty-value';
+
+  if (element && element.name) {
+    name = camelCase(element.name);
+    value = pixelate(element.absoluteBoundingBox.width);
+  }
+
+  return { [name]: { value } };
+};
+
 const getColors = element => {
-  const { r, g, b, a } = element.children[0].fills[0].color;
-  const colorRGBA = rgbaGenObject(r, g, b, a);
+  let name = 'empty-name';
+  let value = 'empty-value';
+
+  if (element && element.name && element.children.length && element.children[0].fills.length) {
+    const { r, g, b, a } = element.children[0].fills[0].color;
+    const colorRGBA = rgbaGenObject(r, g, b, a);
+
+    name = camelCase(element.name);
+    value = fullColorHex(colorRGBA.r, colorRGBA.g, colorRGBA.b);
+  }
 
   return {
-    [camelCase(element.name)]: {
-      value: `${fullColorHex(colorRGBA.r, colorRGBA.g, colorRGBA.b)}`
-    }
+    [name]: { value }
   };
 };
 
-const getSpacings = element => ({
-  [camelCase(element.name)]: { value: pixelate(element.absoluteBoundingBox.width) }
-});
-
 const getTypography = element => {
-  const {
-    fontFamily,
-    fontSize,
-    lineHeightPx,
-    lineHeightPercentFontSize,
-    fontWeight
-  } = element.children[0].style;
+  let name = 'empty-name';
+  let value = 'empty-value';
 
-  return {
-    [camelCase(element.name)]: {
+  if (element && element.name && element.children.length) {
+    const {
+      fontFamily,
+      fontSize,
+      lineHeightPx,
+      lineHeightPercentFontSize,
+      fontWeight
+    } = element.children[0].style;
+
+    name = camelCase(element.name);
+    value = {
       fontFamily: { value: `'${fontFamily}'` },
       fontSize: { value: pixelate(fontSize) },
       lineHeight: { value: pixelate(Math.floor(lineHeightPx)) },
       lineHeightRelative: { value: Math.floor(lineHeightPercentFontSize) / 100 },
       fontWeight: { value: fontWeight }
-    }
+    };
   }
+
+  return {
+    [name]: value
+  };
 };
 
-const getBreakpoints = element => ({
-  [camelCase(element.name)]: { value: pixelate(element.absoluteBoundingBox.width) }
-});
+const getSpacings = _getBoundingWidth;
+const getBreakpoints = _getBoundingWidth;
 
-export {
-  getBreakpoints,
-  getColors,
-  getSpacings,
-  getTypography
-};
+export { getBreakpoints, getColors, getSpacings, getTypography };
