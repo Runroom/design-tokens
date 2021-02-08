@@ -9,7 +9,7 @@
     "design-tokens": "node bin/design-tokens"
   },
   "engines": {
-    "node": "^12 || ^14"
+    "node": ">= 14"
   },
   "bin": {
     "design-tokens": "bin/design-tokens"
@@ -30,17 +30,17 @@
   },
   "homepage": "https://github.com/Runroom/design-tokens#readme",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "codecov": "^3.7.2",
+    "chai": "^4.3.0",
+    "codecov": "^3.8.1",
     "glob-all": "^3.2",
-    "mocha": "^8.1.3",
+    "mocha": "^8.2.1",
     "nyc": "^15.1.0"
   },
   "dependencies": {
     "esm": "^3.2",
     "file-system": "^2.2.2",
     "node-fetch": "^2.6.1",
-    "style-dictionary": "^2.10.1",
-    "yargs-parser": "^20.0.0"
+    "style-dictionary": "^2.10.2",
+    "yargs-parser": "^20.2.4"
   }
 }
