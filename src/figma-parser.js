@@ -1,16 +1,13 @@
 import { promises as fsp } from 'fs';
 import fetch from 'node-fetch';
 
-import {
-  getColors,
-  getSpacings,
-  getTypography
-} from './decorators';
+import { getColors, getSpacings, getTypography } from './decorators';
 import { camelCase, emojis } from './utils';
 
-const filterArtboardElements = (artboardName, stylesArtboard) => stylesArtboard
-  .filter(item => item.name === artboardName)[0].children
-  .filter(item => item.type === 'COMPONENT');
+const filterArtboardElements = (artboardName, stylesArtboard) =>
+  stylesArtboard
+    .filter(item => item.name === artboardName)[0]
+    .children.filter(item => item.type === 'COMPONENT');
 
 const generateTokens = (artboardName, stylesArtboard, decorator) => {
   const elements = filterArtboardElements(artboardName, stylesArtboard);
@@ -22,19 +19,15 @@ const generateTokens = (artboardName, stylesArtboard, decorator) => {
     Object.assign(tokens[elementName], decorator(element));
   });
   return tokens;
-}
+};
 
 const genFile = (name, tokens, outDir) =>
-  fsp.writeFile(
-    `${outDir}/${name}.json`,
-    JSON.stringify(tokens, null, 2),
-    err => {
-      if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
-      console.log(` ${emojis[name]} ${name} tokens created!`);
-    }
-  );
+  fsp.writeFile(`${outDir}/${name}.json`, JSON.stringify(tokens, null, 2), err => {
+    if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
+    console.log(` ${emojis[name]} ${name} tokens created!`);
+  });
 
-const parseTokens = (apikey, id, outDir, pageName) =>
+const parseTokens = (apikey, id, outDir, pageName, pages) =>
   new Promise((resolve, reject) => {
     console.log('\x1b[40m Connecting with Figma... \x1b[0m');
     const FETCH_URL = `https://api.figma.com/v1/files/${id}`;
@@ -58,17 +51,56 @@ const parseTokens = (apikey, id, outDir, pageName) =>
             if (figmaTree.length === 0) throw new Error(`There is no page called '${pageName}'`);
             console.log(` Parsing Figma tokens...`);
 
-            Promise.all([
-              genFile('color', generateTokens('Colors', figmaTree[0].children, getColors), outDir),
-              genFile('spacings', generateTokens('Spacings', figmaTree[0].children, getSpacings), outDir),
-              genFile('typography', generateTokens('Typography', figmaTree[0].children, getTypography), outDir),
-              // genFile('breakpoint', generateTokens('Breakpoints', figmaTree[0].children, getBreakpoints), outDir)
-            ]).then(() => {
-              resolve();
-            }).catch(err => {
-              reject();
-              throw new Error(`\x1b[31m\n\n${emojis.error} ${err}\n`);
-            });
+            const promises = [];
+
+            if (pages.includes('Colors')) {
+              promises.push(
+                genFile(
+                  'colors',
+                  generateTokens('Colors', figmaTree[0].children, getColors),
+                  outDir
+                )
+              );
+            }
+
+            if (pages.includes('Typography')) {
+              promises.push(
+                genFile(
+                  'typography',
+                  generateTokens('Typography', figmaTree[0].children, getTypography),
+                  outDir
+                )
+              );
+            }
+
+            if (pages.includes('Spacings')) {
+              promises.push(
+                genFile(
+                  'spacings',
+                  generateTokens('Spacings', figmaTree[0].children, getSpacings),
+                  outDir
+                )
+              );
+            }
+
+            if (pages.includes('Breakpoints')) {
+              promises.push(
+                genFile(
+                  'breakpoints',
+                  generateTokens('Breakpoints', figmaTree[0].children, getBreakpoints),
+                  outDir
+                )
+              );
+            }
+
+            Promise.all(promises)
+              .then(() => {
+                resolve();
+              })
+              .catch(err => {
+                reject();
+                throw new Error(`\x1b[31m\n\n${emojis.error} ${err}\n`);
+              });
           }
         })
         .catch(err => {
