@@ -1,9 +1,7 @@
 const camelCase = string => {
   const stringUpdate = string
     .toLowerCase()
-    .replace(/(?:(^.)|([-_\s]+.))/g, match =>
-      match.charAt(match.length - 1).toUpperCase()
-    );
+    .replace(/(?:(^.)|([-_\s]+.))/g, match => match.charAt(match.length - 1).toUpperCase());
   return stringUpdate.charAt(0).toLowerCase() + stringUpdate.substring(1);
 };
 
@@ -24,12 +22,16 @@ const fullColorHex = (r, g, b) => {
   const red = rgbToHex(r);
   const green = rgbToHex(g);
   const blue = rgbToHex(b);
-  const hexColor = `${red + green + blue}`.toLocaleLowerCase();
 
-  if (red === green && green === blue && red === blue) {
-    return `#${hexColor.slice(0, 3)}`;
+  const redReduced = [...new Set(red.split(''))].join('');
+  const greenReduced = [...new Set(green.split(''))].join('');
+  const blueReduced = [...new Set(blue.split(''))].join('');
+
+  if (redReduced.length === 1 && greenReduced.length === 1 && blueReduced.length === 1) {
+    return `#${redReduced + greenReduced + blueReduced}`.toLocaleLowerCase();
+  } else {
+    return `#${red + green + blue}`.toLocaleLowerCase();
   }
-  return `#${hexColor}`;
 };
 
 const parseRgba = color => {

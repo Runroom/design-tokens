@@ -19,7 +19,6 @@ const getColors = element => {
   if (element && element.name && element.children.length && element.children[0].fills.length) {
     const { r, g, b, a } = element.children[0].fills[0].color;
     const colorRGBA = rgbaGenObject(r, g, b, a);
-
     name = camelCase(element.name);
     value = fullColorHex(colorRGBA.r, colorRGBA.g, colorRGBA.b);
   }

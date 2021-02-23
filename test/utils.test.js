@@ -29,10 +29,14 @@ describe('Utils functions', () => {
       expect(rgbaColor).to.be.a('string');
     });
     it('equals result rgb', () => {
-      expect(rgbColor).to.equal(`rgba(${utils.getColor(r)}, ${utils.getColor(g)}, ${utils.getColor(b)}, 1)`);
+      expect(rgbColor).to.equal(
+        `rgba(${utils.getColor(r)}, ${utils.getColor(g)}, ${utils.getColor(b)}, 1)`
+      );
     });
     it('equals result rgba', () => {
-      expect(rgbaColor).to.equal(`rgba(${utils.getColor(r)}, ${utils.getColor(g)}, ${utils.getColor(b)}, ${a})`);
+      expect(rgbaColor).to.equal(
+        `rgba(${utils.getColor(r)}, ${utils.getColor(g)}, ${utils.getColor(b)}, ${a})`
+      );
     });
   });
 
@@ -44,10 +48,20 @@ describe('Utils functions', () => {
       expect(rgbaColor).to.be.a('object');
     });
     it('equals result rgb', () => {
-      expect(rgbColor).to.deep.equal({ r: utils.getColor(r), g: utils.getColor(g), b: utils.getColor(b), a: 1 });
+      expect(rgbColor).to.deep.equal({
+        r: utils.getColor(r),
+        g: utils.getColor(g),
+        b: utils.getColor(b),
+        a: 1
+      });
     });
     it('equals result rgba', () => {
-      expect(rgbaColor).to.deep.equal({ r: utils.getColor(r), g: utils.getColor(g), b: utils.getColor(b), a });
+      expect(rgbaColor).to.deep.equal({
+        r: utils.getColor(r),
+        g: utils.getColor(g),
+        b: utils.getColor(b),
+        a
+      });
     });
   });
 
@@ -74,22 +88,27 @@ describe('Utils functions', () => {
   });
 
   describe('fullColorHex', () => {
-    const shortHex = utils.fullColorHex(r, r, r);
-    const longHex = utils.fullColorHex(r, g, b);
+    const long = {
+      r: 0.925000011920929,
+      g: 0.925000011920929,
+      b: 0.925000011920929,
+      a: 1
+    }; // #ececec
+    const short = { r: 1, g: 1, b: 1, a: 1 }; // #fff
 
-    it('is string (shortHex)', () => {
-      expect(shortHex).to.be.a('string');
-    });
+    const shortRGBA = utils.rgbaGenObject(short.r, short.g, short.b, short.a);
+    const longRGBA = utils.rgbaGenObject(long.r, long.g, long.b, long.a);
+    const shortHex = utils.fullColorHex(shortRGBA.r, shortRGBA.g, shortRGBA.b);
+    const longHex = utils.fullColorHex(longRGBA.r, longRGBA.g, longRGBA.b);
+
     it('equals (shortHex)', () => {
-      const hexColor = `${utils.rgbToHex(r) + utils.rgbToHex(r) + utils.rgbToHex(r)}`.toLocaleLowerCase();
-      expect(shortHex).to.equal(`#${hexColor.slice(0, 3)}`);
+      expect(shortHex).to.be.a('string');
+      expect(shortHex).to.equal('#fff');
     });
-    it('is string (longHex)', () => {
-      expect(longHex).to.be.a('string');
-    });
+
     it('equals (longHex)', () => {
-      const hexColor = `${utils.rgbToHex(r) + utils.rgbToHex(g) + utils.rgbToHex(b)}`.toLocaleLowerCase();
-      expect(longHex).to.equal(`#${hexColor}`);
+      expect(longHex).to.be.a('string');
+      expect(longHex).to.equal('#ececec');
     });
   });
 
@@ -131,7 +150,7 @@ describe('Utils functions', () => {
   });
 
   describe('camelCase', () => {
-    const ccStr = utils.camelCase('sample string_to-parse')
+    const ccStr = utils.camelCase('sample string_to-parse');
 
     it('is string', () => {
       expect(ccStr).to.be.a('string');

@@ -27,15 +27,14 @@ describe('Figma connection', () => {
       .then(async response => {
         figmaJson = response;
         figmaTree = await figmaJson.document.children.filter(page => page.name === PAGE_NAME);
-        console.log(figmaTree);
       })
       .catch(error => {
-        console.log(error.message);
+        console.error(error.message);
       });
   });
 
   describe('Json fetching', () => {
-    it(`Project with ID ${`laOdxGSyWrN0Of2HpeOX7L`} exists`, async () => {
+    it(`Project with ID ${FILE_ID} exists`, async () => {
       expect(figmaJson.status).to.not.equal(403);
       expect(figmaJson.status).to.not.equal(404);
     });
