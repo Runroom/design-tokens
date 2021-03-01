@@ -159,4 +159,15 @@ describe('Utils functions', () => {
       expect(ccStr).to.equal(`sampleStringToParse`);
     });
   });
+
+  describe('snakeCase', () => {
+    const ccStr = utils.snakeCase('sample string_to-parse');
+
+    it('is string', () => {
+      expect(ccStr).to.be.a('string');
+    });
+    it('equals', () => {
+      expect(ccStr).to.equal(`sample_string_to_parse`);
+    });
+  });
 });

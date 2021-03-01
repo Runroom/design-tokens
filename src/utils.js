@@ -5,6 +5,12 @@ const camelCase = string => {
   return stringUpdate.charAt(0).toLowerCase() + stringUpdate.substring(1);
 };
 
+const snakeCase = string =>
+  string
+    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+    .map(ch => ch.toLowerCase())
+    .join('_');
+
 const trim = str => str.replace(/^\s+|\s+$/gm, '');
 
 const getColor = color => Math.round(color * 255);
@@ -67,5 +73,6 @@ module.exports = {
   rgbToHex,
   parseRgba,
   pixelate,
+  snakeCase,
   trim
 };

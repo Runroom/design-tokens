@@ -2,7 +2,7 @@ import { promises as fsp } from 'fs';
 import fetch from 'node-fetch';
 
 import { getColors, getSpacings, getTypography } from './decorators';
-import { camelCase, emojis } from './utils';
+import { snakeCase, emojis } from './utils';
 
 const filterArtboardElements = (artboardName, stylesArtboard) =>
   stylesArtboard
@@ -11,7 +11,7 @@ const filterArtboardElements = (artboardName, stylesArtboard) =>
 
 const generateTokens = (artboardName, stylesArtboard, decorator) => {
   const elements = filterArtboardElements(artboardName, stylesArtboard);
-  const elementName = camelCase(artboardName);
+  const elementName = snakeCase(artboardName);
   const tokens = {
     [elementName]: {}
   };

@@ -1,11 +1,11 @@
-import { camelCase, rgbaGenObject, fullColorHex, pixelate } from './utils';
+import { snakeCase, rgbaGenObject, fullColorHex, pixelate } from './utils';
 
 const _getBoundingWidth = element => {
-  let name = 'empty-name';
-  let value = 'empty-value';
+  let name = 'empty_name';
+  let value = 'empty_value';
 
   if (element && element.name) {
-    name = camelCase(element.name);
+    name = snakeCase(element.name);
     value = pixelate(element.absoluteBoundingBox.width);
   }
 
@@ -13,13 +13,13 @@ const _getBoundingWidth = element => {
 };
 
 const getColors = element => {
-  let name = 'empty-name';
-  let value = 'empty-value';
+  let name = 'empty_name';
+  let value = 'empty_value';
 
   if (element && element.name && element.children.length && element.children[0].fills.length) {
     const { r, g, b, a } = element.children[0].fills[0].color;
     const colorRGBA = rgbaGenObject(r, g, b, a);
-    name = camelCase(element.name);
+    name = snakeCase(element.name);
     value = fullColorHex(colorRGBA.r, colorRGBA.g, colorRGBA.b);
   }
 
@@ -29,8 +29,8 @@ const getColors = element => {
 };
 
 const getTypography = element => {
-  let name = 'empty-name';
-  let value = 'empty-value';
+  let name = 'empty_name';
+  let value = 'empty_value';
 
   if (element && element.name && element.children.length) {
     const {
@@ -41,7 +41,7 @@ const getTypography = element => {
       fontWeight
     } = element.children[0].style;
 
-    name = camelCase(element.name);
+    name = snakeCase(element.name);
     value = {
       fontFamily: { value: `'${fontFamily}'` },
       fontSize: { value: pixelate(fontSize) },
