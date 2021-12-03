@@ -1,4 +1,4 @@
-import { snakeCase, rgbaGenObject, fullColorHex, pixelate } from './utils';
+import { snakeCase, rgbaGenObject, fullColorHex, pixelate } from './utils.js';
 
 const _getBoundingWidth = element => {
   let name = 'empty_name';

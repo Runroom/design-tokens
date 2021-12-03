@@ -4,7 +4,7 @@
   "FIGMA_PAGE_NAME": "🔄 Design Tokens",
   "TOKENS_DIR": "figma-tokens",
   "source": ["figma-tokens/**/*.json"],
-  "pages": ["Colors", "Typography", "Spacings", "Breakpoints"],
+  "pages": ["Colors", "Typography", "Spacings"],
   "platforms": {
     "scss": {
       "transformGroup": "scss",

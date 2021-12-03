@@ -1,10 +1,7 @@
-'use strict';
-
-require = require('esm')(module /*, options */);
-const fetch = require('node-fetch');
-const expect = require('chai').expect;
-const parser = require('../src/figma-parser');
-const decorators = require('../src/decorators');
+import fetch from 'node-fetch';
+import { expect } from 'chai';
+import { filterArtboardElements, generateTokens } from '../src/figma-parser.js';
+import { getColors, getSpacings, getTypography } from '../src/decorators.js';
 
 const FILE_ID = 'laOdxGSyWrN0Of2HpeOX7L';
 const TOKEN = '44495-d07c957b-fe6b-49f6-9d4e-7a8c3156433c';
@@ -51,8 +48,8 @@ describe('Figma connection', () => {
       let color;
 
       before(() => {
-        colors = parser.filterArtboardElements('Colors', figmaTree[0].children);
-        tokens = parser.generateTokens('Colors', figmaTree[0].children, decorators.getColors);
+        colors = filterArtboardElements('Colors', figmaTree[0].children);
+        tokens = generateTokens('Colors', figmaTree[0].children, getColors);
         color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
       });
 
@@ -77,8 +74,8 @@ describe('Figma connection', () => {
       let spacing;
 
       before(() => {
-        spacings = parser.filterArtboardElements('Spacings', figmaTree[0].children);
-        tokens = parser.generateTokens('Spacings', figmaTree[0].children, decorators.getSpacings);
+        spacings = filterArtboardElements('Spacings', figmaTree[0].children);
+        tokens = generateTokens('Spacings', figmaTree[0].children, getSpacings);
         spacing = tokens['spacings'][Object.keys(tokens['spacings'])[0]].value;
       });
 
@@ -103,12 +100,8 @@ describe('Figma connection', () => {
       let text;
 
       before(() => {
-        typography = parser.filterArtboardElements('Typography', figmaTree[0].children);
-        tokens = parser.generateTokens(
-          'Typography',
-          figmaTree[0].children,
-          decorators.getTypography
-        );
+        typography = filterArtboardElements('Typography', figmaTree[0].children);
+        tokens = generateTokens('Typography', figmaTree[0].children, getTypography);
         text = tokens['typography'][Object.keys(tokens['typography'])[0]];
       });
 

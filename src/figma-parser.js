@@ -1,8 +1,8 @@
 import { promises as fsp } from 'fs';
 import fetch from 'node-fetch';
 
-import { getColors, getSpacings, getTypography } from './decorators';
-import { snakeCase, emojis } from './utils';
+import { getBreakpoints, getColors, getSpacings, getTypography } from './decorators.js';
+import { snakeCase, emojis } from './utils.js';
 
 const filterArtboardElements = (artboardName, stylesArtboard) =>
   stylesArtboard

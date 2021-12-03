@@ -62,7 +62,7 @@ const emojis = {
   warning: '⚠️'
 };
 
-module.exports = {
+export {
   camelCase,
   emojis,
   fullColorHex,

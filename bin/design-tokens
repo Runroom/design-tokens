@@ -1,7 +1,0 @@
-#!/usr/bin/env node
-
-require = require("esm")(module /*, options */);
-const parserRuntime = require('yargs-parser')(process.argv.slice(2));
-const designTokens = require('../index.js');
-
-designTokens(parserRuntime);

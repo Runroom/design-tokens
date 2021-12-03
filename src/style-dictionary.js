@@ -1,8 +1,10 @@
-function StyleDictionary(configFilePath) {
-  const StyleDictionary = require('style-dictionary').extend(configFilePath);
+import StyleDictionaryNode from 'style-dictionary';
+
+const StyleDictionary = configFilePath => {
+  const extendedDictionary = StyleDictionaryNode.extend(configFilePath);
 
   console.log(` Compiling styles...`);
-  StyleDictionary.buildAllPlatforms();
-}
+  extendedDictionary.buildAllPlatforms();
+};
 
-module.exports = StyleDictionary;
+export default StyleDictionary;

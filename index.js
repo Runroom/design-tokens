@@ -1,15 +1,17 @@
-require = require("esm")(module /*, options */);
-const path = require('path');
+import path from 'path';
 
-const figmaCli = require('./src/figma-cli.js');
-const styleDictionary = require('./src/style-dictionary.js');
-const CONFIG_FILE_DEFAULT = 'designtokens.config.json';
+import figmaCli from './src/figma-cli.js';
+import styleDictionary from './src/style-dictionary.js';
 
-const appDir = path.resolve(__dirname).split('/node_modules')[0];
+const APP_DIR = path.resolve().split('/node_modules')[0];
+const CONFIG_FILE_DEFAULT1 = 'designtokens.config.json';
+const CONFIG_FILE_DEFAULT2 = 'design-tokens.config.json';
 
-function designTokens(argv) {
+const designTokens = argv => {
   const command = argv._[0];
-  const configFile = `${appDir}/${argv['config-file'] || CONFIG_FILE_DEFAULT}`;
+  const configFile = `${APP_DIR}/${
+    argv['config-file'] || CONFIG_FILE_DEFAULT1 || CONFIG_FILE_DEFAULT2
+  }`;
 
   switch (command) {
     case 'figma':
@@ -24,6 +26,6 @@ function designTokens(argv) {
       });
       break;
   }
-}
+};
 
-module.exports = designTokens;
+export default designTokens;
