@@ -4,17 +4,6 @@
   "description": "Figma design tokens implementation for Runroom design archetype",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "test": "nyc mocha --bail --timeout 10000",
-    "codecov": "codecov",
-    "design-tokens": "node bin/design-tokens.js"
-  },
-  "engines": {
-    "node": ">= 14"
-  },
-  "bin": {
-    "design-tokens": "bin/design-tokens"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Runroom/design-tokens.git"
@@ -29,10 +18,20 @@
     "url": "https://github.com/Runroom/design-tokens/issues"
   },
   "homepage": "https://github.com/Runroom/design-tokens#readme",
+  "scripts": {
+    "test": "nyc mocha --bail --timeout 10000",
+    "codecov": "codecov",
+    "design-tokens": "node bin/design-tokens.js"
+  },
+  "engines": {
+    "node": ">= 14"
+  },
+  "bin": {
+    "design-tokens": "bin/design-tokens"
+  },
   "devDependencies": {
     "chai": "^4.3.4",
     "codecov": "^3.8.2",
-    "glob-all": "^3.2",
     "mocha": "^9.1.3",
     "nyc": "^15.1.0"
   },
