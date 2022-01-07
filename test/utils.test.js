@@ -3,6 +3,7 @@
 import { expect } from 'chai';
 import {
   camelCase,
+  formatNumber,
   fullColorHex,
   genShadow,
   getColor,
@@ -70,6 +71,15 @@ describe('Utils functions', () => {
         b: getColor(b),
         a
       });
+    });
+  });
+
+  describe('formatNumber', () => {
+    it('returns correct values', () => {
+      expect(formatNumber('10.50000')).to.equal(10.5);
+      expect(formatNumber('10.50001')).to.equal(10.50001);
+      expect(formatNumber(10.5)).to.equal(10.5);
+      expect(formatNumber(10.50001)).to.equal(10.50001);
     });
   });
 

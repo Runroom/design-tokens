@@ -1,7 +1,7 @@
 {
   "name": "@runroom/design-tokens",
   "version": "1.0.0",
-  "description": "Figma design tokens implementation for Runroom design archetype",
+  "description": "Figma design tokens",
   "main": "index.js",
   "type": "module",
   "repository": {
@@ -24,20 +24,20 @@
     "design-tokens": "node bin/design-tokens.js"
   },
   "engines": {
-    "node": ">= 14"
+    "node": ">= 17"
   },
   "bin": {
     "design-tokens": "bin/design-tokens"
+  },
+  "dependencies": {
+    "node-fetch": "^3.1.0",
+    "style-dictionary": "^3.1.1",
+    "yargs-parser": "^21.0.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
     "codecov": "^3.8.2",
     "mocha": "^9.1.3",
     "nyc": "^15.1.0"
-  },
-  "dependencies": {
-    "node-fetch": "^3.1.0",
-    "style-dictionary": "^3.0.3",
-    "yargs-parser": "^21.0.0"
   }
 }

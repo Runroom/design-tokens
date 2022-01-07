@@ -1,3 +1,5 @@
+import { promises as fsp } from 'fs';
+
 const camelCase = string => {
   const stringUpdate = string
     .toLowerCase()
@@ -10,6 +12,8 @@ const snakeCase = string =>
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
     .map(ch => ch.toLowerCase())
     .join('_');
+
+const formatNumber = n => parseFloat(parseFloat(n).toFixed(5));
 
 const trim = str => str.replace(/^\s+|\s+$/gm, '');
 
@@ -62,10 +66,65 @@ const emojis = {
   warning: '⚠️'
 };
 
+const filterArtboards = (artboardName, stylesArtboard) =>
+  stylesArtboard
+    .filter(item => item.name === artboardName)[0]
+    .children.filter(item => item.type === 'COMPONENT');
+
+const generateTokens = (artboardName, stylesArtboard, decorator) => {
+  const elements = filterArtboards(artboardName, stylesArtboard);
+  const elementName = snakeCase(artboardName);
+  const payload = {
+    [elementName]: {}
+  };
+
+  elements.map(element => {
+    const data = decorator(element);
+
+    if (data) {
+      Object.assign(payload[elementName], data);
+    }
+  });
+
+  return payload;
+};
+
+const generateCSSVariables = ({ colors }) => {
+  const tailwind = {};
+  let vars = '';
+  let hexVars = '';
+
+  Object.keys(colors).map(key => {
+    const { r, g, b } = colors[key].rgbColor;
+    const cssVarName = `--${colors[key].name}`;
+
+    vars = `${vars}${cssVarName}: ${r}, ${g}, ${b};`;
+    hexVars = `${hexVars}${cssVarName}: ${colors[key].hexColor};`;
+    tailwind[key] = `rgb(var(${cssVarName}))`;
+  });
+
+  return {
+    vars: `:root{${vars}}`,
+    hexVars: `:root{${hexVars}}`,
+    tailwind
+  };
+};
+
+const createFile = (name, payload, outDir, ext = 'json') =>
+  fsp.writeFile(`${outDir}/${name}.${ext}`, JSON.stringify(payload, null, 2), err => {
+    if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
+    console.log(` ${emojis[name]} ${name} tokens created!`);
+  });
+
 export {
   camelCase,
+  createFile,
   emojis,
+  filterArtboards,
+  formatNumber,
   fullColorHex,
+  generateCSSVariables,
+  generateTokens,
   genShadow,
   getColor,
   rgbaGen,

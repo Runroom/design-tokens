@@ -1,61 +1,62 @@
-import { snakeCase, rgbaGenObject, fullColorHex, pixelate } from './utils.js';
+import {
+  camelCase,
+  snakeCase,
+  rgbaGenObject,
+  fullColorHex,
+  pixelate,
+  formatNumber
+} from './utils.js';
 
 const _getBoundingWidth = element => {
-  let name = 'empty_name';
-  let value = 'empty_value';
-
   if (element && element.name) {
-    name = snakeCase(element.name);
-    value = pixelate(element.absoluteBoundingBox.width);
+    const name = snakeCase(element.name);
+    const value = pixelate(element.absoluteBoundingBox.width);
+
+    return { [name]: { value } };
   }
 
-  return { [name]: { value } };
+  return false;
 };
 
 const getColors = element => {
-  let name = 'empty_name';
-  let value = 'empty_value';
-
   if (element && element.name && element.children.length && element.children[0].fills.length) {
     const { r, g, b, a } = element.children[0].fills[0].color;
-    const colorRGBA = rgbaGenObject(r, g, b, a);
-    name = snakeCase(element.name);
-    value = fullColorHex(colorRGBA.r, colorRGBA.g, colorRGBA.b);
-  }
+    const name = camelCase(element.name);
+    const rgbColor = rgbaGenObject(r, g, b, a);
+    const hexColor = fullColorHex(rgbColor.r, rgbColor.g, rgbColor.b);
 
-  return {
-    [name]: { value }
-  };
-};
-
-const getTypography = element => {
-  let name = 'empty_name';
-  let value = 'empty_value';
-
-  if (element && element.name && element.children.length) {
-    const {
-      fontFamily,
-      fontSize,
-      letterSpacing,
-      lineHeightPx,
-      lineHeightPercentFontSize,
-      fontWeight
-    } = element.children[0].style;
-
-    name = snakeCase(element.name);
-    value = {
-      fontFamily: { value: `'${fontFamily}'` },
-      fontSize: { value: pixelate(fontSize) },
-      letterSpacing: { value: pixelate(letterSpacing) },
-      lineHeight: { value: pixelate(Math.floor(lineHeightPx)) },
-      lineHeightRelative: { value: Math.floor(lineHeightPercentFontSize) / 100 },
-      fontWeight: { value: fontWeight }
+    return {
+      [name]: {
+        name: element.name,
+        rgbColor,
+        hexColor
+      }
     };
   }
 
-  return {
-    [name]: value
-  };
+  return false;
+};
+
+const getTypography = element => {
+  if (element && element.name && element.children.length) {
+    const { fontFamily, fontSize, letterSpacing, lineHeightPercentFontSize, fontWeight } =
+      element.children[0].style;
+    const lineHeight = Math.floor(lineHeightPercentFontSize) / 100;
+    const letterSpacingRounded = Math.floor(letterSpacing);
+
+    return {
+      [camelCase(element.name)]: {
+        fontFamily,
+        fontSize: `${formatNumber(fontSize / 16)}rem`,
+        rawFontSize: formatNumber(fontSize),
+        fontWeight,
+        letterSpacing: letterSpacingRounded < 1 ? 0 : `${letterSpacingRounded}px`,
+        lineHeight
+      }
+    };
+  }
+
+  return false;
 };
 
 const getSpacings = _getBoundingWidth;

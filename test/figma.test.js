@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 import { expect } from 'chai';
-import { filterArtboardElements, generateTokens } from '../src/figma-parser.js';
+
 import { getColors, getSpacings, getTypography } from '../src/decorators.js';
+import { filterArtboards, generateTokens } from '../src/utils.js';
 
 const FILE_ID = 'laOdxGSyWrN0Of2HpeOX7L';
 const TOKEN = '44495-d07c957b-fe6b-49f6-9d4e-7a8c3156433c';
@@ -45,26 +46,33 @@ describe('Figma connection', () => {
     describe('Color parser', () => {
       let colors;
       let tokens;
-      let color;
+      let hexColor;
+      let rgbColor;
 
       before(() => {
-        colors = filterArtboardElements('Colors', figmaTree[0].children);
         tokens = generateTokens('Colors', figmaTree[0].children, getColors);
-        color = tokens['colors'][Object.keys(tokens['colors'])[0]].value;
+        colors = filterArtboards('Colors', figmaTree[0].children);
+        hexColor = tokens['colors'][Object.keys(tokens['colors'])[0]].hexColor;
+        rgbColor = tokens['colors'][Object.keys(tokens['colors'])[0]].rgbColor;
       });
 
       it('filtered artboard is array', () => {
         expect(colors).to.be.a('array');
       });
+
       it('tokens is object', () => {
         expect(tokens).to.be.a('object');
         expect(tokens['colors']).to.be.a('object');
+        expect(Object.keys(tokens['colors']).length).to.be.greaterThan(0);
       });
-      it('value is string', () => {
-        expect(color).to.be.a('string');
+
+      it('Hex value is valid', () => {
+        expect(hexColor).to.be.a('string');
+        expect(/#([0-9A-F]{3}|[0-9A-F]{6})/i.test(hexColor)).to.be.true;
       });
-      it('value is hexadecimal', () => {
-        expect(/#([0-9A-F]{3}|[0-9A-F]{6})/i.test(color)).to.be.true;
+
+      it('RGB value to e an object', () => {
+        expect(rgbColor).to.be.a('object');
       });
     });
 
@@ -74,8 +82,8 @@ describe('Figma connection', () => {
       let spacing;
 
       before(() => {
-        spacings = filterArtboardElements('Spacings', figmaTree[0].children);
         tokens = generateTokens('Spacings', figmaTree[0].children, getSpacings);
+        spacings = filterArtboards('Spacings', figmaTree[0].children);
         spacing = tokens['spacings'][Object.keys(tokens['spacings'])[0]].value;
       });
 
@@ -100,31 +108,35 @@ describe('Figma connection', () => {
       let text;
 
       before(() => {
-        typography = filterArtboardElements('Typography', figmaTree[0].children);
         tokens = generateTokens('Typography', figmaTree[0].children, getTypography);
+        typography = filterArtboards('Typography', figmaTree[0].children);
         text = tokens['typography'][Object.keys(tokens['typography'])[0]];
       });
 
       it('filtered artboard is array', () => {
         expect(typography).to.be.a('array');
       });
+
       it('tokens is object', () => {
         expect(tokens).to.be.a('object');
         expect(tokens['typography']).to.be.a('object');
       });
+
       it('has correct props', () => {
         expect(text.fontFamily).to.not.be.undefined;
         expect(text.fontSize).to.not.be.undefined;
-        expect(text.lineHeight).to.not.be.undefined;
-        expect(text.lineHeightRelative).to.not.be.undefined;
+        expect(text.rawFontSize).to.not.be.undefined;
         expect(text.fontWeight).to.not.be.undefined;
+        expect(text.letterSpacing).to.not.be.undefined;
+        expect(text.lineHeight).to.not.be.undefined;
       });
+
       it('props have valid types', () => {
-        expect(/([0-9]+)px/.test(text.fontSize.value)).to.be.true;
-        expect(/([0-9]+)px/.test(text.lineHeight.value)).to.be.true;
-        expect(/[1-9]{1}00/.test(text.fontWeight.value)).to.be.true;
-        expect(text.fontFamily.value).to.be.a('string');
-        expect(text.lineHeightRelative.value).to.be.a('number');
+        expect(text.fontFamily).to.be.a('string');
+        expect(text.fontSize).to.be.a('string');
+        expect(text.rawFontSize).to.be.a('number');
+        expect(text.fontWeight).to.be.a('number');
+        expect(text.lineHeight).to.be.a('number');
       });
     });
   });
