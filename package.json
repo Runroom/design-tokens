@@ -27,7 +27,7 @@
     "node": ">= 17"
   },
   "bin": {
-    "design-tokens": "bin/design-tokens"
+    "design-tokens": "bin/design-tokens.js"
   },
   "dependencies": {
     "node-fetch": "^3.1.0",
