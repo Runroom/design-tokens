@@ -1,6 +1,6 @@
 {
   "name": "@runroom/design-tokens",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Figma design tokens",
   "main": "index.js",
   "type": "module",
