@@ -1,10 +1,10 @@
-Design tokens
-=============
+# Design tokens
 
 [![npm version](https://img.shields.io/npm/v/@runroom/design-tokens.svg)](https://www.npmjs.com/package/@runroom/design-tokens)
 ![node](https://img.shields.io/node/v/@runroom/design-tokens.svg)
 
-![ci](https://github.com/Runroom/design-tokens/workflows/ci/badge.svg)
+[![CI](https://github.com/Runroom/design-tokens/actions/workflows/ci.yaml/badge.svg)](https://github.com/Runroom/design-tokens/actions/workflows/ci.yaml)
+[![QA](https://github.com/Runroom/design-tokens/actions/workflows/qa.yaml/badge.svg)](https://github.com/Runroom/design-tokens/actions/workflows/qa.yaml)
 [![codecov](https://codecov.io/gh/Runroom/design-tokens/branch/main/graph/badge.svg)](https://codecov.io/gh/Runroom/design-tokens)
 
 Originally inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
