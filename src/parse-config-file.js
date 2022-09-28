@@ -28,7 +28,8 @@ const parseConfigFile = argv => {
         }
 
         const settings = JSON.parse(data);
-        const { FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR } = settings;
+        const { FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME } = settings;
+        let { TOKENS_DIR } = settings;
 
         if (!FIGMA_APIKEY) {
           throw new Error(`\n\x1b[31m${emojis.error} No Figma API Key found\n`);
@@ -37,6 +38,7 @@ const parseConfigFile = argv => {
         } else if (!FIGMA_PAGE_NAME) {
           throw new Error(`\n\x1b[31m${emojis.error} No Figma Page Name found\n`);
         } else if (!TOKENS_DIR || TOKENS_DIR === '') {
+          // eslint-disable-next-line no-console
           console.warn(
             `${emojis.warning} No TOKENS_DIR found, default outdir is set to 'tokens'\n`
           );

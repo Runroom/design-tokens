@@ -39,9 +39,9 @@ const fullColorHex = (r, g, b) => {
 
   if (redReduced.length === 1 && greenReduced.length === 1 && blueReduced.length === 1) {
     return `#${redReduced + greenReduced + blueReduced}`.toLocaleLowerCase();
-  } else {
-    return `#${red + green + blue}`.toLocaleLowerCase();
   }
+
+  return `#${red + green + blue}`.toLocaleLowerCase();
 };
 
 const parseRgba = color => {
@@ -113,6 +113,7 @@ const generateCSSVariables = ({ colors }) => {
 const createFile = (name, payload, outDir, ext = 'json') =>
   fsp.writeFile(`${outDir}/${name}.${ext}`, JSON.stringify(payload, null, 2), err => {
     if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
+    // eslint-disable-next-line no-console
     console.log(` ${emojis[name]} ${name} tokens created!`);
   });
 

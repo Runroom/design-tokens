@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { expect } from 'chai';
+import { describe, before, it } from 'mocha';
 
 import { getColors, getSpacings, getTypography } from '../src/decorators.js';
 import { filterArtboards, generateTokens } from '../src/utils.js';
@@ -25,14 +26,11 @@ describe('Figma connection', () => {
       .then(async response => {
         figmaJson = response;
         figmaTree = await figmaJson.document.children.filter(page => page.name === PAGE_NAME);
-      })
-      .catch(error => {
-        console.error(error.message);
       });
   });
 
   describe('Json fetching', () => {
-    it(`Project with ID ${FILE_ID} exists`, async () => {
+    it(`Project with ID ${FILE_ID} exists`, () => {
       expect(figmaJson.status).to.not.equal(403);
       expect(figmaJson.status).to.not.equal(404);
     });
