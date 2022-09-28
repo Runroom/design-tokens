@@ -5,6 +5,7 @@
     "es6": true
   },
   "extends": ["eslint:recommended", "prettier"],
+  "parser": "@babel/eslint-parser",
   "rules": {
     "no-console": "warn",
     "no-param-reassign": "error",
@@ -26,5 +27,8 @@
     "prefer-template": "error",
     "require-await": "error",
     "semi": "error"
+  },
+  "parserOptions": {
+    "sourceType": "module"
   }
 }

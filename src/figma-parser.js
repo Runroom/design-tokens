@@ -5,6 +5,7 @@ import { createFile, emojis, generateCSSVariables, generateTokens } from './util
 
 const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, pages }) =>
   new Promise((resolve, reject) => {
+    // eslint-disable-next-line no-console
     console.log('\x1b[40m Connecting with Figma... \x1b[0m');
 
     const FETCH_URL = `https://api.figma.com/v1/files/${FIGMA_ID}`;
@@ -18,6 +19,7 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
     try {
       fetch(FETCH_URL, FETCH_DATA)
         .then(response => {
+          // eslint-disable-next-line no-console
           console.log(` Connection with Figma is successful ${emojis.success}!`);
           return response.json();
         })
@@ -29,6 +31,7 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
 
             if (figmaTree.length === 0)
               throw new Error(`There is no page called '${FIGMA_PAGE_NAME}'`);
+            // eslint-disable-next-line no-console
             console.log(` Parsing Figma tokens...`);
 
             const promises = [];

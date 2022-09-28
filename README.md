@@ -11,7 +11,7 @@ Originally inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
 
 ## Installation
 
-`npm install --dev @runroom/design-tokens`
+`npm install @runroom/design-tokens --save-dev`
 
 ## Usage
 

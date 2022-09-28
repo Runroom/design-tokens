@@ -8,4 +8,5 @@ const args = parserRuntime(process.argv.slice(2));
 
 parseConfigFile(args)
   .then(config => designTokens(args, config))
+  // eslint-disable-next-line no-console
   .catch(err => console.log(err));
