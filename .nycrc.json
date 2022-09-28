@@ -1,5 +1,6 @@
 {
   "all": true,
   "exclude": ["test"],
-  "include": ["bin/**/*", "src/**/*", "index.js"]
+  "include": ["bin/**/*", "src/**/*", "index.js"],
+  "reporter": ["html", "lcov", "text"]
 }

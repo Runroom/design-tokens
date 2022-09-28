@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/Runroom/design-tokens",
   "scripts": {
-    "test": "c8 mocha --bail --timeout 10000",
     "design-tokens": "node bin/design-tokens.js",
     "lint": "run-p lint:*",
     "lint:eslint": "eslint bin src test index.js",
     "lint:prettier": "prettier --check .github bin src test .eslintrc.json .prettierrc.json index.js package.json template.config.json",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "test": "c8 mocha --bail --timeout 10000"
   },
   "engines": {
     "node": ">= 16"
