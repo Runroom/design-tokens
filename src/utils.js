@@ -56,6 +56,8 @@ const genShadow = (color, offset, radius) => {
 
 const pixelate = value => `${Math.floor(value)}px`;
 
+const remify = value => `${formatNumber(value / 16)}rem`;
+
 const emojis = {
   color: '🎨',
   typography: '🖋 ',
@@ -133,6 +135,7 @@ export {
   rgbToHex,
   parseRgba,
   pixelate,
+  remify,
   snakeCase,
   trim
 };

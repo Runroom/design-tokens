@@ -4,6 +4,7 @@ import {
   rgbaGenObject,
   fullColorHex,
   pixelate,
+  remify,
   formatNumber
 } from './utils.js';
 
@@ -11,8 +12,14 @@ const _getBoundingWidth = element => {
   if (element && element.name) {
     const name = snakeCase(element.name);
     const value = pixelate(element.absoluteBoundingBox.width);
+    const remValue = remify(element.absoluteBoundingBox.width);
 
-    return { [name]: { value } };
+    return {
+      [name]: {
+        value,
+        remValue
+      }
+    };
   }
 
   return false;
@@ -47,7 +54,7 @@ const getTypography = element => {
     return {
       [camelCase(element.name)]: {
         fontFamily,
-        fontSize: `${formatNumber(fontSize / 16)}rem`,
+        fontSize: remify(fontSize),
         rawFontSize: formatNumber(fontSize),
         fontWeight,
         letterSpacing: letterSpacingRounded < 1 ? 0 : `${letterSpacingRounded}px`,
