@@ -76,6 +76,16 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
               );
             }
 
+            if (pages.includes('Radius')) {
+              promises.push(
+                createFile(
+                  'radius',
+                  generateTokens('Radius', figmaTree[0].children, getRadius),
+                  TOKENS_DIR
+                )
+              );
+            }
+
             Promise.all(promises)
               .then(() => {
                 resolve();
