@@ -3,7 +3,10 @@
   "FIGMA_ID": "",
   "FIGMA_PAGE_NAME": "Design Tokens",
   "TOKENS_DIR": "design-tokens",
-  "source": ["design-tokens/**/*.json"],
+  "pages": [],
+  "source": [
+    "design-tokens/**/*.json"
+  ],
   "platforms": {
     "scss": {
       "transformGroup": "scss",

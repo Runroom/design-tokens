@@ -22,6 +22,19 @@ Add a config file on the root directory of your project with the default name
 specify a different config file while executing. You can find a template for your config file
 [here](template.config.json)
 
+
+| Field  | Description |
+| ------------- | ------------- |
+| FIGMA_APIKEY | Yep... Figma API key  |
+| FIGMA_ID  | Your user ID, you can find it when sharing something. [More info here](https://iconify.design/docs/libraries/tools/import/figma/file-id.html) |
+| FIGMA_PAGE_NAME | The name of the page, be aware of spaces and everything (emojis)...  |
+| TOKENS_DIR | Where do you want to create the output files in your project.  |
+| pages | The FRAMES inside the page you want to take the tokens from.  |
+| source | ... IDK  |
+| platforms | The "platform" you will use this tokens. |
+
+<!-- TODO: I'd say this is outdated, check [Figma Tokens](https://github.com/klaufel/figma-tokens) -->
+
 ### Execution
 
 Then execute:
