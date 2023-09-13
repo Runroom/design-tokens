@@ -3,6 +3,7 @@ import {
   snakeCase,
   rgbaGenObject,
   fullColorHex,
+  fullColorHsl,
   pixelate,
   remify,
   formatNumber
@@ -31,12 +32,14 @@ const getColors = element => {
     const name = camelCase(element.name);
     const rgbColor = rgbaGenObject(r, g, b, a);
     const hexColor = fullColorHex(rgbColor.r, rgbColor.g, rgbColor.b);
+    const hslColor = fullColorHsl(rgbColor.r, rgbColor.g, rgbColor.b);
 
     return {
       [name]: {
         name: element.name,
         rgbColor,
-        hexColor
+        hexColor,
+        hslColor
       }
     };
   }

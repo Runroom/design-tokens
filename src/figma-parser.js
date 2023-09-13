@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { getBreakpoints, getColors, getSpacings, getTypography } from './decorators.js';
 import { createFile, emojis, generateCSSVariables, generateTokens } from './utils.js';
 
-const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, pages }) =>
+const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, pages, themes }) =>
   new Promise((resolve, reject) => {
     // eslint-disable-next-line no-console
     console.log('\x1b[40m Connecting with Figma... \x1b[0m');
@@ -38,7 +38,7 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
 
             if (pages.includes('Colors')) {
               const colorTokens = await generateTokens('Colors', figmaTree[0].children, getColors);
-              const { hexVars, vars, tailwind } = await generateCSSVariables(colorTokens);
+              const { hexVars, vars, tailwind } = await generateCSSVariables(colorTokens, themes);
 
               promises.push(createFile('colors', colorTokens, TOKENS_DIR));
               promises.push(createFile('rgb-color-vars', vars, TOKENS_DIR, 'css'));

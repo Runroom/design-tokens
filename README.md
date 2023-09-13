@@ -22,6 +22,17 @@ Add a config file on the root directory of your project with the default name
 specify a different config file while executing. You can find a template for your config file
 [here](template.config.json)
 
+Explanation of config file fields:
+
+`FIGMA_APIKEY`: Your figma unique Api key to perform the auth on figma's API
+`FIGMA_ID`: Your figma project ID (Can be found in your's project URL, after the figma.com/file/FIGMA_ID/..)
+`FIGMA_PAGE_NAME`: The name of your figma's page
+`TOKENS_DIR`: The source where will be stored the package's output
+`pages`: This is an array of the "Frames" that have the tokens attached (ex: "Colors", "Typography")
+`themes`: An array of your's figma project themes. If you aren't usign themes, just remove the key (first element of the array, will be setted as default)
+`source`: It is used by the platforms option to determine the json file
+`platforms`: You can set here your's platforms setting in case you are using it (design-tokens platforms).
+
 ### Execution
 
 Then execute:
