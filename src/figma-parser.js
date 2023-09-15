@@ -1,7 +1,13 @@
 import fetch from 'node-fetch';
 
 import { getBreakpoints, getColors, getSpacings, getTypography } from './decorators.js';
-import { createFile, emojis, generateCSSVariables, generateTokens } from './utils.js';
+import {
+  createFile,
+  emojis,
+  generateCSSVariables,
+  generateTypographyCss,
+  generateTokens
+} from './utils.js';
 
 const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, pages, themes }) =>
   new Promise((resolve, reject) => {
@@ -54,6 +60,28 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
                   TOKENS_DIR
                 )
               );
+
+              const cssProperties = [
+                'fontFamily',
+                'fontSize',
+                'fontWeight',
+                'letterSpacing',
+                'lineHeight'
+              ];
+
+              const typographyData = generateTokens(
+                'Typography',
+                figmaTree[0].children,
+                getTypography
+              );
+
+              if (Object.prototype.hasOwnProperty.call(typographyData, 'typography')) {
+                const typographyCss = generateTypographyCss(
+                  typographyData.typography,
+                  cssProperties
+                );
+                promises.push(createFile('typography-css', typographyCss, TOKENS_DIR, 'css'));
+              }
             }
 
             if (pages.includes('Spacings')) {

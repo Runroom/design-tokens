@@ -211,6 +211,64 @@ const generateCSSVariables = ({ colors }, themes) => {
   };
 };
 
+const hasDesktopAndMobileObjects = obj => {
+  let hasDesktop = false;
+  let hasMobile = false;
+
+  for (const key in obj) {
+    if (key.startsWith('desktop')) {
+      hasDesktop = true;
+    } else if (key.startsWith('mobile')) {
+      hasMobile = true;
+    }
+
+    if (hasDesktop && hasMobile) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+const generateTypographyCss = (typographyData, cssProperties) => {
+  let cssString = '';
+  let hasDesktopAndMobile = hasDesktopAndMobileObjects(typographyData);
+
+  for (const key in typographyData) {
+    if (hasDesktopAndMobile && key.startsWith('desktop')) {
+      break;
+    } else {
+      let className = key.replace(/^(mobile|desktop)/, '');
+      className = className.charAt(0).toLowerCase() + className.substring(1);
+
+      const classData = typographyData[key];
+
+      cssString += `.${className} {`;
+
+      for (const prop of cssProperties) {
+        cssString += `  ${prop}: ${classData[prop]};`;
+      }
+
+      const desktopKey = `desktop${key.slice('desktop'.length - 1)}`;
+      const desktopClassData = typographyData[desktopKey];
+
+      if (desktopClassData) {
+        cssString += `@media (min-width: 1200px) {`;
+
+        for (const prop of cssProperties) {
+          cssString += `  ${prop}: ${desktopClassData[prop]};`;
+        }
+
+        cssString += `}`;
+      }
+    }
+
+    cssString += `}`;
+  }
+
+  return cssString;
+};
+
 const createFile = (name, payload, outDir, ext = 'json') =>
   fsp.writeFile(
     `${outDir}/${name}.${ext}`,
@@ -231,6 +289,7 @@ export {
   fullColorHex,
   fullColorHsl,
   generateCSSVariables,
+  generateTypographyCss,
   generateTokens,
   genShadow,
   getColor,
