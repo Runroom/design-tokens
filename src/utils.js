@@ -253,17 +253,17 @@ const generateTypographyCss = (typographyData, cssProperties) => {
       const desktopClassData = typographyData[desktopKey];
 
       if (desktopClassData) {
-        cssString += `@media (min-width: 1200px) {`;
+        cssString += ` @media (min-width: 1200px) {`;
 
         for (const prop of cssProperties) {
           cssString += `  ${prop}: ${desktopClassData[prop]};`;
         }
 
-        cssString += `}`;
+        cssString += ` }`;
       }
     }
 
-    cssString += `}`;
+    cssString += ` }`;
   }
 
   return cssString;
@@ -300,5 +300,6 @@ export {
   pixelate,
   remify,
   snakeCase,
-  trim
+  trim,
+  hasDesktopAndMobileObjects
 };

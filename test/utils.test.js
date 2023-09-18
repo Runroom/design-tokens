@@ -16,7 +16,9 @@ import {
   parseRgba,
   pixelate,
   snakeCase,
-  trim
+  trim,
+  hasDesktopAndMobileObjects,
+  generateTypographyCss
 } from '../src/utils.js';
 
 describe('Utils functions', () => {
@@ -210,6 +212,59 @@ describe('Utils functions', () => {
     });
     it('equals', () => {
       expect(ccStr).to.equal(`sample_string_to_parse`);
+    });
+  });
+
+  describe('hasDesktopAndMobileObjects', () => {
+    it('should return true if both desktop and mobile objects are present', () => {
+      const testData = {
+        desktopFont: 'Arial',
+        mobileFont: 'Helvetica'
+      };
+      const result = hasDesktopAndMobileObjects(testData);
+      expect(result).to.be.true;
+    });
+
+    it('should return false if either desktop or mobile object is missing', () => {
+      const testData = {
+        desktopFont: 'Arial'
+      };
+      const result = hasDesktopAndMobileObjects(testData);
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('generateTypographyCss', () => {
+    it('should generate CSS for typography data', () => {
+      const typographyData = {
+        mobileHeading: {
+          fontSize: '16px',
+          fontWeight: 'bold'
+        }
+      };
+      const cssProperties = ['fontSize', 'fontWeight'];
+
+      const expectedCss = '.heading {  fontSize: 16px;  fontWeight: bold; }';
+
+      const generatedCss = generateTypographyCss(typographyData, cssProperties);
+      expect(generatedCss).to.equal(expectedCss);
+    });
+
+    it('should include desktop CSS when available', () => {
+      const typographyData = {
+        mobileHeading: {
+          fontSize: '16px'
+        },
+        desktopHeading: {
+          fontSize: '24px'
+        }
+      };
+      const cssProperties = ['fontSize'];
+
+      const expectedCss = `.heading {  fontSize: 16px; @media (min-width: 1200px) {  fontSize: 24px; } }`;
+
+      const generatedCss = generateTypographyCss(typographyData, cssProperties);
+      expect(generatedCss).to.equal(expectedCss);
     });
   });
 });
