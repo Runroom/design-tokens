@@ -44,11 +44,16 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
 
             if (pages.includes('Colors')) {
               const colorTokens = await generateTokens('Colors', figmaTree[0].children, getColors);
-              const { hexVars, vars, tailwind } = await generateCSSVariables(colorTokens, themes);
+              const { hexVars, vars, hslVars, tailwind } = await generateCSSVariables(
+                colorTokens,
+                themes
+              );
 
               promises.push(createFile('colors', colorTokens, TOKENS_DIR));
               promises.push(createFile('rgb-color-vars', vars, TOKENS_DIR, 'css'));
               promises.push(createFile('hex-color-vars', hexVars, TOKENS_DIR, 'css'));
+              promises.push(createFile('hsl-color-vars', hslVars, TOKENS_DIR, 'css'));
+
               promises.push(createFile('tailwind-color-vars', tailwind, TOKENS_DIR));
             }
 
