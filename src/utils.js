@@ -127,7 +127,7 @@ const generateTokens = (artboardName, stylesArtboard, decorator) => {
 };
 
 const createThemeRootString = (theme, vars, defaultTheme) =>
-  `:root[data-theme="${theme}"]{${vars} ${defaultTheme ? `color-scheme: ${theme};` : ''}}`;
+  `:root[data-theme='${theme}']{${vars} ${defaultTheme ? `color-scheme: ${theme};` : ''}}`;
 
 const generateCSSVariables = ({ colors }, themes) => {
   const tailwind = {};
