@@ -46,12 +46,14 @@ describe('Figma connection', () => {
       let tokens;
       let hexColor;
       let rgbColor;
+      let hslColor;
 
       before(() => {
         tokens = generateTokens('Colors', figmaTree[0].children, getColors);
         colors = filterArtboards('Colors', figmaTree[0].children);
         hexColor = tokens['colors'][Object.keys(tokens['colors'])[0]].hexColor;
         rgbColor = tokens['colors'][Object.keys(tokens['colors'])[0]].rgbColor;
+        hslColor = tokens['colors'][Object.keys(tokens['colors'])[0]].hslColor;
       });
 
       it('filtered artboard is array', () => {
@@ -71,6 +73,13 @@ describe('Figma connection', () => {
 
       it('RGB value to e an object', () => {
         expect(rgbColor).to.be.a('object');
+      });
+
+      it('HSL value to be an array of decimals', () => {
+        expect(hslColor).to.be.a('array');
+        expect(hslColor[0]).to.be.a('number');
+        expect(hslColor[1]).to.be.a('number');
+        expect(hslColor[2]).to.be.a('number');
       });
     });
 
