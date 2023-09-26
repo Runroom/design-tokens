@@ -1,5 +1,14 @@
 # @runroom/design-tokens
 
+## 2.3.0
+
+### Minor Changes
+
+- [#16](https://github.com/Runroom/design-tokens/pull/16)
+  [`ab3ecb5`](https://github.com/Runroom/design-tokens/commit/ab3ecb565d51a3a67556ab653ac66dbf0de831fb)
+  Thanks [@SpykeRel04D](https://github.com/SpykeRel04D)! - Add themes support, fix css export
+  (remove non-format string) and improve Readme
+
 ## 2.2.0
 
 ### Minor Changes
