@@ -44,6 +44,41 @@ const fullColorHex = (r, g, b) => {
   return `#${red + green + blue}`.toLocaleLowerCase();
 };
 
+const fullColorHsl = (r, g, b) => {
+  const red = r / 255;
+  const green = g / 255;
+  const blue = b / 255;
+
+  var max = Math.max(red, green, blue),
+    min = Math.min(red, green, blue);
+  var h,
+    s,
+    l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0;
+  } else {
+    var d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case red:
+        h = (green - blue) / d + (green < blue ? 6 : 0);
+        break;
+      case green:
+        h = (blue - red) / d + 2;
+        break;
+      case blue:
+        h = (red - green) / d + 4;
+        break;
+    }
+
+    h /= 6;
+  }
+
+  return [h, s, l];
+};
+
 const parseRgba = color => {
   const { r, g, b, a } = color;
   return `rgba(${r}, ${g}, ${b}, ${a})`;
@@ -91,33 +126,101 @@ const generateTokens = (artboardName, stylesArtboard, decorator) => {
   return payload;
 };
 
-const generateCSSVariables = ({ colors }) => {
+const createThemeRootString = (theme, vars, defaultTheme) =>
+  `:root[data-theme='${theme}']{${vars} ${defaultTheme ? `color-scheme: ${theme};` : ''}}`;
+
+const generateCSSVariables = ({ colors }, themes) => {
   const tailwind = {};
   let vars = '';
   let hexVars = '';
+  let hslVars = '';
+
+  const applyTheme =
+    themes && themes.length
+      ? themes.reduce((acc, theme) => {
+          return {
+            ...acc,
+            [theme]: {
+              vars: '',
+              hexVars: '',
+              hslVars: '',
+              tailwind: {}
+            }
+          };
+        }, {})
+      : {};
 
   Object.keys(colors).map(key => {
     const { r, g, b } = colors[key].rgbColor;
-    const cssVarName = `--${colors[key].name}`;
+    let cssVarName = `--${colors[key].name}`;
 
-    vars = `${vars}${cssVarName}: ${r}, ${g}, ${b};`;
-    hexVars = `${hexVars}${cssVarName}: ${colors[key].hexColor};`;
-    tailwind[key] = `rgb(var(${cssVarName}))`;
+    if (Object.keys(applyTheme).length) {
+      let cssVarNameTheme = cssVarName.split('-')[2];
+      if (themes.includes(cssVarNameTheme)) {
+        cssVarName = cssVarName.replace(`${cssVarNameTheme}-`, '');
+
+        applyTheme[
+          cssVarNameTheme
+        ].vars = `${applyTheme[cssVarNameTheme].vars}${cssVarName}: ${r}, ${g}, ${b};`;
+        applyTheme[
+          cssVarNameTheme
+        ].hexVars = `${applyTheme[cssVarNameTheme].hexVars}${cssVarName}: ${colors[key].hexColor};`;
+        applyTheme[
+          cssVarNameTheme
+        ].hslVars = `${applyTheme[cssVarNameTheme].hslVars}${cssVarName}: ${colors[key].hslColor};`;
+        applyTheme[cssVarNameTheme].tailwind[key] = `rgb(var(${cssVarName}))`;
+      }
+    } else {
+      vars = `${vars}${cssVarName}: ${r}, ${g}, ${b};`;
+      hexVars = `${hexVars}${cssVarName}: ${colors[key].hexColor};`;
+      hslVars = `${hslVars}${cssVarName}: ${colors[key].hslColor};`;
+      tailwind[key] = `rgb(var(${cssVarName}))`;
+    }
   });
+
+  if (Object.keys(applyTheme).length) {
+    return {
+      vars: Object.keys(applyTheme).reduce((acc, theme) => {
+        return `${acc}${createThemeRootString(theme, applyTheme[theme].vars, theme === themes[0])}`;
+      }, ''),
+      hexVars: Object.keys(applyTheme).reduce((acc, theme) => {
+        return `${acc}${createThemeRootString(
+          theme,
+          applyTheme[theme].hexVars,
+          theme === themes[0]
+        )}`;
+      }, ''),
+      hslVars: Object.keys(applyTheme).reduce((acc, theme) => {
+        return `${acc}${createThemeRootString(
+          theme,
+          applyTheme[theme].hslVars,
+          theme === themes[0]
+        )}`;
+      }, ''),
+      tailwind: Object.keys(applyTheme).reduce((acc, theme) => {
+        return { ...acc, [theme]: applyTheme[theme].tailwind };
+      }, {})
+    };
+  }
 
   return {
     vars: `:root{${vars}}`,
     hexVars: `:root{${hexVars}}`,
+    hslVars: `:root{${hslVars}}`,
     tailwind
   };
 };
 
 const createFile = (name, payload, outDir, ext = 'json') =>
-  fsp.writeFile(`${outDir}/${name}.${ext}`, JSON.stringify(payload, null, 2), err => {
-    if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
-    // eslint-disable-next-line no-console
-    console.log(` ${emojis[name]} ${name} tokens created!`);
-  });
+  fsp.writeFile(
+    `${outDir}/${name}.${ext}`,
+    JSON.stringify(payload, null, 2).replace(/^"(.+(?="$))"$/, '$1'),
+    err => {
+      if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
+      // eslint-disable-next-line no-console
+      console.log(` ${emojis[name]} ${name} tokens created!`);
+    }
+  );
 
 export {
   camelCase,
@@ -126,6 +229,7 @@ export {
   filterArtboards,
   formatNumber,
   fullColorHex,
+  fullColorHsl,
   generateCSSVariables,
   generateTokens,
   genShadow,

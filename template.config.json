@@ -3,6 +3,8 @@
   "FIGMA_ID": "",
   "FIGMA_PAGE_NAME": "Design Tokens",
   "TOKENS_DIR": "design-tokens",
+  "pages": ["Colors"],
+  "themes": ["light", "dark"],
   "source": ["design-tokens/**/*.json"],
   "platforms": {
     "scss": {

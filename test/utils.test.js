@@ -7,6 +7,7 @@ import {
   camelCase,
   formatNumber,
   fullColorHex,
+  fullColorHsl,
   genShadow,
   getColor,
   rgbaGen,
@@ -129,6 +130,27 @@ describe('Utils functions', () => {
     it('equals (longHex)', () => {
       expect(longHex).to.be.a('string');
       expect(longHex).to.equal('#ececec');
+    });
+  });
+
+  describe('fullColorHsl', () => {
+    const long = {
+      r: 0.925000011920929,
+      g: 0.925000011920929,
+      b: 0.925000011920929
+    }; // #ececec
+
+    const longHSL = fullColorHsl(long.r, long.g, long.b);
+
+    it('equals (longHSL)', () => {
+      expect(longHSL).to.be.a('array');
+      expect(longHSL[0]).to.be.a('number');
+      expect(longHSL[1]).to.be.a('number');
+      expect(longHSL[2]).to.be.a('number');
+    });
+
+    it('equals (longHSL)', () => {
+      expect(longHSL).to.deep.equal([0, 0, 0.003627451027140898]);
     });
   });
 
