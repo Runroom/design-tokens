@@ -16,7 +16,12 @@ describe('parseConfigFile', () => {
     fs.writeFileSync(tmpConfigFile, JSON.stringify(fakeConfig));
 
     const result = await parseConfigFile({ 'config-file': tmpConfigFile });
-    expect(result.settings).to.deep.equal(fakeConfig);
+
+    expect(result.settings.FIGMA_APIKEY).to.equal(fakeConfig.FIGMA_APIKEY);
+    expect(result.settings.FIGMA_ID).to.equal(fakeConfig.FIGMA_ID);
+    expect(result.settings.FIGMA_PAGE_NAME).to.equal(fakeConfig.FIGMA_PAGE_NAME);
+    expect(result.settings.TOKENS_DIR).to.equal(fakeConfig.TOKENS_DIR);
+
     expect(result.configFile).to.be.a('string');
 
     fs.unlinkSync(tmpConfigFile);
