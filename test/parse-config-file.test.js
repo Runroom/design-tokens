@@ -26,5 +26,6 @@ describe('parseConfigFile', () => {
     expect(result.configFile).to.be.a('string');
 
     fs.unlinkSync(tmpConfigFile);
+    fs.rmSync('fake_tokens_dir', { recursive: true, force: true });
   });
 });
