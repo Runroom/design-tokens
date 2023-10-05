@@ -1,7 +1,7 @@
-import parseTokens from './src/figma-parser.js';
-import styleDictionary from './src/style-dictionary.js';
+import parseTokens from '@/functions/figma-parser.ts';
+import styleDictionary from '@/functions/style-dictionary.ts';
 
-const designTokens = (args, config) => {
+const designTokens = (args: any, config: any) => {
   const command = args._[0];
   const { settings, configFile } = config;
 

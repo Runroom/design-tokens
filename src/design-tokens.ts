@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import parserRuntime from 'yargs-parser';
-import designTokens from '../index.js';
-import parseConfigFile from '../src/parse-config-file.js';
+import designTokens from '@/index.ts';
+import parseConfigFile from '@/functions/parse-config-file.ts';
 
 const args = parserRuntime(process.argv.slice(2));
 

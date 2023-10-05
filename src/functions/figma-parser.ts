@@ -1,10 +1,11 @@
 import fetch from 'node-fetch';
 
-import { getBreakpoints, getColors, getSpacings, getTypography } from './decorators.js';
-import { createFile, emojis, generateCSSVariables, generateTokens } from './utils.js';
+import { getBreakpoints, getColors, getSpacings, getTypography } from './decorators.ts';
+import { createFile, emojis, generateCSSVariables, generateTokens } from './utils.ts';
 
-const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, pages, themes }) =>
-  new Promise((resolve, reject) => {
+
+const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, pages, themes }: any) =>
+  new Promise((resolve: any, reject: any) => {
     // eslint-disable-next-line no-console
     console.log('\x1b[40m Connecting with Figma... \x1b[0m');
 
@@ -23,10 +24,10 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
           console.log(` Connection with Figma is successful ${emojis.success}!`);
           return response.json();
         })
-        .then(async styles => {
+        .then(async (styles: any) => {
           if (styles.status !== 403 && styles.status !== 404) {
             const figmaTree = styles.document.children.filter(
-              page => page.name === FIGMA_PAGE_NAME
+              (page: any) => page.name === FIGMA_PAGE_NAME
             );
 
             if (figmaTree.length === 0)

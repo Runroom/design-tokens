@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-import { emojis } from './utils.js';
+import { emojis } from './utils.ts';
 
-const parseConfigFile = argv => {
+const parseConfigFile = (argv: any) => {
   const APP_DIR = path.resolve().split('/node_modules')[0];
   const CONFIG_FILE_DEFAULT1 = 'designtokens.config.json';
   const CONFIG_FILE_DEFAULT2 = 'design-tokens.config.json';
@@ -13,7 +13,7 @@ const parseConfigFile = argv => {
   }`;
 
   return new Promise(resolve => {
-    fs.access(configFile, fs.F_OK, err => {
+    fs.access(configFile, (fs as any).F_OK, err => {
       if (err) {
         throw new Error(
           `\n\x1b[31m${emojis.error} Config file is not accessible. please check the users's permissions on the file.\n`
@@ -46,9 +46,7 @@ const parseConfigFile = argv => {
         }
 
         if (!fs.existsSync(TOKENS_DIR)) {
-          fs.mkdirSync(TOKENS_DIR, null, err => {
-            if (err) throw err;
-          });
+          fs.mkdirSync(TOKENS_DIR, null);
         }
 
         resolve({ settings, configFile });

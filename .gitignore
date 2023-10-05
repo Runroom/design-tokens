@@ -5,3 +5,4 @@ tokens*
 figma-tokens*
 designtokens.config.json
 coverage
+dist/

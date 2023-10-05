@@ -1,34 +1,53 @@
 {
-  "root": true,
-  "env": {
-    "node": true,
-    "es6": true
-  },
-  "extends": ["eslint:recommended", "prettier"],
-  "parser": "@babel/eslint-parser",
-  "rules": {
-    "no-console": "warn",
-    "no-param-reassign": "error",
-    "no-else-return": "error",
-    "no-return-assign": "error",
-    "no-template-curly-in-string": "error",
-    "no-extend-native": "error",
-    "no-multi-spaces": "error",
-    "no-new-func": "error",
-    "no-new-wrappers": "error",
-    "no-return-await": "error",
-    "no-self-compare": "error",
-    "no-useless-return": "error",
-    "no-undef-init": "error",
-    "no-duplicate-imports": "error",
-    "eqeqeq": "error",
-    "yoda": ["error", "never"],
-    "prefer-arrow-callback": "error",
-    "prefer-template": "error",
-    "require-await": "error",
-    "semi": "error"
-  },
-  "parserOptions": {
-    "sourceType": "module"
-  }
+    "env": {
+        "node": true,
+        "es6": true,
+        "jest": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "jest"],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "extends": ["eslint:recommended", "prettier", "plugin:jest/recommended"],
+    "rules": {
+        "no-console": "warn",
+        "no-debugger": "warn",
+        "no-unused-vars": "warn",
+        "no-param-reassign": "error",
+        "no-else-return": "error",
+        "no-return-assign": "error",
+        "no-template-curly-in-string": "error",
+        "no-extend-native": "error",
+        "no-multi-spaces": "error",
+        "no-new-func": "error",
+        "no-new-wrappers": "error",
+        "no-return-await": "error",
+        "no-self-compare": "error",
+        "no-useless-return": "error",
+        "no-undef-init": "error",
+        "no-duplicate-imports": "error",
+        "no-var": "error",
+        "eqeqeq": "error",
+        "yoda": ["error", "never"],
+        "prefer-arrow-callback": "error",
+        "prefer-const": "error",
+        "prefer-template": "error",
+        "require-await": "error",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "jest/prefer-called-with": "error",
+        "jest/prefer-strict-equal": "error",
+        "jest/no-test-return-statement": "error",
+        "jest/no-conditional-expect": "error",
+        "jest/no-identical-title": "error",
+        "jest/no-interpolation-in-snapshots": "error",
+        "jest/no-jasmine-globals": "error",
+        "jest/no-jest-import": "off",
+        "jest/no-mocks-import": "error",
+        "jest/valid-describe-callback": "error",
+        "jest/valid-expect": "error",
+        "jest/valid-expect-in-promise": "error",
+        "jest/valid-title": "warn"
+    }
 }

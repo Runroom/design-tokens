@@ -1,34 +1,34 @@
 import { promises as fsp } from 'fs';
 
-const camelCase = string => {
+const camelCase = (string: string) => {
   const stringUpdate = string
     .toLowerCase()
     .replace(/(?:(^.)|([-_\s]+.))/g, match => match.charAt(match.length - 1).toUpperCase());
   return stringUpdate.charAt(0).toLowerCase() + stringUpdate.substring(1);
 };
 
-const snakeCase = string =>
+const snakeCase = (string: any) =>
   string
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-    .map(ch => ch.toLowerCase())
+    .map((ch: string) => ch.toLowerCase())
     .join('_');
 
-const formatNumber = n => parseFloat(parseFloat(n).toFixed(5));
+const formatNumber = (n: any) => parseFloat(parseFloat(n).toFixed(5));
 
-const trim = str => str.replace(/^\s+|\s+$/gm, '');
+const trim = (str: string) => str.replace(/^\s+|\s+$/gm, '');
 
-const getColor = color => Math.round(color * 255);
+const getColor = (color: any) => Math.round(color * 255);
 
-const rgbaGen = (r, g, b, a = 1) => `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`;
+const rgbaGen = (r: number, g: number, b: number, a = 1) => `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`;
 
-const rgbaGenObject = (r, g, b, a = 1) => ({ r: getColor(r), g: getColor(g), b: getColor(b), a });
+const rgbaGenObject = (r: number, g: number, b: number, a = 1) => ({ r: getColor(r), g: getColor(g), b: getColor(b), a });
 
-const rgbToHex = c => {
+const rgbToHex = (c: any) => {
   const hex = Number(c).toString(16);
   return hex.length < 2 ? `0${hex}` : hex;
 };
 
-const fullColorHex = (r, g, b) => {
+const fullColorHex = (r: number, g: number, b: number) => {
   const red = rgbToHex(r);
   const green = rgbToHex(g);
   const blue = rgbToHex(b);
@@ -44,21 +44,20 @@ const fullColorHex = (r, g, b) => {
   return `#${red + green + blue}`.toLocaleLowerCase();
 };
 
-const fullColorHsl = (r, g, b) => {
+const fullColorHsl = (r: number, g: number, b: number) => {
   const red = r / 255;
   const green = g / 255;
   const blue = b / 255;
 
-  var max = Math.max(red, green, blue),
+  const max = Math.max(red, green, blue),
     min = Math.min(red, green, blue);
-  var h,
-    s,
-    l = (max + min) / 2;
+    let h, s;
+    const l = (max + min) / 2;
 
   if (max === min) {
     h = s = 0;
   } else {
-    var d = max - min;
+    const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
     switch (max) {
@@ -73,25 +72,29 @@ const fullColorHsl = (r, g, b) => {
         break;
     }
 
+    if (!h) {
+      return;
+    }
+
     h /= 6;
   }
 
   return [h, s, l];
 };
 
-const parseRgba = color => {
+const parseRgba = (color: any) => {
   const { r, g, b, a } = color;
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
 
-const genShadow = (color, offset, radius) => {
+const genShadow = (color: any, offset: any, radius: any) => {
   const { x, y } = offset;
   return `${x}px ${y}px ${radius}px ${parseRgba(color)}`;
 };
 
-const pixelate = value => `${Math.floor(value)}px`;
+const pixelate = (value: any) => `${Math.floor(value)}px`;
 
-const remify = value => `${formatNumber(value / 16)}rem`;
+const remify = (value: any) => `${formatNumber(value / 16)}rem`;
 
 const emojis = {
   color: '🎨',
@@ -103,19 +106,19 @@ const emojis = {
   warning: '⚠️'
 };
 
-const filterArtboards = (artboardName, stylesArtboard) =>
+const filterArtboards = (artboardName: any, stylesArtboard: any) =>
   stylesArtboard
-    .filter(item => item.name === artboardName)[0]
-    .children.filter(item => item.type === 'COMPONENT');
+    .filter((item: any) => item.name === artboardName)[0]
+    .children.filter((item: any) => item.type === 'COMPONENT');
 
-const generateTokens = (artboardName, stylesArtboard, decorator) => {
+const generateTokens = (artboardName: any, stylesArtboard: any, decorator: any) => {
   const elements = filterArtboards(artboardName, stylesArtboard);
   const elementName = snakeCase(artboardName);
   const payload = {
     [elementName]: {}
   };
 
-  elements.map(element => {
+  elements.map((element: any) => {
     const data = decorator(element);
 
     if (data) {
@@ -126,10 +129,10 @@ const generateTokens = (artboardName, stylesArtboard, decorator) => {
   return payload;
 };
 
-const createThemeRootString = (theme, vars, defaultTheme) =>
+const createThemeRootString = (theme: any, vars: any, defaultTheme: any) =>
   `:root[data-theme='${theme}']{${vars} ${defaultTheme ? `color-scheme: ${theme};` : ''}}`;
 
-const generateCSSVariables = ({ colors }, themes) => {
+const generateCSSVariables = ({ colors }: any, themes: any) => {
   const tailwind = {};
   let vars = '';
   let hexVars = '';
@@ -137,7 +140,7 @@ const generateCSSVariables = ({ colors }, themes) => {
 
   const applyTheme =
     themes && themes.length
-      ? themes.reduce((acc, theme) => {
+      ? themes.reduce((acc: any, theme: any) => {
           return {
             ...acc,
             [theme]: {
@@ -155,7 +158,7 @@ const generateCSSVariables = ({ colors }, themes) => {
     let cssVarName = `--${colors[key].name}`;
 
     if (Object.keys(applyTheme).length) {
-      let cssVarNameTheme = cssVarName.split('-')[2];
+      const cssVarNameTheme = cssVarName.split('-')[2];
       if (themes.includes(cssVarNameTheme)) {
         cssVarName = cssVarName.replace(`${cssVarNameTheme}-`, '');
 
@@ -174,7 +177,7 @@ const generateCSSVariables = ({ colors }, themes) => {
       vars = `${vars}${cssVarName}: ${r}, ${g}, ${b};`;
       hexVars = `${hexVars}${cssVarName}: ${colors[key].hexColor};`;
       hslVars = `${hslVars}${cssVarName}: ${colors[key].hslColor};`;
-      tailwind[key] = `rgb(var(${cssVarName}))`;
+      (tailwind as any)[key] = `rgb(var(${cssVarName}))`;
     }
   });
 
@@ -211,15 +214,10 @@ const generateCSSVariables = ({ colors }, themes) => {
   };
 };
 
-const createFile = (name, payload, outDir, ext = 'json') =>
+const createFile = (name: string, payload: any, outDir: string, ext = 'json') =>
   fsp.writeFile(
     `${outDir}/${name}.${ext}`,
-    JSON.stringify(payload, null, 2).replace(/^"(.+(?="$))"$/, '$1'),
-    err => {
-      if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
-      // eslint-disable-next-line no-console
-      console.log(` ${emojis[name]} ${name} tokens created!`);
-    }
+    JSON.stringify(payload, null, 2).replace(/^"(.+(?="$))"$/, '$1')
   );
 
 export {

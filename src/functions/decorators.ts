@@ -7,9 +7,9 @@ import {
   pixelate,
   remify,
   formatNumber
-} from './utils.js';
+} from './utils.ts';
 
-const _getBoundingWidth = element => {
+const _getBoundingWidth = (element: any) => {
   if (element && element.name) {
     const name = snakeCase(element.name);
     const value = pixelate(element.absoluteBoundingBox.width);
@@ -26,7 +26,7 @@ const _getBoundingWidth = element => {
   return false;
 };
 
-const getColors = element => {
+const getColors = (element: any) => {
   if (element && element.name && element.children.length && element.children[0].fills.length) {
     const { r, g, b, a } = element.children[0].fills[0].color;
     const name = camelCase(element.name);
@@ -47,7 +47,7 @@ const getColors = element => {
   return false;
 };
 
-const getTypography = element => {
+const getTypography = (element: any) => {
   if (element && element.name && element.children.length) {
     const { fontFamily, fontSize, letterSpacing, lineHeightPercentFontSize, fontWeight } =
       element.children[0].style;
