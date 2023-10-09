@@ -3,9 +3,10 @@ import fetchMock from './mocks/fetchMock';
 import { getColors, getSpacings, getTypography } from '../src/functions/decorators.ts';
 import { filterArtBoards, generateTokens } from '../src/functions/utils.ts';
 
-const FILE_ID = 'laOdxGSyWrN0Of2HpeOX7L';
-const TOKEN = '44495-d07c957b-fe6b-49f6-9d4e-7a8c3156433c';
+const FILE_ID = 'file-id';
+const TOKEN = 'api-token-fake';
 const FETCH_URL = `https://api.figma.com/v1/files/${FILE_ID}`;
+
 const FETCH_DATA = {
   method: 'GET',
   headers: {

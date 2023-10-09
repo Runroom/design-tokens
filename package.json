@@ -21,7 +21,8 @@
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
-        "dist"
+        "dist",
+        "src"
     ],
     "bin": {
         "design-tokens": "dist/bin/index.js"
@@ -37,7 +38,8 @@
         "fix:eslint": "eslint --fix src/**/*.ts tests/**/*.ts tsup.config.ts",
         "fix:prettier": "prettier --write src/**/*.ts tests/**/*.ts .github .eslintrc.json .prettierrc.json package.json template.config.json tsup.config.ts tsconfig.json",
         "release": "changeset publish",
-        "test": "jest"
+        "test": "jest",
+        "test:ci": "jest --ci --coverage"
     },
     "engines": {
         "node": ">= 16"
