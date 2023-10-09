@@ -1,8 +1,6 @@
 import { promises as fsp } from 'fs';
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
 import { ColorJson, RgbColor, TailwindColors } from '@/types/Color.ts';
-import { SpacingJson } from '@/types/Spacing.ts';
-import { TypographyJson } from '@/types/Typography.ts';
 import { GenerateTokens, Token } from '@/types/Token.ts';
 
 type Offset = {
