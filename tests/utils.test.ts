@@ -23,7 +23,7 @@ describe('Utils functions', () => {
 
   describe('getColor', () => {
     it('is number', () => {
-      expect(typeof getColor(c)).toBe('number')
+      expect(typeof getColor(c)).toBe('number');
     });
 
     it('equals result', () => {
@@ -215,4 +215,3 @@ describe('Utils functions', () => {
     });
   });
 });
-

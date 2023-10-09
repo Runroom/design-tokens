@@ -1,11 +1,22 @@
 import fetch from 'node-fetch';
 
 import { getBreakpoints, getColors, getSpacings, getTypography } from './decorators.ts';
-import { createFile, emojis, generateCSSVariables, generateTokens } from './utils.ts';
+import { createFile, EMOJIS, generateCSSVariables, generateTokens } from './utils.ts';
+import { FigmaResponse } from '@/types/figma';
+import { ColorJson } from '@/types/Color.ts';
+import { TypographyJson } from '@/types/Typography.ts';
+import { SpacingJson } from '@/types/Spacing.ts';
+import { Config } from '@/types/Config.ts';
 
-
-const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, pages, themes }: any) =>
-  new Promise((resolve: any, reject: any) => {
+const parseTokens = ({
+  FIGMA_APIKEY,
+  FIGMA_ID,
+  FIGMA_PAGE_NAME,
+  TOKENS_DIR,
+  pages,
+  themes
+}: Config) =>
+  new Promise((resolve, reject) => {
     // eslint-disable-next-line no-console
     console.log('\x1b[40m Connecting with Figma... \x1b[0m');
 
@@ -21,26 +32,43 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
       fetch(FETCH_URL, FETCH_DATA)
         .then(response => {
           // eslint-disable-next-line no-console
-          console.log(` Connection with Figma is successful ${emojis.success}!`);
+          console.log(` Connection with Figma is successful ${EMOJIS.success}!`);
           return response.json();
         })
-        .then(async (styles: any) => {
-          if (styles.status !== 403 && styles.status !== 404) {
-            const figmaTree = styles.document.children.filter(
-              (page: any) => page.name === FIGMA_PAGE_NAME
+        .then((response: unknown) => {
+          if (!response) {
+            throw new Error(`\x1b[31m\n\n${EMOJIS.error} No styles found\n`);
+          }
+          const figmaResponse = response as FigmaResponse;
+
+          if (figmaResponse.status !== 403 && figmaResponse.status !== 404) {
+            const figmaTree = figmaResponse.document.children.filter(
+              page => page.name === FIGMA_PAGE_NAME
             );
 
-            if (figmaTree.length === 0)
+            if (figmaTree.length === 0) {
               throw new Error(`There is no page called '${FIGMA_PAGE_NAME}'`);
+            }
             // eslint-disable-next-line no-console
             console.log(` Parsing Figma tokens...`);
 
             const promises = [];
+            const figmaDesignTokensPage = figmaTree[0];
+
+            if (!figmaDesignTokensPage.children || figmaDesignTokensPage.children.length === 0) {
+              return;
+            }
+
+            const figmaDesignTokensFrames = figmaDesignTokensPage.children;
 
             if (pages.includes('Colors')) {
-              const colorTokens = await generateTokens('Colors', figmaTree[0].children, getColors);
+              const colorTokens: ColorJson = generateTokens(
+                'Colors',
+                figmaDesignTokensFrames,
+                getColors
+              );
 
-              const { hexVars, vars, hslVars, tailwind } = await generateCSSVariables(
+              const { hexVars, vars, hslVars, tailwind } = generateCSSVariables(
                 colorTokens,
                 themes
               );
@@ -53,30 +81,30 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
             }
 
             if (pages.includes('Typography')) {
-              promises.push(
-                createFile(
-                  'typography',
-                  generateTokens('Typography', figmaTree[0].children, getTypography),
-                  TOKENS_DIR
-                )
+              const typographyTokens: TypographyJson = generateTokens(
+                'Typography',
+                figmaDesignTokensFrames,
+                getTypography
               );
+
+              promises.push(createFile('typography', typographyTokens, TOKENS_DIR));
             }
 
             if (pages.includes('Spacings')) {
-              promises.push(
-                createFile(
-                  'spacings',
-                  generateTokens('Spacings', figmaTree[0].children, getSpacings),
-                  TOKENS_DIR
-                )
+              const spacingsTokens: SpacingJson = generateTokens(
+                'Spacings',
+                figmaDesignTokensFrames,
+                getSpacings
               );
+
+              promises.push(createFile('spacings', spacingsTokens, TOKENS_DIR));
             }
 
             if (pages.includes('Breakpoints')) {
               promises.push(
                 createFile(
                   'breakpoints',
-                  generateTokens('Breakpoints', figmaTree[0].children, getBreakpoints),
+                  generateTokens('Breakpoints', figmaDesignTokensFrames, getBreakpoints),
                   TOKENS_DIR
                 )
               );
@@ -84,19 +112,19 @@ const parseTokens = ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME, TOKENS_DIR, page
 
             Promise.all(promises)
               .then(() => {
-                resolve();
+                resolve(null);
               })
               .catch(err => {
                 reject();
-                throw new Error(`\x1b[31m\n\n${emojis.error} ${err}\n`);
+                throw new Error(`\x1b[31m\n\n${EMOJIS.error} ${err}\n`);
               });
           }
         })
         .catch(err => {
-          throw new Error(`\x1b[31m\n\n${emojis.error} ${err}\n`);
+          throw new Error(`\x1b[31m\n\n${EMOJIS.error} ${err}\n`);
         });
     } catch (err) {
-      throw new Error(`\x1b[31m\n\n${emojis.error} ${err}\n`);
+      throw new Error(`\x1b[31m\n\n${EMOJIS.error} ${err}\n`);
     }
   });
 

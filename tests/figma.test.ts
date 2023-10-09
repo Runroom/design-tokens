@@ -1,7 +1,7 @@
 import fetchMock from './mocks/fetchMock';
 
 import { getColors, getSpacings, getTypography } from '../src/functions/decorators.ts';
-import { filterArtboards, generateTokens } from '../src/functions/utils.ts';
+import { filterArtBoards, generateTokens } from '../src/functions/utils.ts';
 
 const FILE_ID = 'laOdxGSyWrN0Of2HpeOX7L';
 const TOKEN = '44495-d07c957b-fe6b-49f6-9d4e-7a8c3156433c';
@@ -19,11 +19,10 @@ describe('Figma connection', () => {
   let figmaTree: any;
 
   beforeAll(async () => {
-    await fetchMock(FETCH_URL, FETCH_DATA)
-      .then(response => {
-        figmaJson = response;
-        figmaTree = response.json()
-      })
+    await fetchMock(FETCH_URL, FETCH_DATA).then(response => {
+      figmaJson = response;
+      figmaTree = response.json();
+    });
   });
 
   describe('Json fetching', () => {
@@ -47,7 +46,7 @@ describe('Figma connection', () => {
 
       beforeAll(() => {
         tokens = generateTokens('Colors', figmaTree[0].children, getColors);
-        colors = filterArtboards('Colors', figmaTree[0].children);
+        colors = filterArtBoards('Colors', figmaTree[0].children);
         hexColor = tokens['colors'][Object.keys(tokens['colors'])[0]].hexColor;
         rgbColor = tokens['colors'][Object.keys(tokens['colors'])[0]].rgbColor;
         hslColor = tokens['colors'][Object.keys(tokens['colors'])[0]].hslColor;
@@ -87,7 +86,7 @@ describe('Figma connection', () => {
 
       beforeAll(() => {
         tokens = generateTokens('Spacings', figmaTree[0].children, getSpacings);
-        spacings = filterArtboards('Spacings', figmaTree[0].children);
+        spacings = filterArtBoards('Spacings', figmaTree[0].children);
         spacing = tokens['spacings'][Object.keys(tokens['spacings'])[0]].value;
       });
 
@@ -114,7 +113,7 @@ describe('Figma connection', () => {
 
     beforeAll(() => {
       tokens = generateTokens('Typography', figmaTree[0].children, getTypography);
-      typography = filterArtboards('Typography', figmaTree[0].children);
+      typography = filterArtBoards('Typography', figmaTree[0].children);
       text = tokens['typography'][Object.keys(tokens['typography'])[0]];
     });
 

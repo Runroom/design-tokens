@@ -12,6 +12,7 @@ const mockResponse = () => {
 
 jest.mock('node-fetch', () => {
   return async (url: string, options: any) => {
+    // eslint-disable-next-line
     const response = await fetchMock(url, options);
     return mockResponse();
   };

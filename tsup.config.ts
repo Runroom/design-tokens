@@ -1,9 +1,8 @@
 import { defineConfig } from 'tsup';
 
-
-export default defineConfig((options) => {
+export default defineConfig(options => {
   return {
-    minify: !options.watch,
+    minify: !options.sourcemap,
     entry: {
       'index': 'src/index.ts',
       'bin/index': 'src/design-tokens.ts'
@@ -11,7 +10,7 @@ export default defineConfig((options) => {
     format: ['esm'],
     dts: true,
     splitting: false,
-    sourcemap: !!options.watch,
+    sourcemap: !!options.sourcemap,
     clean: true
-  }
+  };
 });
