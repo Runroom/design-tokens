@@ -6,7 +6,7 @@ const config = {
   preset: 'ts-jest',
   testMatch: ['<rootDir>/**/tests/**/*.test.{js,ts}'],
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.{ts,js}']
+  collectCoverageFrom: ['src/functions/**/*.{ts,js}']
 };
 
 export default config;
