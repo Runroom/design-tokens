@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.4.1
+
+### Patch Changes
+
+- [#22](https://github.com/Runroom/design-tokens/pull/22)
+  [`9354567`](https://github.com/Runroom/design-tokens/commit/93545677d1392085bfac224b8364772465f216da)
+  Thanks [@izm20](https://github.com/izm20)! - Fix CI/CD
+
 ## 2.4.0
 
 ### Minor Changes
