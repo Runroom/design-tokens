@@ -1,34 +1,64 @@
 import { promises as fsp } from 'fs';
+import { FigmaComponent, FigmaFrame } from '@/types/figma';
+import { ColorJson, RgbColor, TailwindColors } from '@/types/Color.ts';
+import { GenerateTokens, Token } from '@/types/Token.ts';
 
-const camelCase = string => {
+type Offset = {
+  x: number;
+  y: number;
+};
+
+const EMOJIS = {
+  color: '🎨',
+  typography: '🖋 ',
+  spacing: '📐',
+  breakpoint: '🍪',
+  success: '✅',
+  error: '❌',
+  warning: '⚠️'
+};
+
+const camelCase = (string: string) => {
   const stringUpdate = string
     .toLowerCase()
     .replace(/(?:(^.)|([-_\s]+.))/g, match => match.charAt(match.length - 1).toUpperCase());
   return stringUpdate.charAt(0).toLowerCase() + stringUpdate.substring(1);
 };
 
-const snakeCase = string =>
-  string
-    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-    .map(ch => ch.toLowerCase())
-    .join('_');
+const snakeCase = (string: string) => {
+  const matches = string.match(
+    /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+  );
 
-const formatNumber = n => parseFloat(parseFloat(n).toFixed(5));
+  if (!matches) {
+    return string;
+  }
 
-const trim = str => str.replace(/^\s+|\s+$/gm, '');
+  return matches.map((ch: string) => ch.toLowerCase()).join('_');
+};
 
-const getColor = color => Math.round(color * 255);
+const formatNumber = (n: string | number) => parseFloat(parseFloat(String(n)).toFixed(5));
 
-const rgbaGen = (r, g, b, a = 1) => `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`;
+const trim = (string: string) => string.replace(/^\s+|\s+$/gm, '');
 
-const rgbaGenObject = (r, g, b, a = 1) => ({ r: getColor(r), g: getColor(g), b: getColor(b), a });
+const getColor = (color: number) => Math.round(color * 255);
 
-const rgbToHex = c => {
+const rgbaGen = (r: number, g: number, b: number, a = 1) =>
+  `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`;
+
+const rgbaGenObject = (r: number, g: number, b: number, a = 1) => ({
+  r: getColor(r),
+  g: getColor(g),
+  b: getColor(b),
+  a
+});
+
+const rgbToHex = (c: number) => {
   const hex = Number(c).toString(16);
   return hex.length < 2 ? `0${hex}` : hex;
 };
 
-const fullColorHex = (r, g, b) => {
+const fullColorHex = (r: number, g: number, b: number) => {
   const red = rgbToHex(r);
   const green = rgbToHex(g);
   const blue = rgbToHex(b);
@@ -44,21 +74,20 @@ const fullColorHex = (r, g, b) => {
   return `#${red + green + blue}`.toLocaleLowerCase();
 };
 
-const fullColorHsl = (r, g, b) => {
+const fullColorHsl = (r: number, g: number, b: number) => {
   const red = r / 255;
   const green = g / 255;
   const blue = b / 255;
 
-  var max = Math.max(red, green, blue),
+  const max = Math.max(red, green, blue),
     min = Math.min(red, green, blue);
-  var h,
-    s,
-    l = (max + min) / 2;
+  let h, s;
+  const l = (max + min) / 2;
 
   if (max === min) {
     h = s = 0;
   } else {
-    var d = max - min;
+    const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
     switch (max) {
@@ -73,78 +102,101 @@ const fullColorHsl = (r, g, b) => {
         break;
     }
 
+    if (!h) {
+      return;
+    }
+
     h /= 6;
   }
 
   return [h, s, l];
 };
 
-const parseRgba = color => {
+const parseRgba = (color: RgbColor) => {
   const { r, g, b, a } = color;
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
 
-const genShadow = (color, offset, radius) => {
+const genShadow = (color: RgbColor, offset: Offset, radius: number) => {
   const { x, y } = offset;
   return `${x}px ${y}px ${radius}px ${parseRgba(color)}`;
 };
 
-const pixelate = value => `${Math.floor(value)}px`;
+const pixelate = (value: number) => `${Math.floor(value)}px`;
 
-const remify = value => `${formatNumber(value / 16)}rem`;
+const remify = (value: number) => `${formatNumber(value / 16)}rem`;
 
-const emojis = {
-  color: '🎨',
-  typography: '🖋 ',
-  spacing: '📐',
-  breakpoint: '🍪',
-  success: '✅',
-  error: '❌',
-  warning: '⚠️'
+const filterArtBoards = <T extends FigmaComponent>(
+  artBoardName: string,
+  stylesArtBoard: FigmaFrame[]
+): T[] => {
+  const artBoard = stylesArtBoard.filter(item => item.name === artBoardName)[0];
+
+  if (!artBoard.children) {
+    return [];
+  }
+
+  const components = artBoard.children as T[];
+
+  return components.filter(item => item.type === 'COMPONENT');
 };
 
-const filterArtboards = (artboardName, stylesArtboard) =>
-  stylesArtboard
-    .filter(item => item.name === artboardName)[0]
-    .children.filter(item => item.type === 'COMPONENT');
+const initPayload = <P extends GenerateTokens>(componentsIndex: string): P => {
+  const payload: P = {} as P;
+  Object.assign(payload, { [componentsIndex]: {} });
+  return payload;
+};
 
-const generateTokens = (artboardName, stylesArtboard, decorator) => {
-  const elements = filterArtboards(artboardName, stylesArtboard);
-  const elementName = snakeCase(artboardName);
-  const payload = {
-    [elementName]: {}
-  };
+const generateTokens = <T extends FigmaComponent, P extends GenerateTokens, K extends Token>(
+  artBoardName: string,
+  stylesArtBoard: FigmaFrame[],
+  decorator: (component: T) => K | false
+): P => {
+  const components = filterArtBoards<T>(artBoardName, stylesArtBoard);
+  const componentsIndex = snakeCase(artBoardName);
+  const payload = initPayload<P>(componentsIndex);
 
-  elements.map(element => {
-    const data = decorator(element);
+  components.map(component => {
+    const data = decorator(component);
 
     if (data) {
-      Object.assign(payload[elementName], data);
+      Object.assign(payload[componentsIndex], data);
     }
   });
 
   return payload;
 };
 
-const createThemeRootString = (theme, vars, defaultTheme) =>
+const createThemeRootString = (theme: string, vars: string, defaultTheme: boolean) =>
   `:root[data-theme='${theme}']{${vars} ${defaultTheme ? `color-scheme: ${theme};` : ''}}`;
 
-const generateCSSVariables = ({ colors }, themes) => {
-  const tailwind = {};
+type Theme = {
+  vars: string;
+  hexVars: string;
+  hslVars: string;
+  tailwind: TailwindColors;
+};
+
+type ApplyTheme = {
+  [key: string]: Theme;
+};
+
+const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
+  const tailwind: TailwindColors = {};
   let vars = '';
   let hexVars = '';
   let hslVars = '';
 
   const applyTheme =
     themes && themes.length
-      ? themes.reduce((acc, theme) => {
+      ? themes.reduce((acc: ApplyTheme, theme: string) => {
           return {
             ...acc,
             [theme]: {
               vars: '',
               hexVars: '',
               hslVars: '',
-              tailwind: {}
+              tailwind: {} as TailwindColors
             }
           };
         }, {})
@@ -155,7 +207,7 @@ const generateCSSVariables = ({ colors }, themes) => {
     let cssVarName = `--${colors[key].name}`;
 
     if (Object.keys(applyTheme).length) {
-      let cssVarNameTheme = cssVarName.split('-')[2];
+      const cssVarNameTheme = cssVarName.split('-')[2];
       if (themes.includes(cssVarNameTheme)) {
         cssVarName = cssVarName.replace(`${cssVarNameTheme}-`, '');
 
@@ -211,22 +263,17 @@ const generateCSSVariables = ({ colors }, themes) => {
   };
 };
 
-const createFile = (name, payload, outDir, ext = 'json') =>
+const createFile = (name: string, payload: GenerateTokens | string, outDir: string, ext = 'json') =>
   fsp.writeFile(
     `${outDir}/${name}.${ext}`,
-    JSON.stringify(payload, null, 2).replace(/^"(.+(?="$))"$/, '$1'),
-    err => {
-      if (err) throw new Error(`\x1b[31m${emojis.error} ${err}\n\n`);
-      // eslint-disable-next-line no-console
-      console.log(` ${emojis[name]} ${name} tokens created!`);
-    }
+    JSON.stringify(payload, null, 2).replace(/^"(.+(?="$))"$/, '$1')
   );
 
 export {
   camelCase,
   createFile,
-  emojis,
-  filterArtboards,
+  EMOJIS,
+  filterArtBoards,
   formatNumber,
   fullColorHex,
   fullColorHsl,

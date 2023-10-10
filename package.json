@@ -1,53 +1,73 @@
 {
-  "name": "@runroom/design-tokens",
-  "version": "2.3.0",
-  "description": "Figma design tokens",
-  "main": "index.js",
-  "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Runroom/design-tokens.git"
-  },
-  "keywords": [
-    "figma",
-    "designtokens",
-    "runroom"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Runroom/design-tokens/issues"
-  },
-  "homepage": "https://github.com/Runroom/design-tokens",
-  "scripts": {
-    "design-tokens": "node bin/design-tokens.js",
-    "lint": "run-p lint:*",
-    "lint:eslint": "eslint bin src test index.js",
-    "lint:prettier": "prettier --check .github bin src test .eslintrc.json .prettierrc.json index.js package.json template.config.json",
-    "release": "changeset publish",
-    "test": "c8 mocha --bail --timeout 10000"
-  },
-  "engines": {
-    "node": ">= 16"
-  },
-  "bin": {
-    "design-tokens": "bin/design-tokens.js"
-  },
-  "dependencies": {
-    "node-fetch": "^3.2",
-    "style-dictionary": "^3.7",
-    "yargs-parser": "^21.1"
-  },
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.19",
-    "@babel/preset-env": "^7.19",
-    "@changesets/changelog-github": "^0.4",
-    "@changesets/cli": "^2.24",
-    "c8": "^7.12",
-    "chai": "^4.3",
-    "eslint": "^8.23",
-    "eslint-config-prettier": "^8.5",
-    "mocha": "^10.0",
-    "npm-run-all": "^4.1",
-    "prettier": "^2.7"
-  }
+    "name": "@runroom/design-tokens",
+    "version": "2.3.0",
+    "description": "Figma design tokens",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Runroom/design-tokens.git"
+    },
+    "keywords": [
+        "figma",
+        "designtokens",
+        "runroom"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Runroom/design-tokens/issues"
+    },
+    "homepage": "https://github.com/Runroom/design-tokens",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "bin": {
+        "design-tokens": "dist/bin/index.js"
+    },
+    "scripts": {
+        "build": "tsc -noEmit && tsup",
+        "dev": "tsc -noEmit && tsup --sourcemap",
+        "design-tokens": "npm run dev && node dist/bin/index.js",
+        "lint": "run-p lint:*",
+        "lint:eslint": "eslint src/**/*.ts tests/**/*.ts tsup.config.ts",
+        "lint:prettier": "prettier --check src/**/*.ts tests/**/*.ts .github .eslintrc.json .prettierrc.json package.json template.config.json tsup.config.ts tsconfig.json",
+        "fix": "run-p fix:*",
+        "fix:eslint": "eslint --fix src/**/*.ts tests/**/*.ts tsup.config.ts",
+        "fix:prettier": "prettier --write src/**/*.ts tests/**/*.ts .github .eslintrc.json .prettierrc.json package.json template.config.json tsup.config.ts tsconfig.json",
+        "release": "changeset publish",
+        "test": "jest",
+        "test:ci": "jest --ci --coverage"
+    },
+    "engines": {
+        "node": ">= 16"
+    },
+    "dependencies": {
+        "node-fetch": "^3.2",
+        "style-dictionary": "^3.7",
+        "yargs-parser": "^21.1"
+    },
+    "devDependencies": {
+        "@changesets/changelog-github": "^0.4",
+        "@changesets/cli": "^2.24",
+        "@swc/core": "^1.3.92",
+        "@types/jest": "^29.5.2",
+        "@types/node": "^20.8.2",
+        "@types/yargs-parser": "^21.0.1",
+        "@typescript-eslint/eslint-plugin": "^6.7.4",
+        "@typescript-eslint/parser": "^6.7.4",
+        "eslint": "^8.50.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-config-standard": "^17.1.0",
+        "eslint-plugin-jest": "^27.4.2",
+        "jest": "^29.7.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^3.0.3",
+        "ts-jest": "^29.1.0",
+        "ts-node": "^10.9.1",
+        "tsup": "^7.2.0",
+        "typescript": "^5.2.2"
+    }
 }

@@ -2,23 +2,34 @@ name: CI
 
 on:
     push:
-        branches: [main]
+        branches:
+            - main
     pull_request:
 
 jobs:
-    build:
+    node:
         name: Node ${{ matrix.node }}
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node: ["16.x"]
+                node: ["16.x", "18.x", "20.x"]
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node
+              uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node }}
-            - uses: bahmutov/npm-install@v1
-              with:
-                  useLockFile: false
-            - run: npm run test
+
+            - name: Install Dependencies
+              run: npm install
+
+            - name: Run Lint
+              run: npm run lint
+
+            - name: Run Build
+              run: npm run build
+
+            - run: npm run test:ci
             - uses: codecov/codecov-action@v3

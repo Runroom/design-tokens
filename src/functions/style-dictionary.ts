@@ -1,6 +1,6 @@
 import StyleDictionaryNode from 'style-dictionary';
 
-const StyleDictionary = configFilePath => {
+const StyleDictionary = (configFilePath: string) => {
   const extendedDictionary = StyleDictionaryNode.extend(configFilePath);
 
   // eslint-disable-next-line no-console
