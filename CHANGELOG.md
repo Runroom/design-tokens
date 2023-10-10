@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.4.0
+
+### Minor Changes
+
+- [#20](https://github.com/Runroom/design-tokens/pull/20)
+  [`949c994`](https://github.com/Runroom/design-tokens/commit/949c99473c10943cb2c0edf5195dcf557f7ce0bd)
+  Thanks [@izm20](https://github.com/izm20)! - Add typescript and quality tools
+
 ## 2.3.0
 
 ### Minor Changes
