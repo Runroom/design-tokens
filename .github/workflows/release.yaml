@@ -18,10 +18,14 @@ jobs:
             - name: Install Dependencies
               run: npm install
 
-            - uses: changesets/action@v1
+            - name: Build
+              run: npm run build
+
+            - name: Publish
+              uses: changesets/action@v1
               with:
                   title: Release
-                  publish: npm run build && npm run release
+                  publish: npm run release
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
