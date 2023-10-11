@@ -73,10 +73,11 @@ describe('Figma connection', () => {
       });
 
       it('HSL value to be an array of decimals', () => {
-        expect(Array.isArray(hslColor)).toBe(true);
-        expect(typeof hslColor[0]).toBe('number');
-        expect(typeof hslColor[1]).toBe('number');
-        expect(typeof hslColor[2]).toBe('number');
+        expect(typeof hslColor).toBe('object');
+        expect(hslColor.h).toBeGreaterThanOrEqual(0);
+        expect(hslColor.h).toBeLessThanOrEqual(360);
+        expect(hslColor.s).toBeGreaterThanOrEqual(0);
+        expect(hslColor.a).toBeLessThanOrEqual(1);
       });
     });
 

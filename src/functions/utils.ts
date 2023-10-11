@@ -1,6 +1,6 @@
 import { promises as fsp } from 'fs';
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
-import { ColorJson, RgbColor, TailwindColors } from '@/types/Color.ts';
+import { ColorJson, HslColor, RgbColor } from '@/types/Color.ts';
 import { GenerateTokens, Token } from '@/types/Token.ts';
 
 type Offset = {
@@ -17,6 +17,9 @@ const EMOJIS = {
   error: '❌',
   warning: '⚠️'
 };
+
+const HEX_BASE = 16;
+const REM_BASE = 16;
 
 const camelCase = (string: string) => {
   const stringUpdate = string
@@ -44,17 +47,17 @@ const trim = (string: string) => string.replace(/^\s+|\s+$/gm, '');
 const getColor = (color: number) => Math.round(color * 255);
 
 const rgbaGen = (r: number, g: number, b: number, a = 1) =>
-  `rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`;
+  `rgb(${getColor(r)} ${getColor(g)} ${getColor(b)} / ${a})`;
 
 const rgbaGenObject = (r: number, g: number, b: number, a = 1) => ({
   r: getColor(r),
   g: getColor(g),
   b: getColor(b),
-  a
+  a: a
 });
 
 const rgbToHex = (c: number) => {
-  const hex = Number(c).toString(16);
+  const hex = Number(c).toString(HEX_BASE);
   return hex.length < 2 ? `0${hex}` : hex;
 };
 
@@ -74,47 +77,56 @@ const fullColorHex = (r: number, g: number, b: number) => {
   return `#${red + green + blue}`.toLocaleLowerCase();
 };
 
-const fullColorHsl = (r: number, g: number, b: number) => {
-  const red = r / 255;
-  const green = g / 255;
-  const blue = b / 255;
+const fullColorHsl = (r: number, g: number, b: number, a = 1): HslColor => {
+  const red = Math.min(255, Math.max(0, r));
+  const green = Math.min(255, Math.max(0, g));
+  const blue = Math.min(255, Math.max(0, b));
+  const alpha = Math.min(100, Math.max(0, a));
 
-  const max = Math.max(red, green, blue),
-    min = Math.min(red, green, blue);
-  let h, s;
-  const l = (max + min) / 2;
+  const redNormalized = red / 255;
+  const greenNormalized = green / 255;
+  const blueNormalized = blue / 255;
 
-  if (max === min) {
-    h = s = 0;
-  } else {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  const max = Math.max(redNormalized, greenNormalized, blueNormalized);
+  const min = Math.min(redNormalized, greenNormalized, blueNormalized);
+
+  const lightness = (max + min) / 2;
+
+  let hue = 0;
+  let saturation = 0;
+
+  if (max !== min) {
+    const delta = max - min;
+
+    saturation = lightness > 0.5 ? delta / (2 - max - min) : delta / (max + min);
 
     switch (max) {
-      case red:
-        h = (green - blue) / d + (green < blue ? 6 : 0);
+      case redNormalized:
+        hue =
+          ((greenNormalized - blueNormalized) / delta +
+            (greenNormalized < blueNormalized ? 6 : 0)) *
+          60;
         break;
-      case green:
-        h = (blue - red) / d + 2;
+      case greenNormalized:
+        hue = ((blueNormalized - redNormalized) / delta + 2) * 60;
         break;
-      case blue:
-        h = (red - green) / d + 4;
+      case blueNormalized:
+        hue = ((redNormalized - greenNormalized) / delta + 4) * 60;
         break;
     }
-
-    if (!h) {
-      return;
-    }
-
-    h /= 6;
   }
 
-  return [h, s, l];
+  return {
+    h: Math.round(hue),
+    s: Math.round(saturation * 100),
+    l: Math.round(lightness * 100),
+    a: alpha
+  };
 };
 
 const parseRgba = (color: RgbColor) => {
-  const { r, g, b, a } = color;
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
+  const { r, g, b, a = 1 } = color;
+  return `rgb(${r} ${g} ${b} / ${a})`;
 };
 
 const genShadow = (color: RgbColor, offset: Offset, radius: number) => {
@@ -124,7 +136,7 @@ const genShadow = (color: RgbColor, offset: Offset, radius: number) => {
 
 const pixelate = (value: number) => `${Math.floor(value)}px`;
 
-const remify = (value: number) => `${formatNumber(value / 16)}rem`;
+const remify = (value: number) => `${formatNumber(value / REM_BASE)}rem`;
 
 const filterArtBoards = <T extends FigmaComponent>(
   artBoardName: string,
@@ -174,7 +186,6 @@ type Theme = {
   vars: string;
   hexVars: string;
   hslVars: string;
-  tailwind: TailwindColors;
 };
 
 type ApplyTheme = {
@@ -182,7 +193,6 @@ type ApplyTheme = {
 };
 
 const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
-  const tailwind: TailwindColors = {};
   let vars = '';
   let hexVars = '';
   let hslVars = '';
@@ -195,15 +205,15 @@ const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
             [theme]: {
               vars: '',
               hexVars: '',
-              hslVars: '',
-              tailwind: {} as TailwindColors
+              hslVars: ''
             }
           };
         }, {})
       : {};
 
   Object.keys(colors).map(key => {
-    const { r, g, b } = colors[key].rgbColor;
+    const { r, g, b, a: rgbAlpha } = colors[key].rgbColor;
+    const { h, s, l, a: hslAlpha } = colors[key].hslColor;
     let cssVarName = `--${colors[key].name}`;
 
     if (Object.keys(applyTheme).length) {
@@ -213,20 +223,18 @@ const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
 
         applyTheme[
           cssVarNameTheme
-        ].vars = `${applyTheme[cssVarNameTheme].vars}${cssVarName}: ${r}, ${g}, ${b};`;
+        ].vars = `${applyTheme[cssVarNameTheme].vars}${cssVarName}: rgb(${r} ${g} ${b} / ${rgbAlpha});`;
         applyTheme[
           cssVarNameTheme
         ].hexVars = `${applyTheme[cssVarNameTheme].hexVars}${cssVarName}: ${colors[key].hexColor};`;
         applyTheme[
           cssVarNameTheme
-        ].hslVars = `${applyTheme[cssVarNameTheme].hslVars}${cssVarName}: ${colors[key].hslColor};`;
-        applyTheme[cssVarNameTheme].tailwind[key] = `rgb(var(${cssVarName}))`;
+        ].hslVars = `${applyTheme[cssVarNameTheme].hslVars}${cssVarName}: hsl(${h} ${s}% ${l}% / ${hslAlpha});`;
       }
     } else {
       vars = `${vars}${cssVarName}: ${r}, ${g}, ${b};`;
       hexVars = `${hexVars}${cssVarName}: ${colors[key].hexColor};`;
       hslVars = `${hslVars}${cssVarName}: ${colors[key].hslColor};`;
-      tailwind[key] = `rgb(var(${cssVarName}))`;
     }
   });
 
@@ -248,18 +256,14 @@ const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
           applyTheme[theme].hslVars,
           theme === themes[0]
         )}`;
-      }, ''),
-      tailwind: Object.keys(applyTheme).reduce((acc, theme) => {
-        return { ...acc, [theme]: applyTheme[theme].tailwind };
-      }, {})
+      }, '')
     };
   }
 
   return {
     vars: `:root{${vars}}`,
     hexVars: `:root{${hexVars}}`,
-    hslVars: `:root{${hslVars}}`,
-    tailwind
+    hslVars: `:root{${hslVars}}`
   };
 };
 

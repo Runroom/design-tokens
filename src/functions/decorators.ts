@@ -53,7 +53,7 @@ const getColors = (component: FigmaColorComponent): ColorToken | false => {
   const name = camelCase(component.name);
   const rgbColor = rgbaGenObject(r, g, b, a);
   const hexColor = fullColorHex(rgbColor.r, rgbColor.g, rgbColor.b);
-  const hslColor = fullColorHsl(rgbColor.r, rgbColor.g, rgbColor.b);
+  const hslColor = fullColorHsl(rgbColor.r, rgbColor.g, rgbColor.b, rgbColor.a);
 
   return {
     [name]: {
