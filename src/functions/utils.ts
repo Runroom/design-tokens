@@ -18,6 +18,7 @@ const EMOJIS = {
   warning: '⚠️'
 };
 
+const HEX_BASE = 16;
 const REM_BASE = 16;
 
 const camelCase = (string: string) => {
@@ -56,7 +57,7 @@ const rgbaGenObject = (r: number, g: number, b: number, a = 1) => ({
 });
 
 const rgbToHex = (c: number) => {
-  const hex = Number(c).toString(REM_BASE);
+  const hex = Number(c).toString(HEX_BASE);
   return hex.length < 2 ? `0${hex}` : hex;
 };
 
