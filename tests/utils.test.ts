@@ -38,12 +38,12 @@ describe('Utils functions', () => {
 
     it('equals result rgb', () => {
       const rgbColor = rgbaGen(r, g, b);
-      expect(rgbColor).toBe(`rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, 1)`);
+      expect(rgbColor).toBe(`rgb(${getColor(r)} ${getColor(g)} ${getColor(b)} / 1)`);
     });
 
     it('equals result rgba', () => {
       const rgbaColor = rgbaGen(r, g, b, a);
-      expect(rgbaColor).toBe(`rgba(${getColor(r)}, ${getColor(g)}, ${getColor(b)}, ${a})`);
+      expect(rgbaColor).toBe(`rgb(${getColor(r)} ${getColor(g)} ${getColor(b)} / ${a})`);
     });
   });
 
@@ -89,7 +89,7 @@ describe('Utils functions', () => {
 
     it('equals result rgba', () => {
       const rgbColor = parseRgba({ r, g, b, a });
-      expect(rgbColor).toBe(`rgba(${r}, ${g}, ${b}, ${a})`);
+      expect(rgbColor).toBe(`rgb(${r} ${g} ${b} / ${a})`);
     });
   });
 
@@ -139,11 +139,11 @@ describe('Utils functions', () => {
         return;
       }
 
-      expect(longHSL).toBeInstanceOf(Array);
-      expect(typeof longHSL[0]).toBe('number');
-      expect(typeof longHSL[1]).toBe('number');
-      expect(typeof longHSL[2]).toBe('number');
-      expect(longHSL).toStrictEqual([0, 0, 0.003627451027140898]);
+      expect(longHSL).toBeInstanceOf(Object);
+      expect(typeof longHSL.h).toBe('number');
+      expect(typeof longHSL.l).toBe('number');
+      expect(typeof longHSL.s).toBe('number');
+      expect(longHSL).toStrictEqual({ h: 0, l: 0, s: 0, a: 1 });
     });
   });
 

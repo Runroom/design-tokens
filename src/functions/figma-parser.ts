@@ -68,16 +68,12 @@ const parseTokens = ({
                 getColors
               );
 
-              const { hexVars, vars, hslVars, tailwind } = generateCSSVariables(
-                colorTokens,
-                themes
-              );
+              const { hexVars, vars, hslVars } = generateCSSVariables(colorTokens, themes);
 
               promises.push(createFile('colors', colorTokens, TOKENS_DIR));
               promises.push(createFile('rgb-color-vars', vars, TOKENS_DIR, 'css'));
               promises.push(createFile('hex-color-vars', hexVars, TOKENS_DIR, 'css'));
               promises.push(createFile('hsl-color-vars', hslVars, TOKENS_DIR, 'css'));
-              promises.push(createFile('tailwind-color-vars', tailwind, TOKENS_DIR));
             }
 
             if (pages.includes('Typography')) {
