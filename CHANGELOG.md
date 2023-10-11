@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.5.0
+
+### Minor Changes
+
+- [#24](https://github.com/Runroom/design-tokens/pull/24)
+  [`684b8c3`](https://github.com/Runroom/design-tokens/commit/684b8c37b097ce96bbb573ed5ebfa733e8c398dd)
+  Thanks [@izm20](https://github.com/izm20)! - Fix hsl and rgb colors tokens, remove tailwind
+
 ## 2.4.1
 
 ### Patch Changes
