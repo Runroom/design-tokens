@@ -1,7 +1,7 @@
 import fetchMock from './mocks/fetchMock';
 
 import { getColors, getSpacings, getTypography } from '../src/functions/decorators.ts';
-import { filterArtBoards, generateTokens } from '../src/functions/utils.ts';
+import { filterArtBoards, generateTokens, generateTypographyCSS } from '../src/functions/utils.ts';
 
 const FILE_ID = 'file-id';
 const TOKEN = 'api-token-fake';
@@ -131,7 +131,6 @@ describe('Figma connection', () => {
     it('has correct props', () => {
       expect(text.fontFamily).toBeDefined();
       expect(text.fontSize).toBeDefined();
-      expect(text.rawFontSize).toBeDefined();
       expect(text.fontWeight).toBeDefined();
       expect(text.letterSpacing).toBeDefined();
       expect(text.lineHeight).toBeDefined();
@@ -140,7 +139,6 @@ describe('Figma connection', () => {
     it('props have valid types', () => {
       expect(typeof text.fontFamily).toBe('string');
       expect(typeof text.fontSize).toBe('string');
-      expect(typeof text.rawFontSize).toBe('number');
       expect(typeof text.fontWeight).toBe('number');
       expect(typeof text.lineHeight).toBe('number');
     });

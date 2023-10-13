@@ -11,6 +11,7 @@ import {
   parseRgba,
   pixelate,
   snakeCase,
+  kebabCase,
   trim
 } from '../src/functions/utils.ts';
 
@@ -212,6 +213,20 @@ describe('Utils functions', () => {
     it('equals', () => {
       const scStr = snakeCase('sample string_to-parse');
       expect(scStr).toBe('sample_string_to_parse');
+    });
+  });
+
+  describe('camelToKebabCase', () => {
+    it('is string', () => {
+      const kcStr = kebabCase('stringToParse');
+      expect(typeof kcStr).toBe('string');
+    });
+
+    it('equals', () => {
+      const kcStr = kebabCase('sample string_to-parse');
+      const fromCamelCase = kebabCase('sample stringToParse');
+      expect(kcStr).toBe('sample-string-to-parse');
+      expect(fromCamelCase).toBe('sample-string-to-parse');
     });
   });
 });

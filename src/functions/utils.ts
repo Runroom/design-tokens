@@ -41,8 +41,12 @@ const snakeCase = (string: string) => {
   return matches.map((ch: string) => ch.toLowerCase()).join('_');
 };
 
-const camelToKebabCase = (input: string): string =>
-  input.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+const kebabCase = (input: string): string => {
+  return input
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[_\s]+/g, '-')
+    .toLowerCase();
+};
 
 const formatNumber = (n: string | number) => parseFloat(parseFloat(String(n)).toFixed(5));
 
@@ -276,15 +280,15 @@ const generateTypographyCSS = ({ typography }: TypographyJson) => {
   let typographyClasses = '';
 
   for (const key in typography) {
-    const typographyBaseName = `--${camelToKebabCase(key)}`;
+    const typographyBaseName = `--${kebabCase(key)}`;
     const typographyBaseValue = typography[key];
-    typographyClasses = `${typographyClasses}.${camelToKebabCase(key)}{`;
+    typographyClasses = `${typographyClasses}.${kebabCase(key)}{`;
 
     for (const prop in typography[key]) {
-      const propName = `${typographyBaseName}-${camelToKebabCase(prop)}`;
+      const propName = `${typographyBaseName}-${kebabCase(prop)}`;
       const typographyValue = typographyBaseValue[prop as keyof Typography];
       typographyVars = `${typographyVars}${propName}: ${typographyValue};`;
-      typographyClasses = `${typographyClasses}${camelToKebabCase(prop)}: var(${propName});`;
+      typographyClasses = `${typographyClasses}${kebabCase(prop)}: var(${propName});`;
     }
     typographyClasses = `${typographyClasses}}`;
   }
@@ -321,5 +325,6 @@ export {
   pixelate,
   remify,
   snakeCase,
+  kebabCase,
   trim
 };
