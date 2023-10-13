@@ -2,6 +2,7 @@ import { promises as fsp } from 'fs';
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
 import { ColorJson, HslColor, RgbColor } from '@/types/Color.ts';
 import { GenerateTokens, Token } from '@/types/Token.ts';
+import { Typography, TypographyJson } from '@/types/Typography.ts';
 
 type Offset = {
   x: number;
@@ -39,6 +40,9 @@ const snakeCase = (string: string) => {
 
   return matches.map((ch: string) => ch.toLowerCase()).join('_');
 };
+
+const camelToKebabCase = (input: string): string =>
+  input.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
 const formatNumber = (n: string | number) => parseFloat(parseFloat(String(n)).toFixed(5));
 
@@ -267,6 +271,30 @@ const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
   };
 };
 
+const generateTypographyCSS = ({ typography }: TypographyJson) => {
+  let typographyVars = '';
+  let typographyClasses = '';
+
+  for (const key in typography) {
+    const typographyBaseName = `--${camelToKebabCase(key)}`;
+    const typographyBaseValue = typography[key];
+    typographyClasses = `${typographyClasses}.${camelToKebabCase(key)}{`;
+
+    for (const prop in typography[key]) {
+      const propName = `${typographyBaseName}-${camelToKebabCase(prop)}`;
+      const typographyValue = typographyBaseValue[prop as keyof Typography];
+      typographyVars = `${typographyVars}${propName}: ${typographyValue};`;
+      typographyClasses = `${typographyClasses}${camelToKebabCase(prop)}: var(${propName});`;
+    }
+    typographyClasses = `${typographyClasses}}`;
+  }
+
+  return {
+    typographyVars: `:root{${typographyVars}}`,
+    typographyClasses
+  };
+};
+
 const createFile = (name: string, payload: GenerateTokens | string, outDir: string, ext = 'json') =>
   fsp.writeFile(
     `${outDir}/${name}.${ext}`,
@@ -282,6 +310,7 @@ export {
   fullColorHex,
   fullColorHsl,
   generateCSSVariables,
+  generateTypographyCSS,
   generateTokens,
   genShadow,
   getColor,

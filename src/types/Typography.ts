@@ -9,7 +9,6 @@ export interface TypographyJson {
 export interface Typography {
   fontFamily: string;
   fontSize: string;
-  rawFontSize: number;
   fontWeight: number;
   letterSpacing: string | number;
   lineHeight: number;

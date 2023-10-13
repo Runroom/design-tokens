@@ -1,7 +1,13 @@
 import fetch from 'node-fetch';
 
 import { getBreakpoints, getColors, getSpacings, getTypography } from './decorators.ts';
-import { createFile, EMOJIS, generateCSSVariables, generateTokens } from './utils.ts';
+import {
+  createFile,
+  EMOJIS,
+  generateCSSVariables,
+  generateTokens,
+  generateTypographyCSS
+} from './utils.ts';
 import { FigmaResponse } from '@/types/figma';
 import { ColorJson } from '@/types/Color.ts';
 import { TypographyJson } from '@/types/Typography.ts';
@@ -84,6 +90,10 @@ const parseTokens = ({
               );
 
               promises.push(createFile('typography', typographyTokens, TOKENS_DIR));
+
+              const { typographyVars, typographyClasses } = generateTypographyCSS(typographyTokens);
+              promises.push(createFile('typography-vars', typographyVars, TOKENS_DIR, 'css'));
+              promises.push(createFile('typography-classes', typographyClasses, TOKENS_DIR, 'css'));
             }
 
             if (pages.includes('Spacings')) {
