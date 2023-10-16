@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.5.1
+
+### Patch Changes
+
+- [#26](https://github.com/Runroom/design-tokens/pull/26)
+  [`3a51afb`](https://github.com/Runroom/design-tokens/commit/3a51afb6ff585e147dc1d7a67c3c842dabdf2ab5)
+  Thanks [@izm20](https://github.com/izm20)! - Add typography variables
+
 ## 2.5.0
 
 ### Minor Changes
