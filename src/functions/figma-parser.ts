@@ -91,9 +91,8 @@ const parseTokens = ({
 
               promises.push(createFile('typography', typographyTokens, TOKENS_DIR));
 
-              const { typographyVars, typographyClasses } = generateTypographyCSS(typographyTokens);
+              const { typographyVars } = generateTypographyCSS(typographyTokens);
               promises.push(createFile('typography-vars', typographyVars, TOKENS_DIR, 'css'));
-              promises.push(createFile('typography-classes', typographyClasses, TOKENS_DIR, 'css'));
             }
 
             if (pages.includes('Spacings')) {

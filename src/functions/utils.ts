@@ -277,25 +277,20 @@ const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
 
 const generateTypographyCSS = ({ typography }: TypographyJson) => {
   let typographyVars = '';
-  let typographyClasses = '';
 
   for (const key in typography) {
     const typographyBaseName = `--${kebabCase(key)}`;
     const typographyBaseValue = typography[key];
-    typographyClasses = `${typographyClasses}.${kebabCase(key)}{`;
 
     for (const prop in typography[key]) {
       const propName = `${typographyBaseName}-${kebabCase(prop)}`;
       const typographyValue = typographyBaseValue[prop as keyof Typography];
       typographyVars = `${typographyVars}${propName}: ${typographyValue};`;
-      typographyClasses = `${typographyClasses}${kebabCase(prop)}: var(${propName});`;
     }
-    typographyClasses = `${typographyClasses}}`;
   }
 
   return {
-    typographyVars: `:root{${typographyVars}}`,
-    typographyClasses
+    typographyVars: `:root{${typographyVars}}`
   };
 };
 
