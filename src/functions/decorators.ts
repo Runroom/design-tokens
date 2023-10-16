@@ -1,12 +1,11 @@
 import {
   camelCase,
-  snakeCase,
-  rgbaGenObject,
   fullColorHex,
   fullColorHsl,
   pixelate,
   remify,
-  formatNumber
+  rgbaGenObject,
+  snakeCase
 } from './utils.ts';
 
 import {
@@ -85,7 +84,6 @@ const getTypography = (component: FigmaTypographyComponent): TypographyToken | f
     [camelCase(component.name)]: {
       fontFamily,
       fontSize: remify(fontSize),
-      rawFontSize: formatNumber(fontSize),
       fontWeight,
       letterSpacing: letterSpacingRounded < 1 ? 0 : `${letterSpacingRounded}px`,
       lineHeight

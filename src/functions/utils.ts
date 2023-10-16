@@ -2,10 +2,21 @@ import { promises as fsp } from 'fs';
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
 import { ColorJson, HslColor, RgbColor } from '@/types/Color.ts';
 import { GenerateTokens, Token } from '@/types/Token.ts';
+import { Typography, TypographyJson } from '@/types/Typography.ts';
 
 type Offset = {
   x: number;
   y: number;
+};
+
+type Theme = {
+  vars: string;
+  hexVars: string;
+  hslVars: string;
+};
+
+type ApplyTheme = {
+  [key: string]: Theme;
 };
 
 const EMOJIS = {
@@ -38,6 +49,13 @@ const snakeCase = (string: string) => {
   }
 
   return matches.map((ch: string) => ch.toLowerCase()).join('_');
+};
+
+const kebabCase = (input: string): string => {
+  return input
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[_\s]+/g, '-')
+    .toLowerCase();
 };
 
 const formatNumber = (n: string | number) => parseFloat(parseFloat(String(n)).toFixed(5));
@@ -144,7 +162,7 @@ const filterArtBoards = <T extends FigmaComponent>(
 ): T[] => {
   const artBoard = stylesArtBoard.filter(item => item.name === artBoardName)[0];
 
-  if (!artBoard.children) {
+  if (!artBoard || !artBoard.children) {
     return [];
   }
 
@@ -181,16 +199,6 @@ const generateTokens = <T extends FigmaComponent, P extends GenerateTokens, K ex
 
 const createThemeRootString = (theme: string, vars: string, defaultTheme: boolean) =>
   `:root[data-theme='${theme}']{${vars} ${defaultTheme ? `color-scheme: ${theme};` : ''}}`;
-
-type Theme = {
-  vars: string;
-  hexVars: string;
-  hslVars: string;
-};
-
-type ApplyTheme = {
-  [key: string]: Theme;
-};
 
 const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
   let vars = '';
@@ -232,9 +240,9 @@ const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
         ].hslVars = `${applyTheme[cssVarNameTheme].hslVars}${cssVarName}: hsl(${h} ${s}% ${l}% / ${hslAlpha});`;
       }
     } else {
-      vars = `${vars}${cssVarName}: ${r}, ${g}, ${b};`;
+      vars = `${vars}${cssVarName}: rgb(${r} ${g} ${b} / ${rgbAlpha});`;
       hexVars = `${hexVars}${cssVarName}: ${colors[key].hexColor};`;
-      hslVars = `${hslVars}${cssVarName}: ${colors[key].hslColor};`;
+      hslVars = `${hslVars}${cssVarName}: hsl(${h} ${s}% ${l}% / ${hslAlpha});`;
     }
   });
 
@@ -267,6 +275,25 @@ const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
   };
 };
 
+const generateTypographyCSS = ({ typography }: TypographyJson) => {
+  let typographyVars = '';
+
+  for (const key in typography) {
+    const typographyBaseName = `--${kebabCase(key)}`;
+    const typographyBaseValue = typography[key];
+
+    for (const prop in typography[key]) {
+      const propName = `${typographyBaseName}-${kebabCase(prop)}`;
+      const typographyValue = typographyBaseValue[prop as keyof Typography];
+      typographyVars = `${typographyVars}${propName}: ${typographyValue};`;
+    }
+  }
+
+  return {
+    typographyVars: `:root{${typographyVars}}`
+  };
+};
+
 const createFile = (name: string, payload: GenerateTokens | string, outDir: string, ext = 'json') =>
   fsp.writeFile(
     `${outDir}/${name}.${ext}`,
@@ -282,6 +309,7 @@ export {
   fullColorHex,
   fullColorHsl,
   generateCSSVariables,
+  generateTypographyCSS,
   generateTokens,
   genShadow,
   getColor,
@@ -292,5 +320,7 @@ export {
   pixelate,
   remify,
   snakeCase,
-  trim
+  kebabCase,
+  trim,
+  createThemeRootString
 };
