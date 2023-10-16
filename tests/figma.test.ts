@@ -1,7 +1,7 @@
 import fetchMock from './mocks/fetchMock';
 
 import { getColors, getSpacings, getTypography } from '../src/functions/decorators.ts';
-import { filterArtBoards, generateTokens, generateTypographyCSS } from '../src/functions/utils.ts';
+import { filterArtBoards, generateTokens } from '../src/functions/utils.ts';
 
 const FILE_ID = 'file-id';
 const TOKEN = 'api-token-fake';
@@ -38,6 +38,14 @@ describe('Figma connection', () => {
   });
 
   describe('Json parsing', () => {
+    describe('Tokens parser', () => {
+      it('should no art board', () => {
+        const noArtBoard = filterArtBoards('ArtBoard', figmaTree[0].children);
+
+        expect(noArtBoard.length).toBe(0);
+      });
+    });
+
     describe('Color parser', () => {
       let colors: any;
       let tokens: any;

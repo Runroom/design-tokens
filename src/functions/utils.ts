@@ -152,7 +152,7 @@ const filterArtBoards = <T extends FigmaComponent>(
 ): T[] => {
   const artBoard = stylesArtBoard.filter(item => item.name === artBoardName)[0];
 
-  if (!artBoard.children) {
+  if (!artBoard || !artBoard.children) {
     return [];
   }
 
