@@ -9,6 +9,16 @@ type Offset = {
   y: number;
 };
 
+type Theme = {
+  vars: string;
+  hexVars: string;
+  hslVars: string;
+};
+
+type ApplyTheme = {
+  [key: string]: Theme;
+};
+
 const EMOJIS = {
   color: '🎨',
   typography: '🖋 ',
@@ -190,16 +200,6 @@ const generateTokens = <T extends FigmaComponent, P extends GenerateTokens, K ex
 const createThemeRootString = (theme: string, vars: string, defaultTheme: boolean) =>
   `:root[data-theme='${theme}']{${vars} ${defaultTheme ? `color-scheme: ${theme};` : ''}}`;
 
-type Theme = {
-  vars: string;
-  hexVars: string;
-  hslVars: string;
-};
-
-type ApplyTheme = {
-  [key: string]: Theme;
-};
-
 const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
   let vars = '';
   let hexVars = '';
@@ -240,9 +240,9 @@ const generateCSSVariables = ({ colors }: ColorJson, themes: string[] = []) => {
         ].hslVars = `${applyTheme[cssVarNameTheme].hslVars}${cssVarName}: hsl(${h} ${s}% ${l}% / ${hslAlpha});`;
       }
     } else {
-      vars = `${vars}${cssVarName}: ${r}, ${g}, ${b};`;
+      vars = `${vars}${cssVarName}: rgb(${r} ${g} ${b} / ${rgbAlpha});`;
       hexVars = `${hexVars}${cssVarName}: ${colors[key].hexColor};`;
-      hslVars = `${hslVars}${cssVarName}: ${colors[key].hslColor};`;
+      hslVars = `${hslVars}${cssVarName}: hsl(${h} ${s}% ${l}% / ${hslAlpha});`;
     }
   });
 
@@ -321,5 +321,6 @@ export {
   remify,
   snakeCase,
   kebabCase,
-  trim
+  trim,
+  createThemeRootString
 };
