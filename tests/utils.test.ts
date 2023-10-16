@@ -1,21 +1,15 @@
+import { kebabCase, snakeCase, camelCase, trim } from '../src/functions/stringManipulation';
 import {
-  camelCase,
-  createThemeRootString,
-  formatNumber,
-  fullColorHex,
-  fullColorHsl,
-  generateCSSVariables,
-  genShadow,
   getColor,
-  kebabCase,
-  parseRgba,
-  pixelate,
   rgbaGen,
   rgbaGenObject,
-  rgbToHex,
-  snakeCase,
-  trim
-} from '../src/functions/utils.ts';
+  parseRgba,
+  fullColorHsl,
+  fullColorHex,
+  rgbToHex
+} from '../src/functions/colorManipulation';
+import { createThemeRootString, generateCSSVariables } from '../src/functions/cssConvert';
+import { formatNumber, pixelate } from '../src/functions/unitsConvert';
 
 describe('Utils functions', () => {
   const c = 0.65;
@@ -161,24 +155,6 @@ describe('Utils functions', () => {
       const rndNum = Math.random() * 100;
       const pxNum = pixelate(rndNum);
       expect(pxNum).toBe(`${Math.floor(rndNum)}px`);
-    });
-  });
-
-  describe('genShadow', () => {
-    it('is string', () => {
-      const x = Math.floor(Math.random() * 100);
-      const y = Math.floor(Math.random() * 100);
-      const radius = Math.floor(Math.random() * 100);
-      const shadow = genShadow({ r, g, b, a }, { x, y }, radius);
-      expect(typeof shadow).toBe('string');
-    });
-
-    it('equals', () => {
-      const x = Math.floor(Math.random() * 100);
-      const y = Math.floor(Math.random() * 100);
-      const radius = Math.floor(Math.random() * 100);
-      const shadow = genShadow({ r, g, b, a }, { x, y }, radius);
-      expect(shadow).toBe(`${x}px ${y}px ${radius}px ${parseRgba({ r, g, b, a })}`);
     });
   });
 

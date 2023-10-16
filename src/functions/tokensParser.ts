@@ -1,12 +1,5 @@
-import {
-  camelCase,
-  fullColorHex,
-  fullColorHsl,
-  pixelate,
-  remify,
-  rgbaGenObject,
-  snakeCase
-} from './utils.ts';
+import { pixelate, remify } from './unitsConvert.ts';
+import { rgbaGenObject, fullColorHex, fullColorHsl } from './colorManipulation.ts';
 
 import {
   FigmaColorComponent,
@@ -16,6 +9,7 @@ import {
 import { SpacingToken } from '@/types/Spacing.ts';
 import { ColorToken } from '@/types/Color.ts';
 import { TypographyToken } from '@/types/Typography.ts';
+import { camelCase, snakeCase } from './stringManipulation.ts';
 
 const _getBoundingWidth = (component: FigmaSpacingComponent): SpacingToken | false => {
   if (!(component && component.name)) {

@@ -5,7 +5,7 @@ export default defineConfig(options => {
     minify: !options.sourcemap,
     entry: {
       'index': 'src/index.ts',
-      'bin/index': 'src/design-tokens.ts'
+      'bin/index': 'src/designTokens.ts'
     },
     format: ['esm'],
     dts: true,

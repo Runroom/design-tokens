@@ -1,18 +1,15 @@
 import fetch from 'node-fetch';
 
-import { getBreakpoints, getColors, getSpacings, getTypography } from './decorators.ts';
-import {
-  createFile,
-  EMOJIS,
-  generateCSSVariables,
-  generateTokens,
-  generateTypographyCSS
-} from './utils.ts';
+import { getBreakpoints, getColors, getSpacings, getTypography } from './tokensParser.ts';
 import { FigmaResponse } from '@/types/figma';
 import { ColorJson } from '@/types/Color.ts';
 import { TypographyJson } from '@/types/Typography.ts';
 import { SpacingJson } from '@/types/Spacing.ts';
 import { Config } from '@/types/Config.ts';
+import { createFile } from './fileHelpers.ts';
+import { generateCSSVariables, generateTypographyCSS } from './cssConvert.ts';
+import { generateTokens } from '@/functions/figmaParser.ts';
+import { EMOJIS } from '@/functions/output.ts';
 
 const parseTokens = ({
   FIGMA_APIKEY,

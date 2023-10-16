@@ -1,7 +1,7 @@
 npm-debug.log*
 package-lock.json
 node_modules
-tokens*
+tokens/*
 figma-tokens*
 designtokens.config.json
 coverage
