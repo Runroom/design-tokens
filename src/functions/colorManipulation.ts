@@ -1,4 +1,4 @@
-import { HslColor, RgbColor } from '@/types/Color.ts';
+import { HslColor, RgbColor } from '@/types/designTokens';
 
 const HEX_BASE = 16;
 

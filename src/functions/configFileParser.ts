@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { Arguments } from 'yargs-parser';
-import { Config, ParseConfig } from '@/types/Config.ts';
-import { EMOJIS } from '@/functions/output.ts';
+import { Config, ParseConfig } from '@/types/designTokens';
+import { EMOJIS, logWarning } from '@/functions/logger.ts';
 
 const CONFIG_FILE_DEFAULT1 = 'designtokens.config.json';
 const CONFIG_FILE_DEFAULT2 = 'design-tokens.config.json';
@@ -30,8 +30,7 @@ const handleErrors = (FIGMA_APIKEY: string, FIGMA_ID: string, FIGMA_PAGE_NAME: s
 
 const getTokensDir = (TOKENS_DIR: string) => {
   if (!TOKENS_DIR || TOKENS_DIR === '') {
-    // eslint-disable-next-line no-console
-    console.warn(`${EMOJIS.warning} No TOKENS_DIR found, default outdir is set to 'tokens'\n`);
+    logWarning(`No TOKENS_DIR found, default outdir is set to 'tokens'`);
     return 'tokens';
   }
 

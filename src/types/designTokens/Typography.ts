@@ -1,4 +1,4 @@
-import { Token } from '@/types/Token.ts';
+import { Token } from '@/types/designTokens/Token.ts';
 
 export interface TypographyJson {
   [typography: string]: {

@@ -15,6 +15,7 @@ export type FigmaResponse = {
   linkAccess: string;
   status: number;
 };
+
 export type FigmaDocument = {
   id: string;
   name: string;

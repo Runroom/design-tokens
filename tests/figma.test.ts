@@ -1,7 +1,6 @@
 import fetchMock from './mocks/fetchMock';
 
 import { getColors, getSpacings, getTypography } from '../src/functions/tokensParser.ts';
-import { filterArtBoards, generateTokens } from '../src/functions/utils.ts';
 
 const FILE_ID = 'file-id';
 const TOKEN = 'api-token-fake';

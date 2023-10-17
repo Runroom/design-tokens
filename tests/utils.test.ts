@@ -8,7 +8,7 @@ import {
   fullColorHex,
   rgbToHex
 } from '../src/functions/colorManipulation';
-import { createThemeRootString, generateCSSVariables } from '../src/functions/cssConvert';
+import { createThemeRootString } from '../src/functions/cssConvert';
 import { formatNumber, pixelate } from '../src/functions/unitsConvert';
 
 describe('Utils functions', () => {
@@ -214,45 +214,6 @@ describe('Utils functions', () => {
       expect(srcTheme).toBe(
         ":root[data-theme='light']{colors: { primary: #fff } color-scheme: light;}"
       );
-    });
-  });
-
-  describe('css variables', () => {
-    let colors: any;
-
-    beforeAll(() => {
-      colors = generateCSSVariables({
-        colors: {
-          primary: {
-            name: 'primary',
-            rgbColor: {
-              r: 237,
-              g: 76,
-              b: 114,
-              a: 1
-            },
-            hexColor: '#ED4C72',
-            hslColor: {
-              h: 345,
-              s: 82,
-              l: 62,
-              a: 1
-            }
-          }
-        }
-      });
-    });
-
-    it('should create hex vars colors', () => {
-      expect(colors.hexVars).toBe(':root{--primary: #ED4C72;}');
-    });
-
-    it('should create rgb colors', () => {
-      expect(colors.vars).toBe(':root{--primary: rgb(237 76 114 / 1);}');
-    });
-
-    it('should create hsl colors', () => {
-      expect(colors.hslVars).toBe(':root{--primary: hsl(345 82% 62% / 1);}');
     });
   });
 });

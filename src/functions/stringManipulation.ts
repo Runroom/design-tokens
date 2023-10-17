@@ -1,7 +1,7 @@
 const camelCase = (string: string) => {
   const stringUpdate = string
     .toLowerCase()
-    .replace(/(?:(^.)|([-_\s]+.))/g, match => match.charAt(match.length - 1).toUpperCase());
+    .replace(/(^.)|([-_\s]+.)/g, match => match.charAt(match.length - 1).toUpperCase());
   return stringUpdate.charAt(0).toLowerCase() + stringUpdate.substring(1);
 };
 

@@ -1,13 +1,8 @@
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
-import { GenerateTokens, Token } from '@/types/Token.ts';
+import { GenerateTokens, Token } from '@/types/designTokens';
 import { snakeCase } from './stringManipulation.ts';
 
-const filterArtBoards = <T extends FigmaComponent>(
-  artBoardName: string,
-  stylesArtBoard: FigmaFrame[]
-): T[] => {
-  const artBoard = stylesArtBoard.filter(item => item.name === artBoardName)[0];
-
+const getComponents = <T extends FigmaComponent>(artBoard: FigmaFrame): T[] => {
   if (!artBoard || !artBoard.children) {
     return [];
   }
@@ -23,12 +18,12 @@ const initPayload = <P extends GenerateTokens>(componentsIndex: string): P => {
   return payload;
 };
 
-const generateTokens = <T extends FigmaComponent, P extends GenerateTokens, K extends Token>(
+const getTokens = <T extends FigmaComponent, P extends GenerateTokens, K extends Token>(
   artBoardName: string,
-  stylesArtBoard: FigmaFrame[],
+  artBoard: FigmaFrame,
   decorator: (component: T) => K | false
 ): P => {
-  const components = filterArtBoards<T>(artBoardName, stylesArtBoard);
+  const components = getComponents<T>(artBoard);
   const componentsIndex = snakeCase(artBoardName);
   const payload = initPayload<P>(componentsIndex);
 
@@ -43,4 +38,4 @@ const generateTokens = <T extends FigmaComponent, P extends GenerateTokens, K ex
   return payload;
 };
 
-export { generateTokens };
+export { getTokens };
