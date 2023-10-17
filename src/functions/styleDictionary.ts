@@ -1,5 +1,5 @@
 import StyleDictionaryNode from 'style-dictionary';
-import { EMOJIS, log } from '@/functions/logger.ts';
+import { EMOJIS, log } from './logger.ts';
 
 const StyleDictionary = (configFilePath: string) => {
   const extendedDictionary = StyleDictionaryNode.extend(configFilePath);

@@ -1,10 +1,15 @@
-import { createRootString, createThemeRootString } from '@/functions/cssConvert.ts';
-import { FigmaColorComponent, FigmaFrame } from '@/types/figma';
-import { getTokens } from '@/functions/getTokens.ts';
-import { DesignTokens } from '@/classes/DesignTokens.ts';
-import { camelCase } from '@/functions/stringManipulation.ts';
-import { fullColorHex, fullColorHsl, rgbaGenObject } from '@/functions/colorManipulation.ts';
+import { DesignTokens } from './DesignTokens.ts';
 import { ApplyTheme, ColorJson, ColorToken, CreateFile } from '@/types/designTokens';
+import { FigmaColorComponent, FigmaFrame } from '@/types/figma';
+import {
+  camelCase,
+  createRootString,
+  createThemeRootString,
+  fullColorHex,
+  fullColorHsl,
+  getTokens,
+  rgbaGenObject
+} from '@/functions';
 
 export class Colors extends DesignTokens<ColorJson> {
   constructor(figmaFrame: FigmaFrame, themes?: string[]) {

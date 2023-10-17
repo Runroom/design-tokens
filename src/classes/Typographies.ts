@@ -1,10 +1,7 @@
-import { camelCase, kebabCase } from '@/functions/stringManipulation.ts';
-import { FigmaFrame, FigmaTypographyComponent } from '@/types/figma';
-import { getTokens } from '@/functions/getTokens.ts';
-import { DesignTokens } from '@/classes/DesignTokens.ts';
-import { createRootString } from '@/functions/cssConvert.ts';
-import { remify } from '@/functions/unitsConvert.ts';
+import { DesignTokens } from './DesignTokens.ts';
 import { CreateFile, Typography, TypographyJson, TypographyToken } from '@/types/designTokens';
+import { FigmaFrame, FigmaTypographyComponent } from '@/types/figma';
+import { camelCase, createRootString, getTokens, kebabCase, remify } from '@/functions';
 
 export class Typographies extends DesignTokens<TypographyJson> {
   constructor(figmaFrame: FigmaFrame) {

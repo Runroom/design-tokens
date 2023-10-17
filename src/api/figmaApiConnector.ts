@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
 import { FigmaResponse } from '@/types/figma';
-import { EMOJIS, log } from '@/functions/logger.ts';
-import parseFigmaResponse from '@/api/parseFigmaResponse.ts';
 import { Config } from '@/types/designTokens';
+import { parseFigma } from './parseFigma.ts';
+import { EMOJIS, log } from '@/functions';
 
 const isFigmaResponse = (response: unknown): response is FigmaResponse => {
   if (typeof response !== 'object') {
@@ -42,7 +42,7 @@ const figmaApiConnection = async ({
       throw new Error(`No styles found`);
     }
 
-    const parsedTokens = parseFigmaResponse(responseJson, FIGMA_PAGE_NAME, pages, themes);
+    const parsedTokens = parseFigma(responseJson, FIGMA_PAGE_NAME, pages, themes);
 
     if (!parsedTokens || !parsedTokens.length) {
       throw new Error(`No styles found`);
@@ -54,4 +54,4 @@ const figmaApiConnection = async ({
   }
 };
 
-export default figmaApiConnection;
+export { figmaApiConnection };

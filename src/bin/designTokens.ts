@@ -2,8 +2,7 @@
 
 import parserRuntime from 'yargs-parser';
 import designTokens from '@/index.ts';
-import configFileParser from '@/functions/configFileParser.ts';
-import { logError } from '@/functions/logger.ts';
+import { logError, configFileParser } from '@/functions';
 
 const args = parserRuntime(process.argv.slice(2));
 

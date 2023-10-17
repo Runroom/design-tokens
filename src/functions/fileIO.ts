@@ -1,7 +1,7 @@
 import { Config, GenerateTokens } from '@/types/designTokens';
 import { promises as fsp } from 'fs';
-import { EMOJIS, log } from '@/functions/logger.ts';
-import { DesignTokensGenerator } from '@/classes/DesignTokens.ts';
+import { EMOJIS, log } from './logger.ts';
+import { DesignTokensGenerator } from '@/classes';
 
 const createFile = (name: string, payload: GenerateTokens | string, outDir: string, ext = 'json') =>
   fsp.writeFile(

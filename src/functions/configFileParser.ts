@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Arguments } from 'yargs-parser';
 import { Config, ParseConfig } from '@/types/designTokens';
-import { EMOJIS, logWarning } from '@/functions/logger.ts';
+import { EMOJIS, logWarning } from './logger.ts';
 
 const CONFIG_FILE_DEFAULT1 = 'designtokens.config.json';
 const CONFIG_FILE_DEFAULT2 = 'design-tokens.config.json';
@@ -76,4 +76,4 @@ const configFileParser = (argv: Arguments) => {
   });
 };
 
-export default configFileParser;
+export { configFileParser };

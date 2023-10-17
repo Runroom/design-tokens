@@ -1,4 +1,4 @@
-import { GenerateTokens } from '@/types/designTokens/Token.ts';
+import { GenerateTokens } from '@/types/designTokens/token.ts';
 
 export type CreateFile = (
   name: string,

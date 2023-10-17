@@ -1,9 +1,7 @@
 import { BreakpointJson, BreakpointToken, CreateFile } from '@/types/designTokens';
-import { getTokens } from '@/functions/getTokens.ts';
 import { FigmaBreakPointComponent, FigmaFrame } from '@/types/figma';
-import { DesignTokens } from '@/classes/DesignTokens.ts';
-import { snakeCase } from '@/functions/stringManipulation.ts';
-import { pixelate, remify } from '@/functions/unitsConvert.ts';
+import { DesignTokens } from './DesignTokens.ts';
+import { getTokens, pixelate, remify, snakeCase } from '@/functions';
 
 export class Breakpoints extends DesignTokens<BreakpointJson> {
   constructor(figmaFrame: FigmaFrame) {

@@ -1,15 +1,19 @@
-import { kebabCase, snakeCase, camelCase, trim } from '../src/functions/stringManipulation';
 import {
+  kebabCase,
+  snakeCase,
+  camelCase,
+  trim,
   getColor,
   rgbaGen,
   rgbaGenObject,
   parseRgba,
   fullColorHsl,
   fullColorHex,
-  rgbToHex
-} from '../src/functions/colorManipulation';
-import { createThemeRootString } from '../src/functions/cssConvert';
-import { formatNumber, pixelate } from '../src/functions/unitsConvert';
+  rgbToHex,
+  createThemeRootString,
+  formatNumber,
+  pixelate
+} from '../src/functions';
 
 describe('Utils functions', () => {
   const c = 0.65;

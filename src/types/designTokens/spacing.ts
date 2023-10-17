@@ -1,4 +1,4 @@
-import { Token } from '@/types/designTokens/Token.ts';
+import { Token } from '@/types/designTokens/token.ts';
 
 export interface SpacingJson {
   [spacings: string]: {

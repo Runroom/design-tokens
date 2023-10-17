@@ -1,9 +1,7 @@
-import { getTokens } from '@/functions/getTokens.ts';
-import { FigmaFrame, FigmaSpacingComponent } from '@/types/figma';
-import { DesignTokens } from '@/classes/DesignTokens.ts';
-import { snakeCase } from '@/functions/stringManipulation.ts';
-import { pixelate, remify } from '@/functions/unitsConvert.ts';
+import { DesignTokens } from './DesignTokens.ts';
 import { CreateFile, SpacingJson, SpacingToken } from '@/types/designTokens';
+import { FigmaFrame, FigmaSpacingComponent } from '@/types/figma';
+import { getTokens, pixelate, remify, snakeCase } from '@/functions';
 
 export class Spacings extends DesignTokens<SpacingJson> {
   constructor(figmaFrame: FigmaFrame) {

@@ -1,9 +1,8 @@
-import figmaApiConnection from '@/api/figmaApiConnector.ts';
 import styleDictionary from '@/functions/styleDictionary.ts';
 import { Arguments } from 'yargs-parser';
-import { EMOJIS, log } from '@/functions/logger.ts';
-import { createCSSTokenFiles, createJsonTokenFiles } from '@/functions/fileIO.ts';
 import { ParseConfig } from '@/types/designTokens';
+import { figmaApiConnection } from '@/api';
+import { createCSSTokenFiles, createJsonTokenFiles, EMOJIS, log } from '@/functions';
 
 const designTokens = (args: Arguments, config: ParseConfig) => {
   const command = args._[0];
