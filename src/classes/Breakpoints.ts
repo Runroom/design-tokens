@@ -1,11 +1,11 @@
-import { BreakpointJson, BreakpointToken, CreateFile } from '@/types/designTokens';
+import { BreakpointCollection, BreakpointToken, CreateFile } from '@/types/designTokens';
 import { FigmaBreakPointComponent, FigmaFrame } from '@/types/figma';
 import { DesignTokens } from './DesignTokens.ts';
 import { getTokens, pixelate, remify, snakeCase } from '@/functions';
 
-export class Breakpoints extends DesignTokens<BreakpointJson> {
+export class Breakpoints extends DesignTokens<BreakpointCollection> {
   constructor(figmaFrame: FigmaFrame) {
-    const tokens = getTokens<FigmaBreakPointComponent, BreakpointJson, BreakpointToken>(
+    const tokens = getTokens<FigmaBreakPointComponent, BreakpointCollection, BreakpointToken>(
       'Breakpoints',
       figmaFrame,
       Breakpoints.getBoundingWidth

@@ -1,7 +1,6 @@
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
-import { GenerateTokens, Token, Truthy } from '@/types/designTokens';
+import { DesignTokensGenerator, TokenCollection, Tokens, Truthy } from '@/types/designTokens';
 import { snakeCase } from './stringManipulation.ts';
-import { DesignTokensGenerator } from '@/classes';
 import { designTokensPages } from '@/designTokensPages.ts';
 
 const getFigmaFrame = (figmaFrames: FigmaFrame[], name: string): FigmaFrame | undefined =>
@@ -17,13 +16,13 @@ const getComponents = <T extends FigmaComponent>(artBoard: FigmaFrame): T[] => {
   return components.filter(item => item.type === 'COMPONENT');
 };
 
-const initPayload = <P extends GenerateTokens>(componentsIndex: string): P => {
+const initPayload = <P extends TokenCollection>(componentsIndex: string): P => {
   const payload: P = {} as P;
   Object.assign(payload, { [componentsIndex]: {} });
   return payload;
 };
 
-const getTokens = <T extends FigmaComponent, P extends GenerateTokens, K extends Token>(
+const getTokens = <T extends FigmaComponent, P extends TokenCollection, K extends Tokens>(
   artBoardName: string,
   artBoard: FigmaFrame,
   decorator: (component: T) => K | false

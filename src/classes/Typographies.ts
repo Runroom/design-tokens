@@ -1,11 +1,16 @@
 import { DesignTokens } from './DesignTokens.ts';
-import { CreateFile, Typography, TypographyJson, TypographyToken } from '@/types/designTokens';
+import {
+  CreateFile,
+  Typography,
+  TypographyCollection,
+  TypographyToken
+} from '@/types/designTokens';
 import { FigmaFrame, FigmaTypographyComponent } from '@/types/figma';
 import { camelCase, createRootString, getTokens, kebabCase, remify } from '@/functions';
 
-export class Typographies extends DesignTokens<TypographyJson> {
+export class Typographies extends DesignTokens<TypographyCollection> {
   constructor(figmaFrame: FigmaFrame) {
-    const tokens = getTokens<FigmaTypographyComponent, TypographyJson, TypographyToken>(
+    const tokens = getTokens<FigmaTypographyComponent, TypographyCollection, TypographyToken>(
       'Typography',
       figmaFrame,
       Typographies.getTypography
@@ -23,7 +28,7 @@ export class Typographies extends DesignTokens<TypographyJson> {
     return [createFile(name, typographyVars, outputDir, 'css')];
   }
 
-  private generateCssTypographyVariables({ typography }: TypographyJson) {
+  private generateCssTypographyVariables({ typography }: TypographyCollection) {
     let typographyVars = '';
 
     for (const key in typography) {

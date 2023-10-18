@@ -1,5 +1,5 @@
 export * from './color.ts';
-export * from './token.ts';
+export * from './tokens.ts';
 export * from './typography.ts';
 export * from './spacing.ts';
 export * from './shadow.ts';
@@ -8,3 +8,4 @@ export * from './breakpoint.ts';
 export * from './theme.ts';
 export * from './file.ts';
 export * from './utils.ts';
+export * from './designTokens.ts';

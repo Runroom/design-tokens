@@ -1,11 +1,11 @@
 import { DesignTokens } from './DesignTokens.ts';
-import { CreateFile, SpacingJson, SpacingToken } from '@/types/designTokens';
+import { CreateFile, SpacingCollection, SpacingToken } from '@/types/designTokens';
 import { FigmaFrame, FigmaSpacingComponent } from '@/types/figma';
 import { getTokens, pixelate, remify, snakeCase } from '@/functions';
 
-export class Spacings extends DesignTokens<SpacingJson> {
+export class Spacings extends DesignTokens<SpacingCollection> {
   constructor(figmaFrame: FigmaFrame) {
-    const tokens = getTokens<FigmaSpacingComponent, SpacingJson, SpacingToken>(
+    const tokens = getTokens<FigmaSpacingComponent, SpacingCollection, SpacingToken>(
       'Spacings',
       figmaFrame,
       Spacings.getBoundingWidth

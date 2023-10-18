@@ -1,8 +1,8 @@
-import { GenerateTokens } from '@/types/designTokens/token.ts';
+import { TokenCollection } from '@/types/designTokens/tokens.ts';
 
 export type CreateFile = (
   name: string,
-  payload: GenerateTokens | string,
+  payload: TokenCollection | string,
   outDir: string,
   ext?: string
 ) => Promise<void>;

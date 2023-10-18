@@ -51,6 +51,33 @@ example:
 
 - `npx design-tokens --config-file=myfile.json`
 
+## For Devs:
+
+### Adding New Figma Tokens
+
+Expanding the design tokens in your project is a straightforward process. Here's how you can add new Figma tokens:
+
+1. **Create a Figma Frame:**
+    - In Figma, create a new frame that represents the design tokens you want to add.
+    - Give the frame a clear and descriptive name that reflects the purpose of the tokens.
+
+2. **Update the Configuration:**
+    - Open the design-tokens configuration file (`designtokens.config.json` or similar).
+    - Add the name of the newly created Figma frame to the `pages` array. This ensures that your project recognizes the new tokens.
+
+3. **Define Token Information:**
+    - Add an entry for the new tokens in `src/designTokensPages.ts`. This entry should include the name of the page and the class for this token.
+
+4. **Create a Token Class:**
+    - To manage and process the new tokens, you'll need to create a corresponding class.
+    - Inside the `src/classes` directory, create a new TypeScript class that extends the `DesignTokens` class.
+    - Implement the necessary methods for handling the new tokens. These methods may include generating CSS, writing to files, or other token-specific functionality.
+
+5. **Define Token Types:**
+    - Make sure to define the types associated with the new tokens.
+    - In the `src/types/figma` directory, define types that reflect the structure of the new tokens in Figma.
+    - In the `src/types/designTokens` directory, define types specific to how the tokens will be used.
+
 ## License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

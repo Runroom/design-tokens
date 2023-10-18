@@ -1,5 +1,5 @@
 import { DesignTokens } from './DesignTokens.ts';
-import { ApplyTheme, ColorJson, ColorToken, CreateFile } from '@/types/designTokens';
+import { ApplyTheme, ColorCollection, ColorToken, CreateFile } from '@/types/designTokens';
 import { FigmaColorComponent, FigmaFrame } from '@/types/figma';
 import {
   camelCase,
@@ -11,9 +11,9 @@ import {
   rgbaGenObject
 } from '@/functions';
 
-export class Colors extends DesignTokens<ColorJson> {
+export class Colors extends DesignTokens<ColorCollection> {
   constructor(figmaFrame: FigmaFrame, themes?: string[]) {
-    const tokens = getTokens<FigmaColorComponent, ColorJson, ColorToken>(
+    const tokens = getTokens<FigmaColorComponent, ColorCollection, ColorToken>(
       'Colors',
       figmaFrame,
       Colors.getColors
@@ -36,7 +36,7 @@ export class Colors extends DesignTokens<ColorJson> {
     return promises;
   }
 
-  private generateCssColorVariables({ colors }: ColorJson, themes: string[] = []) {
+  private generateCssColorVariables({ colors }: ColorCollection, themes: string[] = []) {
     let vars = '';
     let hexVars = '';
     let hslVars = '';

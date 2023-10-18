@@ -1,6 +1,6 @@
-import { Token } from '@/types/designTokens/token.ts';
+import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
-export interface ColorJson {
+export interface ColorCollection extends TokenCollection {
   [colors: string]: {
     [key: string]: Color;
   };
@@ -27,6 +27,6 @@ export interface RgbColor {
   a: number;
 }
 
-export interface ColorToken extends Token {
+export interface ColorToken extends Tokens {
   [key: string]: Color;
 }

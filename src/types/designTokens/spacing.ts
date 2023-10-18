@@ -1,6 +1,6 @@
-import { Token } from '@/types/designTokens/token.ts';
+import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
-export interface SpacingJson {
+export interface SpacingCollection extends TokenCollection {
   [spacings: string]: {
     [key: string]: Spacing;
   };
@@ -11,6 +11,6 @@ export interface Spacing {
   remValue: string;
 }
 
-export interface SpacingToken extends Token {
+export interface SpacingToken extends Tokens {
   [key: string]: Spacing;
 }
