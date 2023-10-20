@@ -1,7 +1,7 @@
 import { DesignTokens } from './DesignTokens.ts';
 import { CreateFile, SpacingCollection, SpacingToken } from '@/types/designTokens';
 import { FigmaFrame, FigmaSpacingComponent } from '@/types/figma';
-import { getTokens, pixelate, remify, snakeCase } from '@/functions';
+import { createRootString, getTokens, pixelate, remify, snakeCase } from '@/functions';
 
 export class Spacings extends DesignTokens<SpacingCollection> {
   constructor(figmaFrame: FigmaFrame) {
@@ -18,10 +18,24 @@ export class Spacings extends DesignTokens<SpacingCollection> {
     return [createFile(name, this.tokens, outputDir, 'json')];
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   writeCssVariables(createFile: CreateFile, outputDir: string, name = 'spacings-vars') {
-    // TODO: Implement CSS variables for spacings
-    return [Promise.resolve()];
+    const { spacingsVars } = this.generateCssSpacingVariables(this.tokens);
+    return [createFile(name, spacingsVars, outputDir, 'css')];
+  }
+
+  private generateCssSpacingVariables({ spacings }: SpacingCollection) {
+    let spacingsVars = '';
+    const spacingBaseName = 'spacing';
+
+    for (const key in spacings) {
+      const spacingVarsName = `--${spacingBaseName}-${key}`;
+      const spacingRemValue = `${spacingVarsName}: ${spacings[key].remValue}`;
+      spacingsVars = `${spacingsVars}${spacingRemValue};`;
+    }
+
+    return {
+      spacingsVars: createRootString(spacingsVars)
+    };
   }
 
   static getBoundingWidth(component: FigmaSpacingComponent): SpacingToken | false {
