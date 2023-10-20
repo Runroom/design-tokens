@@ -1,7 +1,7 @@
 import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
 export interface TypographyCollection extends TokenCollection {
-  [typography: string]: {
+  typography: {
     [key: string]: Typography;
   };
 }

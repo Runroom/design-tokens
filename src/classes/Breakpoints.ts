@@ -1,7 +1,7 @@
 import { BreakpointCollection, BreakpointToken, CreateFile } from '@/types/designTokens';
 import { FigmaBreakPointComponent, FigmaFrame } from '@/types/figma';
 import { DesignTokens } from './DesignTokens.ts';
-import { getTokens, pixelate, remify, snakeCase } from '@/functions';
+import { createRootString, getTokens, pixelate, remify, snakeCase } from '@/functions';
 
 export class Breakpoints extends DesignTokens<BreakpointCollection> {
   constructor(figmaFrame: FigmaFrame) {
@@ -18,10 +18,24 @@ export class Breakpoints extends DesignTokens<BreakpointCollection> {
     return [createFile(name, this.tokens, outputDir, 'json')];
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   writeCssVariables(createFile: CreateFile, outputDir: string, name = 'breakpoints-vars') {
-    // TODO: Implement CSS variables for breakpoints
-    return [Promise.resolve()];
+    const { breakpointsVars } = this.generateCssBreakpointVariables(this.tokens);
+    return [createFile(name, breakpointsVars, outputDir, 'css')];
+  }
+
+  private generateCssBreakpointVariables({ breakpoints }: BreakpointCollection) {
+    let breakpointsVars = '';
+    const breakpointsBaseName = 'breakpoint';
+
+    for (const key in breakpoints) {
+      const breakpointVarsName = `--${breakpointsBaseName}-${key}`;
+      const breakpointRemValue = `${breakpointVarsName}: ${breakpoints[key].remValue}`;
+      breakpointsVars = `${breakpointsVars}${breakpointRemValue};`;
+    }
+
+    return {
+      breakpointsVars: createRootString(breakpointsVars)
+    };
   }
 
   static getBoundingWidth(component: FigmaBreakPointComponent): BreakpointToken | false {
