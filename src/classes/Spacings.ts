@@ -44,8 +44,8 @@ export class Spacings extends DesignTokens<SpacingCollection> {
     }
 
     const name = snakeCase(component.name);
-    const value = pixelate(component.absoluteBoundingBox.width);
-    const remValue = remify(component.absoluteBoundingBox.width);
+    const value = pixelate(component.absoluteBoundingBox.height);
+    const remValue = remify(component.absoluteBoundingBox.height);
 
     return {
       [name]: {
