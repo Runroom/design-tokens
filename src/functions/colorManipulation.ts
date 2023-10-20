@@ -5,7 +5,7 @@ const HEX_BASE = 16;
 const getColor = (color: number) => Math.round(color * 255);
 
 const rgbaGen = (r: number, g: number, b: number, a = 1) =>
-  `rgb(${getColor(r)} ${getColor(g)} ${getColor(b)} / ${a})`;
+  `rgb(${getColor(r)} ${getColor(g)} ${getColor(b)} / ${a.toFixed(2)})`;
 
 const rgbaGenObject = (r: number, g: number, b: number, a = 1) => ({
   r: getColor(r),
@@ -78,13 +78,13 @@ const fullColorHsl = (r: number, g: number, b: number, a = 1): HslColor => {
     h: Math.round(hue),
     s: Math.round(saturation * 100),
     l: Math.round(lightness * 100),
-    a: alpha
+    a: Number(alpha.toFixed(3))
   };
 };
 
 const parseRgba = (color: RgbColor) => {
   const { r, g, b, a = 1 } = color;
-  return `rgb(${r} ${g} ${b} / ${a})`;
+  return rgbaGen(r, g, b, a);
 };
 
 export { getColor, rgbaGen, rgbaGenObject, rgbToHex, fullColorHex, fullColorHsl, parseRgba };
