@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.5.2
+
+### Patch Changes
+
+- [#28](https://github.com/Runroom/design-tokens/pull/28)
+  [`9f9b087`](https://github.com/Runroom/design-tokens/commit/9f9b087085d9b84fc8dbfac6d9c4e3dab80769e4)
+  Thanks [@izm20](https://github.com/izm20)! - Refactor, cleanup and improve README
+
 ## 2.5.1
 
 ### Patch Changes
