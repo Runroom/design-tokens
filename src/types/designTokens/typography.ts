@@ -1,6 +1,6 @@
-import { Token } from '@/types/Token.ts';
+import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
-export interface TypographyJson {
+export interface TypographyCollection extends TokenCollection {
   [typography: string]: {
     [key: string]: Typography;
   };
@@ -14,6 +14,6 @@ export interface Typography {
   lineHeight: number;
 }
 
-export interface TypographyToken extends Token {
+export interface TypographyToken extends Tokens {
   [key: string]: Typography;
 }

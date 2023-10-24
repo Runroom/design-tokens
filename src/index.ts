@@ -1,25 +1,22 @@
-import parseTokens from '@/functions/figma-parser.ts';
-import styleDictionary from '@/functions/style-dictionary.ts';
-import parserRuntime from 'yargs-parser';
-import { ParseConfig } from '@/types/Config.ts';
-import * as console from 'console';
-import { EMOJIS } from '@/functions/utils.ts';
+import styleDictionary from '@/functions/styleDictionary.ts';
+import { Arguments } from 'yargs-parser';
+import { ParseConfig } from '@/types/designTokens';
+import { figmaApiConnection } from '@/api';
+import { createCssTokenFiles, createJsonTokenFiles, EMOJIS, log } from '@/functions';
 
-const designTokens = (args: parserRuntime.Arguments, config: ParseConfig) => {
+const designTokens = (args: Arguments, config: ParseConfig) => {
   const command = args._[0];
   const { settings, configFile } = config;
 
-  switch (command) {
-    case 'platforms':
-      parseTokens(settings).then(() => {
-        styleDictionary(configFile);
-      });
-      break;
-    default:
-      parseTokens(settings).then(() => {
-        console.log(`Design tokens generated ${EMOJIS.success}!`);
-      });
-      break;
+  figmaApiConnection(settings).then(generatedTokens => {
+    log('Generating design tokens...', EMOJIS.workingInProgress);
+
+    createJsonTokenFiles(generatedTokens, settings);
+    createCssTokenFiles(generatedTokens, settings);
+  });
+
+  if (command === 'platforms') {
+    styleDictionary(configFile);
   }
 };
 

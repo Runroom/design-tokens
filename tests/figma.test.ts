@@ -1,7 +1,6 @@
 import fetchMock from './mocks/fetchMock';
-
-import { getColors, getSpacings, getTypography } from '../src/functions/decorators.ts';
-import { filterArtBoards, generateTokens } from '../src/functions/utils.ts';
+import { designTokensBuilder, getFigmaFrame } from '../src/functions';
+import { Colors, Spacings, Typographies } from '../src/classes';
 
 const FILE_ID = 'file-id';
 const TOKEN = 'api-token-fake';
@@ -39,10 +38,10 @@ describe('Figma connection', () => {
 
   describe('Json parsing', () => {
     describe('Tokens parser', () => {
-      it('should no art board', () => {
-        const noArtBoard = filterArtBoards('ArtBoard', figmaTree[0].children);
+      it('should no frame', () => {
+        const noArtBoard = getFigmaFrame(figmaTree[0].children, 'FakeFrame');
 
-        expect(noArtBoard.length).toBe(0);
+        expect(noArtBoard).toBeFalsy();
       });
     });
 
@@ -54,15 +53,15 @@ describe('Figma connection', () => {
       let hslColor: any;
 
       beforeAll(() => {
-        tokens = generateTokens('Colors', figmaTree[0].children, getColors);
-        colors = filterArtBoards('Colors', figmaTree[0].children);
+        colors = designTokensBuilder('Colors', ['Colors'], figmaTree[0].children, Colors);
+        tokens = colors?.tokens;
         hexColor = tokens['colors'][Object.keys(tokens['colors'])[0]].hexColor;
         rgbColor = tokens['colors'][Object.keys(tokens['colors'])[0]].rgbColor;
         hslColor = tokens['colors'][Object.keys(tokens['colors'])[0]].hslColor;
       });
 
-      it('filtered artboard is array', () => {
-        expect(Array.isArray(colors)).toBe(true);
+      it('should build Colors design tokens', () => {
+        expect(colors).toBeInstanceOf(Colors);
       });
 
       it('tokens is object', () => {
@@ -95,13 +94,13 @@ describe('Figma connection', () => {
       let spacing: any;
 
       beforeAll(() => {
-        tokens = generateTokens('Spacings', figmaTree[0].children, getSpacings);
-        spacings = filterArtBoards('Spacings', figmaTree[0].children);
+        spacings = designTokensBuilder('Spacings', ['Spacings'], figmaTree[0].children, Spacings);
+        tokens = spacings?.tokens;
         spacing = tokens['spacings'][Object.keys(tokens['spacings'])[0]].value;
       });
 
-      it('filtered artboard is array', () => {
-        expect(Array.isArray(spacings)).toBe(true);
+      it('should build Spacings design tokens', () => {
+        expect(spacings).toBeInstanceOf(Spacings);
       });
       it('tokens is object', () => {
         expect(tokens).toBeInstanceOf(Object);
@@ -117,18 +116,23 @@ describe('Figma connection', () => {
   });
 
   describe('Typography parser', () => {
-    let typography: any;
+    let typographies: any;
     let tokens: any;
     let text: any;
 
     beforeAll(() => {
-      tokens = generateTokens('Typography', figmaTree[0].children, getTypography);
-      typography = filterArtBoards('Typography', figmaTree[0].children);
+      typographies = designTokensBuilder(
+        'Typography',
+        ['Typography'],
+        figmaTree[0].children,
+        Typographies
+      );
+      tokens = typographies?.tokens;
       text = tokens['typography'][Object.keys(tokens['typography'])[0]];
     });
 
-    it('filtered artboard is array', () => {
-      expect(Array.isArray(typography)).toBe(true);
+    it('should build Typographies design tokens', () => {
+      expect(typographies).toBeInstanceOf(Typographies);
     });
 
     it('tokens is object', () => {

@@ -1,12 +1,16 @@
-const config = {
+const jestConfig = {
   roots: ['<rootDir>'],
   verbose: true,
   setupFilesAfterEnv: [],
   moduleFileExtensions: ['js', 'ts'],
-  preset: 'ts-jest',
   testMatch: ['<rootDir>/**/tests/**/*.test.{js,ts}'],
   collectCoverage: true,
-  collectCoverageFrom: ['src/functions/**/*.{ts,js}']
+  collectCoverageFrom: ['src/functions/**/*.{ts,js}'],
+  preset: 'ts-jest',
+  moduleDirectories: ['node_modules', '<rootDir>'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  }
 };
 
-export default config;
+export default jestConfig;
