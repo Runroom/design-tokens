@@ -1,17 +1,21 @@
-import { DesignTokens } from './DesignTokens.ts';
 import { createRootString, getTokens, remify, snakeCase } from '@/functions';
-import { BorderCollection, BorderToken, CreateFile } from '@/types/designTokens';
+import {
+  BorderCollection,
+  BorderToken,
+  CreateFile,
+  DesignTokensGenerator
+} from '@/types/designTokens';
 import { FigmaBorderComponent, FigmaFrame } from '@/types/figma';
 
-export class Borders extends DesignTokens<BorderCollection> {
+export class Borders implements DesignTokensGenerator {
+  readonly tokens: BorderCollection;
+
   constructor(figmaFrame: FigmaFrame) {
-    const tokens = getTokens<FigmaBorderComponent, BorderCollection, BorderToken>(
+    this.tokens = getTokens<FigmaBorderComponent, BorderCollection, BorderToken>(
       'Borders',
       figmaFrame,
-      Borders.getBoundingWidth
+      this.getBoundingWidth
     );
-
-    super(tokens);
   }
 
   writeTokens(createFile: CreateFile, outputDir: string, name = 'borders') {
@@ -38,7 +42,7 @@ export class Borders extends DesignTokens<BorderCollection> {
     };
   }
 
-  static getBoundingWidth(component: FigmaBorderComponent): BorderToken | false {
+  private getBoundingWidth(component: FigmaBorderComponent): BorderToken | false {
     if (!(component && component.name)) {
       return false;
     }

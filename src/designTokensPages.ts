@@ -1,6 +1,5 @@
-import { Breakpoints, Colors, Spacings, Typographies } from '@/classes';
+import { Breakpoints, Colors, Spacings, Typographies, Borders } from '@/classes';
 import { DesignTokensPages } from '@/types/designTokens';
-import { Borders } from '@/classes/Borders.ts';
 
 const designTokensPages: DesignTokensPages[] = [
   {
