@@ -109,6 +109,7 @@ describe('Utils functions', () => {
       const short = { r: 1, g: 1, b: 1, a: 1 };
       const shortRGBA = rgbaGenObject(short.r, short.g, short.b, short.a);
       const shortHex = fullColorHex(shortRGBA.r, shortRGBA.g, shortRGBA.b);
+
       expect(typeof shortHex).toBe('string');
       expect(shortHex).toBe('#fff');
     });
