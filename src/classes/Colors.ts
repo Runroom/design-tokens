@@ -1,5 +1,10 @@
-import { DesignTokens } from './DesignTokens.ts';
-import { ApplyTheme, ColorCollection, ColorToken, CreateFile } from '@/types/designTokens';
+import {
+  ApplyTheme,
+  ColorCollection,
+  ColorToken,
+  CreateFile,
+  DesignTokensGenerator
+} from '@/types/designTokens';
 import { FigmaColorComponent, FigmaFrame } from '@/types/figma';
 import {
   camelCase,
@@ -11,15 +16,18 @@ import {
   rgbaGenObject
 } from '@/functions';
 
-export class Colors extends DesignTokens<ColorCollection> {
+export class Colors implements DesignTokensGenerator {
+  readonly tokens: ColorCollection;
+  readonly themes: string[];
+
   constructor(figmaFrame: FigmaFrame, themes?: string[]) {
-    const tokens = getTokens<FigmaColorComponent, ColorCollection, ColorToken>(
+    this.tokens = getTokens<FigmaColorComponent, ColorCollection, ColorToken>(
       'Colors',
       figmaFrame,
-      Colors.getColors
+      this.getColors
     );
 
-    super(tokens, themes);
+    this.themes = themes || [];
   }
 
   writeTokens(createFile: CreateFile, outputDir: string, name = 'colors') {
@@ -115,7 +123,7 @@ export class Colors extends DesignTokens<ColorCollection> {
     };
   }
 
-  static getColors(component: FigmaColorComponent): ColorToken | false {
+  private getColors(component: FigmaColorComponent): ColorToken | false {
     if (
       !(
         component &&

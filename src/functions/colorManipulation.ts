@@ -33,6 +33,7 @@ const fullColorHex = (r: number, g: number, b: number) => {
   const red = rgbToHex(r);
   const green = rgbToHex(g);
   const blue = rgbToHex(b);
+
   const redReduced = [...new Set(red.split(''))].join('');
   const greenReduced = [...new Set(green.split(''))].join('');
   const blueReduced = [...new Set(blue.split(''))].join('');
