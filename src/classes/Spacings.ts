@@ -1,17 +1,21 @@
-import { DesignTokens } from './DesignTokens.ts';
-import { CreateFile, SpacingCollection, SpacingToken } from '@/types/designTokens';
+import {
+  CreateFile,
+  DesignTokensGenerator,
+  SpacingCollection,
+  SpacingToken
+} from '@/types/designTokens';
 import { FigmaFrame, FigmaSpacingComponent } from '@/types/figma';
 import { getTokens, pixelate, remify, snakeCase } from '@/functions';
 
-export class Spacings extends DesignTokens<SpacingCollection> {
+export class Spacings implements DesignTokensGenerator {
+  readonly tokens: SpacingCollection;
+
   constructor(figmaFrame: FigmaFrame) {
-    const tokens = getTokens<FigmaSpacingComponent, SpacingCollection, SpacingToken>(
+    this.tokens = getTokens<FigmaSpacingComponent, SpacingCollection, SpacingToken>(
       'Spacings',
       figmaFrame,
-      Spacings.getBoundingWidth
+      this.getBoundingWidth
     );
-
-    super(tokens);
   }
 
   writeTokens(createFile: CreateFile, outputDir: string, name = 'spacings') {
@@ -24,7 +28,7 @@ export class Spacings extends DesignTokens<SpacingCollection> {
     return [Promise.resolve()];
   }
 
-  static getBoundingWidth(component: FigmaSpacingComponent): SpacingToken | false {
+  private getBoundingWidth(component: FigmaSpacingComponent): SpacingToken | false {
     if (!(component && component.name)) {
       return false;
     }

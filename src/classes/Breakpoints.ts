@@ -1,17 +1,21 @@
-import { BreakpointCollection, BreakpointToken, CreateFile } from '@/types/designTokens';
+import {
+  BreakpointCollection,
+  BreakpointToken,
+  CreateFile,
+  DesignTokensGenerator
+} from '@/types/designTokens';
 import { FigmaBreakPointComponent, FigmaFrame } from '@/types/figma';
-import { DesignTokens } from './DesignTokens.ts';
 import { createRootString, getTokens, pixelate, remify, snakeCase } from '@/functions';
 
-export class Breakpoints extends DesignTokens<BreakpointCollection> {
+export class Breakpoints implements DesignTokensGenerator {
+  readonly tokens: BreakpointCollection;
+
   constructor(figmaFrame: FigmaFrame) {
-    const tokens = getTokens<FigmaBreakPointComponent, BreakpointCollection, BreakpointToken>(
+    this.tokens = getTokens<FigmaBreakPointComponent, BreakpointCollection, BreakpointToken>(
       'Breakpoints',
       figmaFrame,
-      Breakpoints.getBoundingWidth
+      this.getBoundingWidth
     );
-
-    super(tokens);
   }
 
   writeTokens(createFile: CreateFile, outputDir: string, name = 'breakpoints') {
@@ -38,7 +42,7 @@ export class Breakpoints extends DesignTokens<BreakpointCollection> {
     };
   }
 
-  static getBoundingWidth(component: FigmaBreakPointComponent): BreakpointToken | false {
+  private getBoundingWidth(component: FigmaBreakPointComponent): BreakpointToken | false {
     if (!(component && component.name)) {
       return false;
     }
