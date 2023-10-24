@@ -57,10 +57,10 @@ export type FigmaPage = {
 export type FigmaFrame = {
   id: string;
   name: string;
-  type: string;
+  type: 'FRAME';
   scrollBehavior: string;
   blendMode: string;
-  children?: FigmaComponent[];
+  children?: (FigmaComponent | FigmaFrame)[];
   absoluteBoundingBox: AbsoluteBoundingBoxOrAbsoluteRenderBounds;
   absoluteRenderBounds: AbsoluteBoundingBoxOrAbsoluteRenderBounds;
   constraints: Constraints;

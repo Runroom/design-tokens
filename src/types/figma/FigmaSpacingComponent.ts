@@ -9,7 +9,6 @@ import {
 export interface FigmaSpacingComponent extends FigmaComponent {
   id: string;
   name: string;
-  type: string;
   scrollBehavior: string;
   blendMode: string;
   children?: FigmaSpacingToken[];

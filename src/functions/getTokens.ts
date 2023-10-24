@@ -6,14 +6,38 @@ import { designTokensPages } from '@/designTokensPages.ts';
 const getFigmaFrame = (figmaFrames: FigmaFrame[], name: string): FigmaFrame | undefined =>
   figmaFrames.filter(item => item.name === name)[0];
 
+const treeParser = <T extends FigmaComponent>(frames: (FigmaFrame | FigmaComponent)[]): T[] => {
+  const components: T[] = [];
+
+  for (const frame of frames) {
+    if (frame.type === 'COMPONENT' || frame.type === 'INSTANCE') {
+      components.push(frame as T);
+      continue;
+    }
+
+    if (frame.type === 'FRAME' || frame.type === 'GROUP') {
+      if (!frame.children) {
+        continue;
+      }
+
+      const component = treeParser<T>(frame.children);
+      if (component) {
+        components.push(...component);
+      }
+    }
+  }
+
+  return components;
+};
+
 const getComponents = <T extends FigmaComponent>(artBoard: FigmaFrame): T[] => {
   if (!artBoard || !artBoard.children) {
     return [];
   }
 
-  const components = artBoard.children as T[];
+  const frames = artBoard.children;
 
-  return components.filter(item => item.type === 'COMPONENT');
+  return treeParser<T>(frames);
 };
 
 const initPayload = <P extends TokenCollection>(componentsIndex: string): P => {
