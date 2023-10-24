@@ -88,7 +88,7 @@ const fullColorHsl = (r: number, g: number, b: number, a = 1): HslColor => {
     h: Math.round(hue),
     s: Math.round(saturation * 100),
     l: Math.round(lightness * 100),
-    a: Number(alpha.toFixed(3))
+    a: alpha
   };
 };
 

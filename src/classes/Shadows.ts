@@ -1,17 +1,21 @@
-import { CreateFile, ShadowCollection, ShadowToken } from '@/types/designTokens';
+import {
+  CreateFile,
+  DesignTokensGenerator,
+  ShadowCollection,
+  ShadowToken
+} from '@/types/designTokens';
 import { FigmaFrame, FigmaShadowComponent } from '@/types/figma';
-import { DesignTokens } from './DesignTokens.ts';
 import { createRootString, getTokens, rgbaGen, snakeCase } from '@/functions';
 
-export class Shadows extends DesignTokens<ShadowCollection> {
+export class Shadows implements DesignTokensGenerator {
+  readonly tokens: ShadowCollection;
+
   constructor(figmaFrame: FigmaFrame) {
-    const tokens = getTokens<FigmaShadowComponent, ShadowCollection, ShadowToken>(
+    this.tokens = getTokens<FigmaShadowComponent, ShadowCollection, ShadowToken>(
       'Shadows',
       figmaFrame,
-      Shadows.getShadowsEffects
+      this.getShadowsEffects
     );
-
-    super(tokens);
   }
 
   writeTokens(createFile: CreateFile, outputDir: string, name = 'shadows') {
@@ -58,7 +62,7 @@ export class Shadows extends DesignTokens<ShadowCollection> {
     };
   }
 
-  static getShadowsEffects(component: FigmaShadowComponent): ShadowToken | false {
+  private getShadowsEffects(component: FigmaShadowComponent): ShadowToken | false {
     if (!(component && component.name)) {
       return false;
     }
