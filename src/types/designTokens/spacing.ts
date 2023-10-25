@@ -1,7 +1,7 @@
 import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
 export interface SpacingCollection extends TokenCollection {
-  [spacings: string]: {
+  spacings: {
     [key: string]: Spacing;
   };
 }

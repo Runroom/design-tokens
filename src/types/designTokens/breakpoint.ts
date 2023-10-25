@@ -1,7 +1,7 @@
 import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
 export interface BreakpointCollection extends TokenCollection {
-  [spacings: string]: {
+  breakpoints: {
     [key: string]: Breakpoint;
   };
 }
