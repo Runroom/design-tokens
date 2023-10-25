@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.5.5
+
+### Patch Changes
+
+- [#33](https://github.com/Runroom/design-tokens/pull/33)
+  [`48ae71f`](https://github.com/Runroom/design-tokens/commit/48ae71f5a3943b3b0bacf22ecbb926b7f5b9e641)
+  Thanks [@izm20](https://github.com/izm20)! - Add shadow token
+
 ## 2.5.4
 
 ### Patch Changes
