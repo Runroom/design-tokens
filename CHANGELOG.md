@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.5.6
+
+### Patch Changes
+
+- [#34](https://github.com/Runroom/design-tokens/pull/34)
+  [`1f13b21`](https://github.com/Runroom/design-tokens/commit/1f13b21cb29f93466fbd9293b71356ade59ab3c8)
+  Thanks [@izm20](https://github.com/izm20)! - Improve get tokens parser
+
 ## 2.5.5
 
 ### Patch Changes
