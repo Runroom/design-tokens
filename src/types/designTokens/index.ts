@@ -9,3 +9,4 @@ export * from './theme.ts';
 export * from './file.ts';
 export * from './utils.ts';
 export * from './designTokens.ts';
+export * from './border.ts';
