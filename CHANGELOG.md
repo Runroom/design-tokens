@@ -1,5 +1,17 @@
 # @runroom/design-tokens
 
+## 2.5.3
+
+### Patch Changes
+
+- [#30](https://github.com/Runroom/design-tokens/pull/30)
+  [`a3e1799`](https://github.com/Runroom/design-tokens/commit/a3e1799a76a0d1b8d73e6d9c37441cb5dbf4eb38)
+  Thanks [@izm20](https://github.com/izm20)! - Add spacings css variables
+
+- [#31](https://github.com/Runroom/design-tokens/pull/31)
+  [`01e7463`](https://github.com/Runroom/design-tokens/commit/01e7463e34345e931fbe9584088437c6296ab08e)
+  Thanks [@izm20](https://github.com/izm20)! - Add breakpoints css variables
+
 ## 2.5.2
 
 ### Patch Changes
