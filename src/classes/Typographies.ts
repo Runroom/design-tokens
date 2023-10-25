@@ -1,6 +1,6 @@
-import { DesignTokens } from './DesignTokens.ts';
 import {
   CreateFile,
+  DesignTokensGenerator,
   Typography,
   TypographyCollection,
   TypographyToken
@@ -8,15 +8,15 @@ import {
 import { FigmaFrame, FigmaTypographyComponent } from '@/types/figma';
 import { camelCase, createRootString, getTokens, kebabCase, remify } from '@/functions';
 
-export class Typographies extends DesignTokens<TypographyCollection> {
+export class Typographies implements DesignTokensGenerator {
+  readonly tokens: TypographyCollection;
+
   constructor(figmaFrame: FigmaFrame) {
-    const tokens = getTokens<FigmaTypographyComponent, TypographyCollection, TypographyToken>(
+    this.tokens = getTokens<FigmaTypographyComponent, TypographyCollection, TypographyToken>(
       'Typography',
       figmaFrame,
-      Typographies.getTypography
+      this.getTypography
     );
-
-    super(tokens);
   }
 
   writeTokens(createFile: CreateFile, outputDir: string, name = 'typographies') {
@@ -47,7 +47,7 @@ export class Typographies extends DesignTokens<TypographyCollection> {
     };
   }
 
-  static getTypography(component: FigmaTypographyComponent): TypographyToken | false {
+  private getTypography(component: FigmaTypographyComponent): TypographyToken | false {
     if (!(component && component.name && component.children && component.children.length)) {
       return false;
     }

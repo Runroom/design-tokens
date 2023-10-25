@@ -143,3 +143,8 @@ export type FigmaColor = {
   b: number;
   a: number;
 };
+
+export type FigmaOffset = {
+  x: number;
+  y: number;
+};

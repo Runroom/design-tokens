@@ -1,5 +1,41 @@
 # @runroom/design-tokens
 
+## 2.5.5
+
+### Patch Changes
+
+- [#33](https://github.com/Runroom/design-tokens/pull/33)
+  [`48ae71f`](https://github.com/Runroom/design-tokens/commit/48ae71f5a3943b3b0bacf22ecbb926b7f5b9e641)
+  Thanks [@izm20](https://github.com/izm20)! - Add shadow token
+
+## 2.5.4
+
+### Patch Changes
+
+- [#32](https://github.com/Runroom/design-tokens/pull/32)
+  [`213d4a0`](https://github.com/Runroom/design-tokens/commit/213d4a04ef44d643c2391e4af0d156d66cd13d61)
+  Thanks [@izm20](https://github.com/izm20)! - Add border designtoken
+
+## 2.5.3
+
+### Patch Changes
+
+- [#30](https://github.com/Runroom/design-tokens/pull/30)
+  [`a3e1799`](https://github.com/Runroom/design-tokens/commit/a3e1799a76a0d1b8d73e6d9c37441cb5dbf4eb38)
+  Thanks [@izm20](https://github.com/izm20)! - Add spacings css variables
+
+- [#31](https://github.com/Runroom/design-tokens/pull/31)
+  [`01e7463`](https://github.com/Runroom/design-tokens/commit/01e7463e34345e931fbe9584088437c6296ab08e)
+  Thanks [@izm20](https://github.com/izm20)! - Add breakpoints css variables
+
+## 2.5.2
+
+### Patch Changes
+
+- [#28](https://github.com/Runroom/design-tokens/pull/28)
+  [`9f9b087`](https://github.com/Runroom/design-tokens/commit/9f9b087085d9b84fc8dbfac6d9c4e3dab80769e4)
+  Thanks [@izm20](https://github.com/izm20)! - Refactor, cleanup and improve README
+
 ## 2.5.1
 
 ### Patch Changes

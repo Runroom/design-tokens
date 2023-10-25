@@ -1,7 +1,7 @@
 import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
 export interface ColorCollection extends TokenCollection {
-  [colors: string]: {
+  colors: {
     [key: string]: Color;
   };
 }
