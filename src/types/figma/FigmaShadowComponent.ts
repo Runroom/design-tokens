@@ -10,7 +10,6 @@ import {
 export interface FigmaShadowComponent extends FigmaComponent {
   id: string;
   name: string;
-  type: string;
   scrollBehavior: string;
   blendMode: string;
   children?: FigmaShadowToken[];

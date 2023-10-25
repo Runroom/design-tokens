@@ -9,7 +9,7 @@ import {
 export interface FigmaComponent {
   id: string;
   name: string;
-  type: string;
+  type: 'COMPONENT' | 'INSTANCE';
   scrollBehavior: string;
   blendMode: string;
   children?: FigmaComponentToken[];
