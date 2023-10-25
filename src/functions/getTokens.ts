@@ -20,9 +20,9 @@ const treeParser = <T extends FigmaComponent>(frames: (FigmaFrame | FigmaCompone
         continue;
       }
 
-      const component = treeParser<T>(frame.children);
-      if (component) {
-        components.push(...component);
+      const newComponents = treeParser<T>(frame.children);
+      if (newComponents) {
+        components.push(...newComponents);
       }
     }
   }
