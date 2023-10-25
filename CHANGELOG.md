@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.5.4
+
+### Patch Changes
+
+- [#32](https://github.com/Runroom/design-tokens/pull/32)
+  [`213d4a0`](https://github.com/Runroom/design-tokens/commit/213d4a04ef44d643c2391e4af0d156d66cd13d61)
+  Thanks [@izm20](https://github.com/izm20)! - Add border designtoken
+
 ## 2.5.3
 
 ### Patch Changes
