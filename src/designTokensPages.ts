@@ -1,4 +1,4 @@
-import { Breakpoints, Colors, Spacings, Typographies, Borders } from '@/classes';
+import { Breakpoints, Colors, Shadows, Spacings, Borders, Typographies } from '@/classes';
 import { DesignTokensPages } from '@/types/designTokens';
 
 const designTokensPages: DesignTokensPages[] = [
@@ -21,6 +21,10 @@ const designTokensPages: DesignTokensPages[] = [
   {
     name: 'Borders',
     class: Borders
+  },
+  {
+    name: 'Shadows',
+    class: Shadows
   }
 ];
 
