@@ -1,21 +1,14 @@
 import { HslColor, RgbColor } from '@/types/designTokens';
+import { formatDecimals } from '@/functions/unitsConvert.ts';
 
 const HEX_BASE = 16;
 
 const getColor = (color: number) => Math.round(color * 255);
 
-const getAlpha = (alpha: number) => {
-  const alphaNormalize = Math.min(alpha, 1);
-  const decimals = alphaNormalize.toString().split('.')[1];
-  const alphaFixed = alphaNormalize.toFixed(2);
-  const alphaNumber = Number(alphaFixed);
-  return decimals && decimals.length > 2 ? alphaNumber : alphaNormalize;
-};
-
 const parseRgba = ({ r, g, b, a = 1 }: RgbColor) => `rgb(${r} ${g} ${b} / ${a})`;
 
 const rgbaGen = (r: number, g: number, b: number, a = 1) =>
-  parseRgba({ r: getColor(r), g: getColor(g), b: getColor(b), a: getAlpha(a) });
+  parseRgba({ r: getColor(r), g: getColor(g), b: getColor(b), a: formatDecimals(a) });
 
 const rgbaGenObject = (r: number, g: number, b: number, a = 1) => ({
   r: getColor(r),

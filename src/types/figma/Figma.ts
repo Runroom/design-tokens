@@ -130,11 +130,25 @@ export type Constraints = {
   horizontal: string;
 };
 
+export type GradientFills = {
+  blendMode: string;
+  visible?: boolean;
+  type: string;
+  color: FigmaColor;
+  gradientHandlePositions: FigmaOffset[];
+  gradientStops: GradientStopsEntity[];
+};
+
 export type FillsEntityOrBackgroundEntity = {
   blendMode: string;
   visible?: boolean;
   type: string;
   color: FigmaColor;
+};
+
+export type GradientStopsEntity = {
+  color: FigmaColor;
+  position: number;
 };
 
 export type FigmaColor = {
