@@ -16,7 +16,12 @@ const isFigmaResponse = (response: unknown): response is FigmaResponse => {
   return true;
 };
 
-const figmaApiConnection = async ({ figmaApiKey, figmaProjectId, figmaPages, figmaThemes }: Config) => {
+const figmaApiConnection = async ({
+  figmaApiKey,
+  figmaProjectId,
+  figmaPages,
+  figmaThemes
+}: Config) => {
   log('Connecting with Figma...', EMOJIS.workingInProgress);
 
   const url = `https://api.figma.com/v1/files/${figmaProjectId}`;
