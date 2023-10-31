@@ -6,3 +6,4 @@ export * from './FigmaTypographyComponent.ts';
 export * from './FigmaBreakPointComponent.ts';
 export * from './FigmaBorderComponent.ts';
 export * from './FigmaShadowComponent.ts';
+export * from './FigmaGradientComponent.ts';

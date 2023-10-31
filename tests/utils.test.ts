@@ -12,7 +12,9 @@ import {
   rgbToHex,
   createThemeRootString,
   formatNumber,
-  pixelate
+  pixelate,
+  gradientDegree,
+  formatDecimals
 } from '../src/functions';
 
 describe('Utils functions', () => {
@@ -219,6 +221,38 @@ describe('Utils functions', () => {
       expect(srcTheme).toBe(
         ":root[data-theme='light']{colors: { primary: #fff } color-scheme: light;}"
       );
+    });
+  });
+
+  describe('degrees', () => {
+    it('should calculate the degrees between two gradient points', () => {
+      const point1 = { x: 100, y: 0 };
+      const point2 = { x: 100, y: 100 };
+
+      const degrees = gradientDegree(point1, point2);
+
+      expect(degrees).toBe('90deg');
+    });
+  });
+
+  describe('format decimals', () => {
+    it('should format number with 3 or more decimals', () => {
+      const number = 10.50001;
+
+      const formatted = formatDecimals(number);
+
+      expect(formatted).toBe(10.5);
+    });
+
+    it("should doesn't format number with 2 or less decimals", () => {
+      const number = 10.51;
+      const number2 = 11;
+
+      const formatted = formatDecimals(number);
+      const formatted2 = formatDecimals(number2);
+
+      expect(formatted).toBe(10.51);
+      expect(formatted2).toBe(11);
     });
   });
 });
