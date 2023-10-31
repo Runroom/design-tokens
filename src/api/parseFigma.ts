@@ -1,13 +1,9 @@
 import { EMOJIS, log } from '@/functions/logger.ts';
 import { FigmaResponse } from '@/types/figma';
 import { generateDesignTokens } from '@/functions/getTokens.ts';
+import { DesignTokensGenerator, FigmaPages } from '@/types/designTokens';
 
-const parseFigma = (
-  response: FigmaResponse,
-  figmaPageName: string,
-  pages: string[],
-  themes?: string[]
-) => {
+const parseFigma = (response: FigmaResponse, FIGMA_PAGES: FigmaPages, themes?: string[]) => {
   if (!response) {
     throw new Error(`\x1b[31m\n\n${EMOJIS.error} No styles found\n`);
   }
@@ -16,22 +12,29 @@ const parseFigma = (
     throw new Error(`\x1b[31m\n\n${EMOJIS.error} ${response.status}\n\x1b[0m`);
   }
 
-  const figmaTree = response.document.children.filter(page => page.name === figmaPageName);
-
-  if (figmaTree.length === 0) {
-    throw new Error(`There is no page called '${figmaPageName}'`);
-  }
+  const figmaTree = response.document.children;
+  const tokens: DesignTokensGenerator[] = [];
 
   log('Parsing Figma tokens...', EMOJIS.workingInProgress);
 
-  const figmaDesignTokensPage = figmaTree[0];
+  for (const page in FIGMA_PAGES) {
+    const figmaPage = figmaTree.find(figmaPage => figmaPage.name === page);
 
-  if (!figmaDesignTokensPage.children || figmaDesignTokensPage.children.length === 0) {
-    return;
+    if (figmaPage === undefined) {
+      throw new Error(`There is no page called '${page}'`);
+    }
+
+    const frames = FIGMA_PAGES[page];
+    if (!figmaPage.children || figmaPage.children.length === 0) {
+      return;
+    }
+
+    const figmaDesignTokensFrames = figmaPage.children;
+    const generateTokens = generateDesignTokens(frames, figmaDesignTokensFrames, themes);
+    tokens.push(...generateTokens);
   }
 
-  const figmaDesignTokensFrames = figmaDesignTokensPage.children;
-  return generateDesignTokens(pages, figmaDesignTokensFrames, themes);
+  return tokens;
 };
 
 export { parseFigma };

@@ -1,0 +1,25 @@
+{
+    "FIGMA_APIKEY": "",
+    "FIGMA_ID": "",
+    "TOKENS_DIR": "design-tokens",
+    "FIGMA_PAGES": {
+        "Colors": ["Colors"],
+        "Design Tokens v2": ["Gradients"],
+        "Design Tokens": ["Typography", "Shadows"],
+        "Spacings": ["Spacings"]
+    },
+    "themes": ["light", "dark"],
+    "source": ["design-tokens/**/*.json"],
+    "platforms": {
+        "scss": {
+            "transformGroup": "scss",
+            "buildPath": "tokens/variables/scss/",
+            "files": [
+                {
+                    "destination": "variables.scss",
+                    "format": "scss/variables"
+                }
+            ]
+        }
+    }
+}

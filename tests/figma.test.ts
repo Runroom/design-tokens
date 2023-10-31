@@ -17,11 +17,14 @@ const PAGE_NAME = '🔄 Design Tokens';
 describe('Figma connection', () => {
   let figmaJson: any;
   let figmaTree: any;
+  let figmaFrame: any;
 
   beforeAll(async () => {
     await fetchMock(FETCH_URL, FETCH_DATA).then(response => {
       figmaJson = response;
       figmaTree = response.json();
+      figmaTree = figmaTree.document.children;
+      figmaFrame = getFigmaFrame(figmaTree, PAGE_NAME);
     });
   });
 
@@ -37,11 +40,17 @@ describe('Figma connection', () => {
   });
 
   describe('Json parsing', () => {
-    describe('Tokens parser', () => {
+    describe('Frames', () => {
       it('should no frame', () => {
-        const noArtBoard = getFigmaFrame(figmaTree[0].children, 'FakeFrame');
+        const noFigmaFrame = getFigmaFrame(figmaTree, 'FakeFrame');
 
-        expect(noArtBoard).toBeFalsy();
+        expect(noFigmaFrame).toBeFalsy();
+      });
+
+      it('should find frame', () => {
+        const figmaFrame = getFigmaFrame(figmaTree, PAGE_NAME);
+
+        expect(figmaFrame).toBeTruthy();
       });
     });
 
@@ -53,7 +62,7 @@ describe('Figma connection', () => {
       let hslColor: any;
 
       beforeAll(() => {
-        colors = designTokensBuilder('Colors', ['Colors'], figmaTree[0].children, Colors);
+        colors = designTokensBuilder('Colors', ['Colors'], figmaFrame, Colors);
         tokens = colors?.tokens;
         hexColor = tokens['colors'][Object.keys(tokens['colors'])[0]].hexColor;
         rgbColor = tokens['colors'][Object.keys(tokens['colors'])[0]].rgbColor;
@@ -94,7 +103,7 @@ describe('Figma connection', () => {
       let spacing: any;
 
       beforeAll(() => {
-        spacings = designTokensBuilder('Spacings', ['Spacings'], figmaTree[0].children, Spacings);
+        spacings = designTokensBuilder('Spacings', ['Spacings'], figmaFrame, Spacings);
         tokens = spacings?.tokens;
         spacing = tokens['spacings'][Object.keys(tokens['spacings'])[0]].value;
       });
@@ -121,12 +130,7 @@ describe('Figma connection', () => {
     let text: any;
 
     beforeAll(() => {
-      typographies = designTokensBuilder(
-        'Typography',
-        ['Typography'],
-        figmaTree[0].children,
-        Typographies
-      );
+      typographies = designTokensBuilder('Typography', ['Typography'], figmaFrame, Typographies);
       tokens = typographies?.tokens;
       text = tokens['typography'][Object.keys(tokens['typography'])[0]];
     });

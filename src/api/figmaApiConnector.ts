@@ -16,13 +16,7 @@ const isFigmaResponse = (response: unknown): response is FigmaResponse => {
   return true;
 };
 
-const figmaApiConnection = async ({
-  FIGMA_APIKEY,
-  FIGMA_ID,
-  FIGMA_PAGE_NAME,
-  pages,
-  themes
-}: Config) => {
+const figmaApiConnection = async ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGES, themes }: Config) => {
   log('Connecting with Figma...', EMOJIS.workingInProgress);
 
   const url = `https://api.figma.com/v1/files/${FIGMA_ID}`;
@@ -42,7 +36,7 @@ const figmaApiConnection = async ({
       throw new Error(`No styles found`);
     }
 
-    const parsedTokens = parseFigma(responseJson, FIGMA_PAGE_NAME, pages, themes);
+    const parsedTokens = parseFigma(responseJson, FIGMA_PAGES, themes);
 
     if (!parsedTokens || !parsedTokens.length) {
       throw new Error(`No styles found`);

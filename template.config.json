@@ -1,9 +1,13 @@
 {
     "FIGMA_APIKEY": "",
     "FIGMA_ID": "",
-    "FIGMA_PAGE_NAME": "Design Tokens",
     "TOKENS_DIR": "design-tokens",
-    "pages": ["Colors"],
+    "FIGMA_PAGES": {
+        "Colors": ["Colors"],
+        "Design Tokens v2": ["Gradients"],
+        "Design Tokens": ["Typography", "Shadows"],
+        "Spacings": ["Spacings"]
+    },
     "themes": ["light", "dark"],
     "source": ["design-tokens/**/*.json"],
     "platforms": {

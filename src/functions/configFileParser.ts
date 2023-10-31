@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Arguments } from 'yargs-parser';
-import { Config, ParseConfig } from '@/types/designTokens';
+import { Config, FigmaPages, ParseConfig } from '@/types/designTokens';
 import { EMOJIS, logWarning } from './logger.ts';
 
 const CONFIG_FILE_DEFAULT1 = 'designtokens.config.json';
@@ -18,13 +18,13 @@ const throwError = (error?: string) => {
   throw new Error(`\n\x1b[31m${EMOJIS.error} ${error}.\n`);
 };
 
-const handleErrors = (FIGMA_APIKEY: string, FIGMA_ID: string, FIGMA_PAGE_NAME: string) => {
+const handleErrors = (FIGMA_APIKEY: string, FIGMA_ID: string, FIGMA_PAGES: FigmaPages) => {
   if (!FIGMA_APIKEY) {
     throwError('No Figma API Key found');
   } else if (!FIGMA_ID) {
     throwError('No Figma ID found');
-  } else if (!FIGMA_PAGE_NAME) {
-    throwError('No Figma Page Name found');
+  } else if (!FIGMA_PAGES || (FIGMA_PAGES && Object.keys(FIGMA_PAGES).length === 0)) {
+    throwError('No Figma Pages found');
   }
 };
 
@@ -63,11 +63,10 @@ const configFileParser = (argv: Arguments) => {
         }
 
         const settings: Config = JSON.parse(data);
-        const { FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME } = settings;
-        const { TOKENS_DIR } = settings;
+        const { FIGMA_APIKEY, FIGMA_ID, TOKENS_DIR, FIGMA_PAGES } = settings;
         const tokensDir = getTokensDir(TOKENS_DIR);
 
-        handleErrors(FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME);
+        handleErrors(FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGES);
         createDir(tokensDir);
 
         resolve({ settings, configFile });
