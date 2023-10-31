@@ -1,14 +1,14 @@
 {
-    "FIGMA_APIKEY": "",
-    "FIGMA_ID": "",
-    "TOKENS_DIR": "design-tokens",
-    "FIGMA_PAGES": {
+    "figmaApiKey": "",
+    "figmaProjectId": "",
+    "outputDir": "design-tokens",
+    "figmaPages": {
         "Colors": ["Colors"],
         "Design Tokens v2": ["Gradients"],
         "Design Tokens": ["Typography", "Shadows"],
         "Spacings": ["Spacings"]
     },
-    "themes": ["light", "dark"],
+    "figmaThemes": ["light", "dark"],
     "source": ["design-tokens/**/*.json"],
     "platforms": {
         "scss": {

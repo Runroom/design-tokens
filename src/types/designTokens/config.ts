@@ -1,11 +1,11 @@
 import { DesignPages } from '@/designTokensPages.ts';
 
 export type Config = {
-  FIGMA_APIKEY: string;
-  FIGMA_ID: string;
-  FIGMA_PAGES: FigmaPages;
-  TOKENS_DIR: string;
-  themes?: string[];
+  figmaApiKey: string;
+  figmaProjectId: string;
+  figmaPages: FigmaPages;
+  outputDir: string;
+  figmaThemes?: string[];
   source?: string[];
   platforms?: {
     [key: string]: [

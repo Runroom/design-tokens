@@ -4,7 +4,6 @@
 ![node](https://img.shields.io/node/v/@runroom/design-tokens.svg)
 
 [![CI](https://github.com/Runroom/design-tokens/actions/workflows/ci.yaml/badge.svg)](https://github.com/Runroom/design-tokens/actions/workflows/ci.yaml)
-[![codecov](https://codecov.io/gh/Runroom/design-tokens/branch/main/graph/badge.svg)](https://codecov.io/gh/Runroom/design-tokens)
 
 Originally inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
 
@@ -23,17 +22,17 @@ specify a different config file while executing. You can find a template for you
 
 #### Explanation of config file fields
 
-`FIGMA_APIKEY`: Your figma unique Api key to perform the auth on figma's API
+`figmaApiKey`: Your figma unique Api key to perform the auth on figma's API
 
-`FIGMA_ID`: Your figma project ID (Can be found in your's project URL, after the figma.com/file/FIGMA_ID/..)
+`figmaProjectId`: Your figma project ID (Can be found in your's project URL, after the figma.com/file/FIGMA_ID/..)
 
-`FIGMA_PAGE_NAME`: The name of your figma's page
+`figmaPages`: An object with the figma pages you want to sync. The key is the name of the page and the value is an
+array of the figma frames that contains the tokens
 
-`TOKENS_DIR`: The source where will be stored the package's output
+`outputDir`: The source where will be stored the package's output
 
-`pages`: This is an array of the "Frames" that have the tokens attached (ex: "Colors", "Typography")
-
-`themes`: An array of your's figma project themes. If you aren't usign themes, just remove the key (first element of the array, will be setted as default)
+`figmaThemes`: An array of your's figma project themes. If you aren't usign themes, just remove the key (first element of the
+array, will be setted as default)
 
 `source`: It is used by the platforms option to determine the json file
 
@@ -63,15 +62,18 @@ Expanding the design tokens in your project is a straightforward process. Here's
 
 2. **Update the Configuration:**
     - Open the design-tokens configuration file (`designtokens.config.json` or similar).
-    - Add the name of the newly created Figma frame to the `pages` array. This ensures that your project recognizes the new tokens.
+    - Add the name of the newly created Figma frame to the `pages` array. This ensures that your project recognizes the
+      new tokens.
 
 3. **Define Token Information:**
-    - Add an entry for the new tokens in `src/designTokensPages.ts`. This entry should include the name of the page and the class for this token.
+    - Add an entry for the new tokens in `src/designTokensPages.ts`. This entry should include the name of the page and
+      the class for this token.
 
 4. **Create a Token Class:**
     - To manage and process the new tokens, you'll need to create a corresponding class.
     - Inside the `src/classes` directory, create a new TypeScript class that extends the `DesignTokens` class.
-    - Implement the necessary methods for handling the new tokens. These methods may include generating CSS, writing to files, or other token-specific functionality.
+    - Implement the necessary methods for handling the new tokens. These methods may include generating CSS, writing to
+      files, or other token-specific functionality.
 
 5. **Define Token Types:**
     - Make sure to define the types associated with the new tokens.

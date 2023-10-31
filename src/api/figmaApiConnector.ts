@@ -16,14 +16,14 @@ const isFigmaResponse = (response: unknown): response is FigmaResponse => {
   return true;
 };
 
-const figmaApiConnection = async ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGES, themes }: Config) => {
+const figmaApiConnection = async ({ figmaApiKey, figmaProjectId, figmaPages, figmaThemes }: Config) => {
   log('Connecting with Figma...', EMOJIS.workingInProgress);
 
-  const url = `https://api.figma.com/v1/files/${FIGMA_ID}`;
+  const url = `https://api.figma.com/v1/files/${figmaProjectId}`;
   const options = {
     method: 'GET',
     headers: {
-      'X-Figma-Token': FIGMA_APIKEY
+      'X-Figma-Token': figmaApiKey
     }
   };
 
@@ -36,7 +36,7 @@ const figmaApiConnection = async ({ FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGES, themes 
       throw new Error(`No styles found`);
     }
 
-    const parsedTokens = parseFigma(responseJson, FIGMA_PAGES, themes);
+    const parsedTokens = parseFigma(responseJson, figmaPages, figmaThemes);
 
     if (!parsedTokens || !parsedTokens.length) {
       throw new Error(`No styles found`);

@@ -18,23 +18,23 @@ const throwError = (error?: string) => {
   throw new Error(`\n\x1b[31m${EMOJIS.error} ${error}.\n`);
 };
 
-const handleErrors = (FIGMA_APIKEY: string, FIGMA_ID: string, FIGMA_PAGES: FigmaPages) => {
-  if (!FIGMA_APIKEY) {
+const handleErrors = (figmaApiKey: string, figmaProjectId: string, figmaPages: FigmaPages) => {
+  if (!figmaApiKey) {
     throwError('No Figma API Key found');
-  } else if (!FIGMA_ID) {
+  } else if (!figmaProjectId) {
     throwError('No Figma ID found');
-  } else if (!FIGMA_PAGES || (FIGMA_PAGES && Object.keys(FIGMA_PAGES).length === 0)) {
+  } else if (!figmaPages || (figmaPages && Object.keys(figmaPages).length === 0)) {
     throwError('No Figma Pages found');
   }
 };
 
-const getTokensDir = (TOKENS_DIR: string) => {
-  if (!TOKENS_DIR || TOKENS_DIR === '') {
+const getTokensDir = (outputDir: string) => {
+  if (!outputDir || outputDir === '') {
     logWarning(`No TOKENS_DIR found, default outdir is set to 'tokens'`);
     return 'tokens';
   }
 
-  return TOKENS_DIR;
+  return outputDir;
 };
 
 const createDir = (tokensDir: string) => {
@@ -63,10 +63,10 @@ const configFileParser = (argv: Arguments) => {
         }
 
         const settings: Config = JSON.parse(data);
-        const { FIGMA_APIKEY, FIGMA_ID, TOKENS_DIR, FIGMA_PAGES } = settings;
-        const tokensDir = getTokensDir(TOKENS_DIR);
+        const { figmaApiKey, figmaProjectId, outputDir, figmaPages } = settings;
+        const tokensDir = getTokensDir(outputDir);
 
-        handleErrors(FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGES);
+        handleErrors(figmaApiKey, figmaProjectId, figmaPages);
         createDir(tokensDir);
 
         resolve({ settings, configFile });
