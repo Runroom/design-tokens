@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 2.5.7
+
+### Patch Changes
+
+- [#41](https://github.com/Runroom/design-tokens/pull/41)
+  [`2d1ad8f`](https://github.com/Runroom/design-tokens/commit/2d1ad8f4d2552a523a672dc536dff950930517a5)
+  Thanks [@izm20](https://github.com/izm20)! - Add gradient token
+
 ## 2.5.6
 
 ### Patch Changes
