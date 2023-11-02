@@ -2,9 +2,7 @@ import { FigmaComponent, FigmaFrame } from '@/types/figma';
 import { DesignTokensGenerator, TokenCollection, Tokens, Truthy } from '@/types/designTokens';
 import { snakeCase } from './stringManipulation.ts';
 import { DESIGN_TOKENS, DesignPages } from '@/designTokensPages.ts';
-
-const getFigmaFrame = (figmaFrames: FigmaFrame[], name: string): FigmaFrame | undefined =>
-  figmaFrames.filter(item => item.name === name)[0];
+import { validateFrameName } from './ensureType.ts';
 
 const treeParser = <T extends FigmaComponent>(frames: (FigmaFrame | FigmaComponent)[]): T[] => {
   const components: T[] = [];
@@ -82,9 +80,6 @@ const designTokensBuilder = <T>(
   return new designToken(frame, themes);
 };
 
-const validateFrameName = (name: string): name is DesignPages =>
-  Object.keys(DESIGN_TOKENS).includes(name);
-
 const generateDesignTokens = (
   pages: string[],
   figmaDesignTokensFrames: FigmaFrame[],
@@ -111,11 +106,4 @@ const generateDesignTokens = (
   return writeFilePromises;
 };
 
-export {
-  generateDesignTokens,
-  getTokens,
-  getFigmaFrame,
-  truthy,
-  designTokensBuilder,
-  getComponents
-};
+export { generateDesignTokens, getTokens, truthy, designTokensBuilder, getComponents };

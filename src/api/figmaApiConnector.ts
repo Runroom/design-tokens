@@ -1,20 +1,7 @@
 import fetch from 'node-fetch';
-import { FigmaResponse } from '@/types/figma';
 import { Config } from '@/types/designTokens';
 import { parseFigma } from './parseFigma.ts';
-import { EMOJIS, log } from '@/functions';
-
-const isFigmaResponse = (response: unknown): response is FigmaResponse => {
-  if (typeof response !== 'object') {
-    return false;
-  }
-
-  if (!((response as FigmaResponse).document || (response as FigmaResponse).document.children)) {
-    return false;
-  }
-
-  return true;
-};
+import { EMOJIS, isFigmaResponse, log } from '@/functions';
 
 const figmaApiConnection = async ({
   figmaApiKey,

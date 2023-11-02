@@ -8,7 +8,10 @@ const CONFIG_FILE_DEFAULT1 = 'designtokens.config.json';
 const CONFIG_FILE_DEFAULT2 = 'design-tokens.config.json';
 
 const getConfigFilePath = (APP_DIR: string, argv: Arguments) =>
-  `${APP_DIR}/${argv['config-file'] || CONFIG_FILE_DEFAULT1 || CONFIG_FILE_DEFAULT2}`;
+  `${APP_DIR}/${argv['config-file'] || CONFIG_FILE_DEFAULT1 || CONFIG_FILE_DEFAULT2}`.replace(
+    /(\/\/)+/g,
+    '/'
+  );
 
 const throwError = (error?: string) => {
   if (!error) {

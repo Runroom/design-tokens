@@ -1,14 +1,14 @@
 {
-    "FIGMA_APIKEY": "",
-    "FIGMA_ID": "",
-    "TOKENS_DIR": "design-tokens",
-    "FIGMA_PAGES": {
+    "figmaApiKey": "fake-api-key",
+    "figmaProjectId": "fake-project-id",
+    "outputDir": "design-tokens",
+    "figmaPages": {
         "Colors": ["Colors"],
         "Design Tokens v2": ["Gradients"],
-        "Design Tokens": ["Typography", "Shadows"],
+        "\uD83D\uDD04 Design Tokens": ["Typography", "Shadows", "Borders", "Breakpoints"],
         "Spacings": ["Spacings"]
     },
-    "themes": ["light", "dark"],
+    "figmaThemes": ["light", "dark"],
     "source": ["design-tokens/**/*.json"],
     "platforms": {
         "scss": {
