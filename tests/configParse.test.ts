@@ -21,13 +21,16 @@ describe('Config parser', () => {
   beforeAll(async () => {
     jest.mock('fs', () => ({
       access: jest.fn().mockImplementation((path, mode, callback) => {
-        callback(null);
+        return callback(null);
+      }),
+      accessSync: jest.fn().mockImplementation((path, mode, callback) => {
+        return callback(null);
       }),
       readFile: jest.fn().mockImplementation((path, callback) => {
-        callback(null, JSON.stringify(configFile));
+        return callback(null, JSON.stringify(configFile));
       }),
       readFileSync: jest.fn().mockImplementation((path, callback) => {
-        callback(null, JSON.stringify(configFile));
+        return callback(null, JSON.stringify(configFile));
       }),
       mkdirSync: jest.fn(),
       existsSync: jest.fn().mockReturnValue(true)
