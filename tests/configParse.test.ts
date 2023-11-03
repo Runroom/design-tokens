@@ -2,6 +2,7 @@ import { configFileParser } from '../src/functions';
 import { ParseConfig } from '../src/types/designTokens';
 import { Arguments } from 'yargs-parser';
 import configFile from './mocks/template.config.json';
+import fs from 'fs';
 
 describe('Config parser', () => {
   let config: ParseConfig;
@@ -36,8 +37,8 @@ describe('Config parser', () => {
       existsSync: jest.fn().mockReturnValue(true)
     }));
 
-    config = await configFileParser(argv);
-    configWithFile = await configFileParser(argvWithFile);
+    config = await configFileParser(argv, fs);
+    configWithFile = await configFileParser(argvWithFile, fs);
   });
 
   it('should parse config file', () => {
