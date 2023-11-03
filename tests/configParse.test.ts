@@ -1,8 +1,7 @@
 import { configFileParser } from '../src/functions';
 import { ParseConfig } from '../src/types/designTokens';
 import { Arguments } from 'yargs-parser';
-import configFile from './mocks/template.config.json';
-import fs from 'fs';
+import fsMock from './mocks/fsMock';
 
 describe('Config parser', () => {
   let config: ParseConfig;
@@ -20,25 +19,8 @@ describe('Config parser', () => {
   const DEFAULT_CONFIG_FILE = 'designtokens.config.json';
 
   beforeAll(async () => {
-    jest.mock('fs', () => ({
-      access: jest.fn().mockImplementation((path, mode, callback) => {
-        return callback(null);
-      }),
-      accessSync: jest.fn().mockImplementation((path, mode, callback) => {
-        return callback(null);
-      }),
-      readFile: jest.fn().mockImplementation((path, callback) => {
-        return callback(null, JSON.stringify(configFile));
-      }),
-      readFileSync: jest.fn().mockImplementation((path, callback) => {
-        return callback(null, JSON.stringify(configFile));
-      }),
-      mkdirSync: jest.fn(),
-      existsSync: jest.fn().mockReturnValue(true)
-    }));
-
-    config = await configFileParser(argv, fs);
-    configWithFile = await configFileParser(argvWithFile, fs);
+    config = await configFileParser(argv, fsMock);
+    configWithFile = await configFileParser(argvWithFile, fsMock);
   });
 
   it('should parse config file', () => {
