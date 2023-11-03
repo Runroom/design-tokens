@@ -1,7 +1,6 @@
 import { configFileParser } from '../src/functions';
 import { ParseConfig } from '../src/types/designTokens';
 import { Arguments } from 'yargs-parser';
-import fs, { NoParamCallback, PathLike } from 'fs';
 import configFile from './mocks/template.config.json';
 
 describe('Config parser', () => {
@@ -20,16 +19,20 @@ describe('Config parser', () => {
   const DEFAULT_CONFIG_FILE = 'designtokens.config.json';
 
   beforeAll(async () => {
-    fs.mkdirSync = jest.fn();
-    fs.existsSync = jest.fn().mockReturnValue(true);
-    fs.access.__promisify__ = jest
-      .fn()
-      .mockImplementation((path: PathLike, mode: number | undefined, callback: NoParamCallback) => {
+    jest.mock('fs', () => ({
+      access: jest.fn().mockImplementation((path, mode, callback) => {
         callback(null);
-      });
-    fs.readFile.__promisify__ = jest.fn().mockImplementation(() => {
-      return Promise.resolve(JSON.stringify(configFile));
-    });
+      }),
+      readFile: jest.fn().mockImplementation((path, callback) => {
+        callback(null, JSON.stringify(configFile));
+      }),
+      readFileSync: jest.fn().mockImplementation((path, callback) => {
+        callback(null, JSON.stringify(configFile));
+      }),
+      mkdirSync: jest.fn(),
+      existsSync: jest.fn().mockReturnValue(true)
+    }));
+
     config = await configFileParser(argv);
     configWithFile = await configFileParser(argvWithFile);
   });
