@@ -6,8 +6,6 @@ on:
             - main
     pull_request:
 
-permissions: read-all
-
 jobs:
     node:
         name: Node ${{ matrix.node }}
