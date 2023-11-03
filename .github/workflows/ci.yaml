@@ -33,8 +33,5 @@ jobs:
             - name: Run Build
               run: npm run build
 
-            - name: Run Test
-              run: npm run test:ci
-
             - name: Coverage Report
               uses: ArtiomTr/jest-coverage-report-action@v2
