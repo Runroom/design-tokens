@@ -1,7 +1,8 @@
 import { configFileParser } from '../src/functions';
 import { ParseConfig } from '../src/types/designTokens';
 import { Arguments } from 'yargs-parser';
-import fs from 'fs';
+import fs, { NoParamCallback, PathLike } from 'fs';
+import configFile from './mocks/template.config.json';
 
 describe('Config parser', () => {
   let config: ParseConfig;
@@ -21,6 +22,14 @@ describe('Config parser', () => {
   beforeAll(async () => {
     fs.mkdirSync = jest.fn();
     fs.existsSync = jest.fn().mockReturnValue(true);
+    fs.access.__promisify__ = jest
+      .fn()
+      .mockImplementation((path: PathLike, mode: number | undefined, callback: NoParamCallback) => {
+        callback(null);
+      });
+    fs.readFile.__promisify__ = jest.fn().mockImplementation(() => {
+      return Promise.resolve(JSON.stringify(configFile));
+    });
     config = await configFileParser(argv);
     configWithFile = await configFileParser(argvWithFile);
   });
