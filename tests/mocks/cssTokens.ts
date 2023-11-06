@@ -1,8 +1,7 @@
 export default {
   Borders:
     ':root{--border-radius-small: 0.125rem;--border-radius-medium: 0.25rem;--border-radius-full: 6.25rem;}',
-  Breakpoints:
-    ':root{--breakpoint-small: 20rem;--breakpoint-medium: 40rem;--breakpoint-large: 60rem;--breakpoint-xlarge: 80rem;}',
+  Breakpoints: ':root{--breakpoint-tablet: 48rem;--breakpoint-desktop: 80rem;}',
   Gradients:
     ':root{--gradient-radial_generic_dark: radial-gradient(circle, rgb(100 116 139 / 1) 0%, rgb(15 23 42 / 1) 100%);--gradient_generic_dark: linear-gradient(45deg, rgb(100 116 139 / 1) 0%, rgb(15 23 42 / 1) 100%);--gradient_generic_light: linear-gradient(45deg, rgb(226 232 240 / 1) 0%, rgb(148 163 184 / 1) 97%);--gradient_correos: linear-gradient(45deg, rgb(237 216 31 / 1) 0%, rgb(255 191 28 / 1) 100%);--gradient_flex: linear-gradient(45deg, rgb(255 89 120 / 1) 0%, rgb(113 28 255 / 1) 37%, rgb(14 138 255 / 1) 70%, rgb(153 246 219 / 1) 100%);--gradient_restaurant: linear-gradient(45deg, rgb(14 138 255 / 1) 0%, rgb(113 28 255 / 1) 100%);--gradient_transporte: linear-gradient(45deg, rgb(153 246 219 / 1) 0%, rgb(14 138 255 / 1) 97%);--gradient_guarderia: linear-gradient(45deg, rgb(255 89 120 / 1) 0%, rgb(113 28 255 / 1) 100%);--gradient_flex_productos: linear-gradient(45deg, rgb(182 12 0 / 1) 23%, rgb(247 39 23 / 1) 100%);--gradient_regalo: linear-gradient(45deg, rgb(205 210 219 / 1) 0%, rgb(20 52 103 / 1) 100%);--gradient_dietas: linear-gradient(45deg, rgb(232 202 47 / 1) 0%, rgb(113 161 18 / 1) 94%);--gradient_edenred: linear-gradient(45deg, rgb(254 28 104 / 1) 23%, rgb(247 40 24 / 1) 100%);}',
   Colors: {

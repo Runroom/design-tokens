@@ -1,5 +1,13 @@
 import response from './mocks/figmaTree.json';
-import { Borders, Colors, Gradients, Shadows, Spacings, Typographies } from '../src/classes';
+import {
+  Borders,
+  Breakpoints,
+  Colors,
+  Gradients,
+  Shadows,
+  Spacings,
+  Typographies
+} from '../src/classes';
 import { FigmaFrame } from '../src/types/figma';
 import cssTokens from './mocks/cssTokens';
 
@@ -54,6 +62,54 @@ describe('Tokens', () => {
       borders.writeCssVariables(createFile, outputDir, name);
 
       expect(createFile).toHaveBeenCalledWith(name, cssTokens.Borders, outputDir, 'css');
+    });
+  });
+
+  describe('Breakpoints', () => {
+    let breakpoints: Breakpoints;
+    let figmaFrame: any;
+
+    beforeAll(() => {
+      figmaFrame = figmaPage.children.find(
+        (figmaFrame: FigmaFrame) => figmaFrame.name === 'Breakpoints'
+      );
+      breakpoints = new Breakpoints(figmaFrame);
+    });
+
+    it('should create Breakpoints tokens', () => {
+      const tokens = breakpoints.tokens;
+
+      expect(tokens).toBeDefined();
+    });
+
+    it('should build tokens', () => {
+      const breakpointCollection = breakpoints.tokens.breakpoints;
+      const breakpointToken = breakpointCollection['tablet'];
+
+      expect(breakpointCollection).toBeDefined();
+      expect(breakpointToken).toBeDefined();
+      expect(breakpointToken.value).toMatch('768px');
+      expect(breakpointToken.remValue).toMatch('48rem');
+    });
+
+    it('should write tokens', () => {
+      const createFile = jest.fn();
+      const outputDir = 'tokens';
+      const name = 'breakpoints';
+
+      breakpoints.writeTokens(createFile, outputDir, name);
+
+      expect(createFile).toHaveBeenCalledWith(name, breakpoints.tokens, outputDir, 'json');
+    });
+
+    it('should write css variables', () => {
+      const createFile = jest.fn();
+      const outputDir = 'tokens';
+      const name = 'breakpoints-vars';
+
+      breakpoints.writeCssVariables(createFile, outputDir, name);
+
+      expect(createFile).toHaveBeenCalledWith(name, cssTokens.Breakpoints, outputDir, 'css');
     });
   });
 
