@@ -7,31 +7,9 @@ import {
 } from '@/types/figma/Figma.ts';
 
 export interface FigmaComponent {
-  id: string;
   name: string;
   type: 'COMPONENT' | 'INSTANCE';
-  scrollBehavior: string;
-  blendMode: string;
   children?: FigmaComponentToken[];
-  absoluteBoundingBox: AbsoluteBoundingBoxOrAbsoluteRenderBounds;
-  absoluteRenderBounds: AbsoluteBoundingBoxOrAbsoluteRenderBounds;
-  constraints: Constraints;
-  layoutAlign: string;
-  layoutGrow: number;
-  layoutSizingHorizontal: string;
-  layoutSizingVertical: string;
-  clipsContent: boolean;
-  background?: FillsEntityOrBackgroundEntity[];
-  fills?: FillsEntityOrBackgroundEntity[];
-  strokes?: unknown[];
-  strokeWeight: number;
-  strokeAlign: string;
-  backgroundColor: FigmaColor;
-  layoutMode?: string;
-  counterAxisSizingMode?: string;
-  itemSpacing?: number;
-  layoutWrap?: string;
-  effects?: unknown[];
 }
 
 export interface FigmaBaseToken {
@@ -43,11 +21,10 @@ export interface FigmaBaseToken {
   absoluteBoundingBox: AbsoluteBoundingBoxOrAbsoluteRenderBounds;
   absoluteRenderBounds: AbsoluteBoundingBoxOrAbsoluteRenderBounds;
   constraints: Constraints;
-  fills?: FillsEntityOrBackgroundEntity[];
   strokes?: FillsEntityOrBackgroundEntity[];
   strokeWeight: number;
   strokeAlign: string;
-  effects?: null[];
+  effects: unknown[];
 }
 
 export interface FigmaComponentToken extends FigmaBaseToken {

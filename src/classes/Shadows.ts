@@ -67,7 +67,15 @@ export class Shadows implements DesignTokensGenerator {
       return false;
     }
 
-    const shadowEffects = component.effects.filter(
+    const figmaShadows = component.effects.length
+      ? component.effects
+      : component.children[0].effects;
+
+    if (!figmaShadows) {
+      return false;
+    }
+
+    const shadowEffects = figmaShadows.filter(
       effect => effect.type === 'DROP_SHADOW' && effect.visible
     );
 

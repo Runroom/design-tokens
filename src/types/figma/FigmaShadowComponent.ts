@@ -1,39 +1,13 @@
 import { FigmaComponent, FigmaComponentToken } from '@/types/figma/FigmaComponent.ts';
-import {
-  AbsoluteBoundingBoxOrAbsoluteRenderBounds,
-  Constraints,
-  FigmaColor,
-  FigmaOffset,
-  FillsEntityOrBackgroundEntity
-} from '@/types/figma/Figma.ts';
+import { FigmaColor, FigmaOffset } from '@/types/figma/Figma.ts';
 
 export interface FigmaShadowComponent extends FigmaComponent {
-  id: string;
-  name: string;
-  scrollBehavior: string;
-  blendMode: string;
-  children?: FigmaShadowToken[];
-  absoluteBoundingBox: AbsoluteBoundingBoxOrAbsoluteRenderBounds;
-  absoluteRenderBounds: AbsoluteBoundingBoxOrAbsoluteRenderBounds;
-  constraints: Constraints;
-  layoutAlign: string;
-  layoutGrow: number;
-  layoutSizingHorizontal: string;
-  layoutSizingVertical: string;
-  clipsContent: boolean;
-  background?: FillsEntityOrBackgroundEntity[];
-  fills?: FillsEntityOrBackgroundEntity[];
-  strokes?: null[];
-  strokeWeight: number;
-  strokeAlign: string;
-  backgroundColor: FigmaColor;
+  children: FigmaShadowToken[];
   effects: FigmaEffects[];
 }
 
 export interface FigmaShadowToken extends FigmaComponentToken {
-  clipsContent: boolean;
-  componentId: string;
-  overrides?: unknown[];
+  effects: FigmaEffects[];
 }
 
 export interface FigmaEffects {
