@@ -1,5 +1,17 @@
 # @runroom/design-tokens
 
+## 3.0.0
+
+### Major Changes
+
+- [#43](https://github.com/Runroom/design-tokens/pull/43)
+  [`0a24b19`](https://github.com/Runroom/design-tokens/commit/0a24b19b8c90428f2d2825c43ab2167cc8e95147)
+  Thanks [@izm20](https://github.com/izm20)! - Improve config file options.
+
+  We replace `FIGMA_PAGE_NAME` and `pages` for `FIGMA_PAGES`.
+
+  This new option allows us to parse different pages from Figma and search tokens in all of them.
+
 ## 2.5.7
 
 ### Patch Changes
