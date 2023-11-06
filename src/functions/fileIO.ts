@@ -23,21 +23,21 @@ const writeBatch = (files: Promise<void>[], success: string) => {
     });
 };
 
-const createJsonTokenFiles = (generatedTokens: DesignTokensGenerator[], { TOKENS_DIR }: Config) => {
+const createJsonTokenFiles = (generatedTokens: DesignTokensGenerator[], { outputDir }: Config) => {
   const jsonFiles: Promise<void>[] = [];
 
   for (const token of generatedTokens) {
-    jsonFiles.push(...token.writeTokens(createFile, TOKENS_DIR));
+    jsonFiles.push(...token.writeTokens(createFile, outputDir));
   }
 
   writeBatch(jsonFiles, 'JSON Tokens generated');
 };
 
-const createCssTokenFiles = (tokens: DesignTokensGenerator[], { TOKENS_DIR }: Config) => {
+const createCssTokenFiles = (tokens: DesignTokensGenerator[], { outputDir }: Config) => {
   const cssFiles: Promise<void>[] = [];
 
   for (const token of tokens) {
-    cssFiles.push(...token.writeCssVariables(createFile, TOKENS_DIR));
+    cssFiles.push(...token.writeCssVariables(createFile, outputDir));
   }
 
   writeBatch(cssFiles, 'CSS Tokens generated');

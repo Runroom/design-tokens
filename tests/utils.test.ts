@@ -1,21 +1,26 @@
 import {
-  kebabCase,
-  snakeCase,
   camelCase,
-  trim,
+  createCssTokenFiles,
+  createFile,
+  createJsonTokenFiles,
+  createThemeRootString,
+  formatDecimals,
+  formatNumber,
+  fullColorHex,
+  fullColorHsl,
   getColor,
+  gradientDegree,
+  kebabCase,
+  parseRgba,
+  pixelate,
   rgbaGen,
   rgbaGenObject,
-  parseRgba,
-  fullColorHsl,
-  fullColorHex,
   rgbToHex,
-  createThemeRootString,
-  formatNumber,
-  pixelate,
-  gradientDegree,
-  formatDecimals
+  snakeCase,
+  trim
 } from '../src/functions';
+import { promises as fsp } from 'fs';
+import { Config, CreateFile, DesignTokensGenerator } from '../src/types/designTokens';
 
 describe('Utils functions', () => {
   const c = 0.65;
@@ -253,6 +258,62 @@ describe('Utils functions', () => {
 
       expect(formatted).toBe(10.51);
       expect(formatted2).toBe(11);
+    });
+  });
+
+  describe('file IO', () => {
+    const outDir = 'test';
+    const name = 'test';
+    const ext = 'json';
+    const payload = 'test';
+    const generatedToken: DesignTokensGenerator = {
+      writeTokens(
+        createFile: CreateFile,
+        outputDir: string,
+        name: string = 'test'
+      ): Promise<void>[] {
+        return [createFile(name, payload, outputDir, 'json')];
+      },
+      writeCssVariables(
+        createFile: CreateFile,
+        outputDir: string,
+        name: string = 'test'
+      ): Promise<void>[] {
+        const promises: Promise<void>[] = [];
+        promises.push(createFile(name, payload, outputDir, 'css'));
+        promises.push(createFile(name, payload, outputDir, 'css'));
+        promises.push(createFile(name, payload, outputDir, 'css'));
+        return promises;
+      }
+    };
+    const generatedTokens: DesignTokensGenerator[] = [
+      generatedToken,
+      generatedToken,
+      generatedToken
+    ];
+
+    beforeEach(() => {
+      fsp.writeFile = jest.fn();
+      jest.spyOn(fsp, 'writeFile');
+    });
+
+    it('should write a file', () => {
+      createFile(name, payload, outDir, ext);
+      const payloadStringify = JSON.stringify(payload, null, 2).replace(/^"(.+(?="$))"$/, '$1');
+
+      expect(fsp.writeFile).toHaveBeenCalledWith(`${outDir}/${name}.${ext}`, payloadStringify);
+    });
+
+    it('should write a batch of json files', () => {
+      createJsonTokenFiles(generatedTokens, { outputDir: outDir } as Config);
+
+      expect(fsp.writeFile).toHaveBeenCalledTimes(3);
+    });
+
+    it('should write a batch of css files', () => {
+      createCssTokenFiles(generatedTokens, { outputDir: outDir } as Config);
+
+      expect(fsp.writeFile).toHaveBeenCalledTimes(9);
     });
   });
 });

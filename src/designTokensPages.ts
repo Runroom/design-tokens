@@ -7,37 +7,17 @@ import {
   Typographies,
   Gradients
 } from '@/classes';
-import { DesignTokensPages } from '@/types/designTokens';
 
-const designTokensPages: DesignTokensPages[] = [
-  {
-    name: 'Colors',
-    class: Colors
-  },
-  {
-    name: 'Typography',
-    class: Typographies
-  },
-  {
-    name: 'Spacings',
-    class: Spacings
-  },
-  {
-    name: 'Breakpoints',
-    class: Breakpoints
-  },
-  {
-    name: 'Borders',
-    class: Borders
-  },
-  {
-    name: 'Shadows',
-    class: Shadows
-  },
-  {
-    name: 'Gradients',
-    class: Gradients
-  }
-];
+const DESIGN_TOKENS = {
+  Colors: Colors,
+  Typography: Typographies,
+  Spacings: Spacings,
+  Breakpoints: Breakpoints,
+  Borders: Borders,
+  Shadows: Shadows,
+  Gradients: Gradients
+} as const;
 
-export { designTokensPages };
+type DesignPages = keyof typeof DESIGN_TOKENS;
+
+export { DESIGN_TOKENS, DesignPages };

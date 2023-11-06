@@ -1,35 +1,21 @@
 import fetch from 'node-fetch';
-import { FigmaResponse } from '@/types/figma';
 import { Config } from '@/types/designTokens';
 import { parseFigma } from './parseFigma.ts';
-import { EMOJIS, log } from '@/functions';
-
-const isFigmaResponse = (response: unknown): response is FigmaResponse => {
-  if (typeof response !== 'object') {
-    return false;
-  }
-
-  if (!((response as FigmaResponse).document || (response as FigmaResponse).document.children)) {
-    return false;
-  }
-
-  return true;
-};
+import { EMOJIS, isFigmaResponse, log } from '@/functions';
 
 const figmaApiConnection = async ({
-  FIGMA_APIKEY,
-  FIGMA_ID,
-  FIGMA_PAGE_NAME,
-  pages,
-  themes
+  figmaApiKey,
+  figmaProjectId,
+  figmaPages,
+  figmaThemes
 }: Config) => {
   log('Connecting with Figma...', EMOJIS.workingInProgress);
 
-  const url = `https://api.figma.com/v1/files/${FIGMA_ID}`;
+  const url = `https://api.figma.com/v1/files/${figmaProjectId}`;
   const options = {
     method: 'GET',
     headers: {
-      'X-Figma-Token': FIGMA_APIKEY
+      'X-Figma-Token': figmaApiKey
     }
   };
 
@@ -42,7 +28,7 @@ const figmaApiConnection = async ({
       throw new Error(`No styles found`);
     }
 
-    const parsedTokens = parseFigma(responseJson, FIGMA_PAGE_NAME, pages, themes);
+    const parsedTokens = parseFigma(responseJson, figmaPages, figmaThemes);
 
     if (!parsedTokens || !parsedTokens.length) {
       throw new Error(`No styles found`);

@@ -31,5 +31,5 @@ jobs:
             - name: Run Build
               run: npm run build
 
-            - run: npm run test:ci
-            - uses: codecov/codecov-action@v3
+            - name: Coverage Report
+              uses: ArtiomTr/jest-coverage-report-action@v2

@@ -7,3 +7,4 @@ export * from './logger.ts';
 export * from './stringManipulation.ts';
 export * from './styleDictionary.ts';
 export * from './unitsConvert.ts';
+export * from './ensureType.ts';

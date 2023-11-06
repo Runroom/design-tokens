@@ -5,7 +5,7 @@ const jestConfig = {
   moduleFileExtensions: ['js', 'ts'],
   testMatch: ['<rootDir>/**/tests/**/*.test.{js,ts}'],
   collectCoverage: true,
-  collectCoverageFrom: ['src/functions/**/*.{ts,js}'],
+  collectCoverageFrom: ['src/**/*.{ts,js}'],
   preset: 'ts-jest',
   moduleDirectories: ['node_modules', '<rootDir>'],
   moduleNameMapper: {

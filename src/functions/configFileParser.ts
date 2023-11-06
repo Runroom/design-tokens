@@ -1,14 +1,17 @@
-import fs from 'fs';
 import path from 'path';
 import { Arguments } from 'yargs-parser';
-import { Config, ParseConfig } from '@/types/designTokens';
+import { Config, FigmaPages, ParseConfig } from '@/types/designTokens';
 import { EMOJIS, logWarning } from './logger.ts';
+import fs from 'fs';
 
 const CONFIG_FILE_DEFAULT1 = 'designtokens.config.json';
 const CONFIG_FILE_DEFAULT2 = 'design-tokens.config.json';
 
 const getConfigFilePath = (APP_DIR: string, argv: Arguments) =>
-  `${APP_DIR}/${argv['config-file'] || CONFIG_FILE_DEFAULT1 || CONFIG_FILE_DEFAULT2}`;
+  `${APP_DIR}/${argv['config-file'] || CONFIG_FILE_DEFAULT1 || CONFIG_FILE_DEFAULT2}`.replace(
+    /(\/\/)+/g,
+    '/'
+  );
 
 const throwError = (error?: string) => {
   if (!error) {
@@ -18,44 +21,44 @@ const throwError = (error?: string) => {
   throw new Error(`\n\x1b[31m${EMOJIS.error} ${error}.\n`);
 };
 
-const handleErrors = (FIGMA_APIKEY: string, FIGMA_ID: string, FIGMA_PAGE_NAME: string) => {
-  if (!FIGMA_APIKEY) {
+const handleErrors = (figmaApiKey: string, figmaProjectId: string, figmaPages: FigmaPages) => {
+  if (!figmaApiKey) {
     throwError('No Figma API Key found');
-  } else if (!FIGMA_ID) {
+  } else if (!figmaProjectId) {
     throwError('No Figma ID found');
-  } else if (!FIGMA_PAGE_NAME) {
-    throwError('No Figma Page Name found');
+  } else if (!figmaPages || (figmaPages && Object.keys(figmaPages).length === 0)) {
+    throwError('No Figma Pages found');
   }
 };
 
-const getTokensDir = (TOKENS_DIR: string) => {
-  if (!TOKENS_DIR || TOKENS_DIR === '') {
+const getTokensDir = (outputDir: string) => {
+  if (!outputDir || outputDir === '') {
     logWarning(`No TOKENS_DIR found, default outdir is set to 'tokens'`);
     return 'tokens';
   }
 
-  return TOKENS_DIR;
+  return outputDir;
 };
 
-const createDir = (tokensDir: string) => {
-  if (!fs.existsSync(tokensDir)) {
-    fs.mkdirSync(tokensDir, null);
+const createDir = (tokensDir: string, fileSystem: typeof fs) => {
+  if (!fileSystem.existsSync(tokensDir)) {
+    fileSystem.mkdirSync(tokensDir, null);
   }
 };
 
-const configFileParser = (argv: Arguments) => {
+const configFileParser = (argv: Arguments, fileSystem: typeof fs) => {
   const APP_DIR = path.resolve().split('/node_modules')[0];
   const configFile = getConfigFilePath(APP_DIR, argv);
 
   return new Promise<ParseConfig>(resolve => {
-    fs.access(configFile, fs.constants.F_OK, error => {
+    fileSystem.access(configFile, fileSystem.constants.F_OK, error => {
       if (error) {
         throwError(
           "Config file is not accessible. please check the users's permissions on the file"
         );
       }
 
-      fs.readFile(configFile, 'utf8', (error, data) => {
+      fileSystem.readFile(configFile, 'utf8', (error, data) => {
         if (error) {
           throwError(
             "Config file not found.\nUse default 'designtokens.config.json' or specify a different one by using --config-file=FILENAME"
@@ -63,12 +66,11 @@ const configFileParser = (argv: Arguments) => {
         }
 
         const settings: Config = JSON.parse(data);
-        const { FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME } = settings;
-        const { TOKENS_DIR } = settings;
-        const tokensDir = getTokensDir(TOKENS_DIR);
+        const { figmaApiKey, figmaProjectId, outputDir, figmaPages } = settings;
+        const tokensDir = getTokensDir(outputDir);
 
-        handleErrors(FIGMA_APIKEY, FIGMA_ID, FIGMA_PAGE_NAME);
-        createDir(tokensDir);
+        handleErrors(figmaApiKey, figmaProjectId, figmaPages);
+        createDir(tokensDir, fileSystem);
 
         resolve({ settings, configFile });
       });

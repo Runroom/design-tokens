@@ -1,10 +1,8 @@
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
 import { DesignTokensGenerator, TokenCollection, Tokens, Truthy } from '@/types/designTokens';
 import { snakeCase } from './stringManipulation.ts';
-import { designTokensPages } from '@/designTokensPages.ts';
-
-const getFigmaFrame = (figmaFrames: FigmaFrame[], name: string): FigmaFrame | undefined =>
-  figmaFrames.filter(item => item.name === name)[0];
+import { DESIGN_TOKENS, DesignPages } from '@/designTokensPages.ts';
+import { validateFrameName } from './ensureType.ts';
 
 const treeParser = <T extends FigmaComponent>(frames: (FigmaFrame | FigmaComponent)[]): T[] => {
   const components: T[] = [];
@@ -69,20 +67,17 @@ const getTokens = <T extends FigmaComponent, P extends TokenCollection, K extend
 const truthy = <T>(value: T): value is Truthy<T> => !!value;
 
 const designTokensBuilder = <T>(
-  name: string,
+  name: DesignPages,
   pages: string[],
-  figmaDesignTokensFrames: FigmaFrame[],
-  designToken: new (frame: FigmaFrame, themes?: string[]) => T,
+  frame: FigmaFrame,
+  designToken: new (figmaFrame: FigmaFrame, themes?: string[] | undefined) => T,
   themes?: string[]
 ): T | undefined => {
   if (!pages.includes(name)) {
     return;
   }
-  const artBoard = getFigmaFrame(figmaDesignTokensFrames, name);
-  if (!artBoard) {
-    return;
-  }
-  return new designToken(artBoard, themes);
+
+  return new designToken(frame, themes);
 };
 
 const generateDesignTokens = (
@@ -90,26 +85,25 @@ const generateDesignTokens = (
   figmaDesignTokensFrames: FigmaFrame[],
   themes?: string[]
 ) => {
-  const writeFilePromises: DesignTokensGenerator[] = designTokensPages
-    .map(designToken =>
-      designTokensBuilder(
-        designToken.name,
+  const writeFilePromises: DesignTokensGenerator[] = figmaDesignTokensFrames
+    .map(frame => {
+      if (!validateFrameName(frame.name)) {
+        return;
+      }
+      const frameName = frame.name;
+      const classToken = DESIGN_TOKENS[frame.name];
+
+      return designTokensBuilder<DesignTokensGenerator>(
+        frameName,
         pages,
-        figmaDesignTokensFrames,
-        designToken.class,
+        frame,
+        classToken,
         themes
-      )
-    )
+      );
+    })
     .filter(truthy);
 
   return writeFilePromises;
 };
 
-export {
-  generateDesignTokens,
-  getTokens,
-  getFigmaFrame,
-  truthy,
-  designTokensBuilder,
-  getComponents
-};
+export { generateDesignTokens, getTokens, truthy, designTokensBuilder, getComponents };
