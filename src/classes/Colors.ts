@@ -73,15 +73,12 @@ export class Colors implements DesignTokensGenerator {
         if (themes.includes(cssVarNameTheme)) {
           cssVarName = cssVarName.replace(`${cssVarNameTheme}-`, '');
 
-          applyTheme[
-            cssVarNameTheme
-          ].vars = `${applyTheme[cssVarNameTheme].vars}${cssVarName}: rgb(${r} ${g} ${b} / ${rgbAlpha});`;
-          applyTheme[
-            cssVarNameTheme
-          ].hexVars = `${applyTheme[cssVarNameTheme].hexVars}${cssVarName}: ${colors[key].hexColor};`;
-          applyTheme[
-            cssVarNameTheme
-          ].hslVars = `${applyTheme[cssVarNameTheme].hslVars}${cssVarName}: hsl(${h} ${s}% ${l}% / ${hslAlpha});`;
+          applyTheme[cssVarNameTheme].vars =
+            `${applyTheme[cssVarNameTheme].vars}${cssVarName}: rgb(${r} ${g} ${b} / ${rgbAlpha});`;
+          applyTheme[cssVarNameTheme].hexVars =
+            `${applyTheme[cssVarNameTheme].hexVars}${cssVarName}: ${colors[key].hexColor};`;
+          applyTheme[cssVarNameTheme].hslVars =
+            `${applyTheme[cssVarNameTheme].hslVars}${cssVarName}: hsl(${h} ${s}% ${l}% / ${hslAlpha});`;
         }
       } else {
         vars = `${vars}${cssVarName}: rgb(${r} ${g} ${b} / ${rgbAlpha});`;
