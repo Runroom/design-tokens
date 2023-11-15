@@ -6,10 +6,12 @@ const jestConfig = {
   testMatch: ['<rootDir>/**/tests/**/*.test.{js,ts}'],
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,js}'],
-  preset: 'ts-jest',
   moduleDirectories: ['node_modules', '<rootDir>'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
+  },
+  transform: {
+    '^.+\\.(t|j)sx?$': ['@swc/jest']
   }
 };
 
