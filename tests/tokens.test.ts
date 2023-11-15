@@ -10,6 +10,13 @@ import {
 } from '../src/classes';
 import { FigmaFrame } from '../src/types/figma';
 import cssTokens from './mocks/cssTokens';
+import {
+  Border,
+  Breakpoint,
+  Color,
+  DesignTokensGenerator,
+  TokenPayload
+} from '../src/types/designTokens';
 
 describe('Tokens', () => {
   let figmaPage: any;
@@ -19,14 +26,15 @@ describe('Tokens', () => {
   });
 
   describe('Borders', () => {
-    let borders: Borders;
+    let borders: DesignTokensGenerator;
     let figmaFrame: any;
 
     beforeAll(() => {
       figmaFrame = figmaPage.children.find(
         (figmaFrame: FigmaFrame) => figmaFrame.name === 'Borders'
       );
-      borders = new Borders(figmaFrame);
+      const payload = { frame: figmaFrame } as TokenPayload;
+      borders = Borders(payload);
     });
 
     it('should create Borders tokens', () => {
@@ -37,7 +45,7 @@ describe('Tokens', () => {
 
     it('should build tokens', () => {
       const borderCollection = borders.tokens.borders;
-      const borderToken = borderCollection['small'];
+      const borderToken = borderCollection['small'] as Border;
 
       expect(borderCollection).toBeDefined();
       expect(borderToken).toBeDefined();
@@ -66,14 +74,15 @@ describe('Tokens', () => {
   });
 
   describe('Breakpoints', () => {
-    let breakpoints: Breakpoints;
+    let breakpoints: DesignTokensGenerator;
     let figmaFrame: any;
 
     beforeAll(() => {
       figmaFrame = figmaPage.children.find(
         (figmaFrame: FigmaFrame) => figmaFrame.name === 'Breakpoints'
       );
-      breakpoints = new Breakpoints(figmaFrame);
+      const payload = { frame: figmaFrame } as TokenPayload;
+      breakpoints = Breakpoints(payload);
     });
 
     it('should create Breakpoints tokens', () => {
@@ -84,7 +93,7 @@ describe('Tokens', () => {
 
     it('should build tokens', () => {
       const breakpointCollection = breakpoints.tokens.breakpoints;
-      const breakpointToken = breakpointCollection['tablet'];
+      const breakpointToken = breakpointCollection['tablet'] as Breakpoint;
 
       expect(breakpointCollection).toBeDefined();
       expect(breakpointToken).toBeDefined();
@@ -114,14 +123,15 @@ describe('Tokens', () => {
   });
 
   describe('Colors', () => {
-    let colors: Colors;
+    let colors: DesignTokensGenerator;
     let figmaFrame: any;
 
     beforeAll(() => {
       figmaFrame = figmaPage.children.find(
         (figmaFrame: FigmaFrame) => figmaFrame.name === 'Colors'
       );
-      colors = new Colors(figmaFrame);
+      const payload = { frame: figmaFrame } as TokenPayload;
+      colors = Colors(payload);
     });
 
     it('should create Colors tokens', () => {
@@ -132,7 +142,7 @@ describe('Tokens', () => {
 
     it('should build tokens', () => {
       const colorCollection = colors.tokens.colors;
-      const colorToken = colorCollection['neutral100'];
+      const colorToken = colorCollection['neutral100'] as Color;
 
       expect(colorToken.hexColor).toMatch('#f8f9fa');
       expect(colorToken.hslColor).toMatchObject({
@@ -188,14 +198,15 @@ describe('Tokens', () => {
   });
 
   describe('Gradients', () => {
-    let gradients: Gradients;
+    let gradients: DesignTokensGenerator;
     let figmaFrame: any;
 
     beforeAll(() => {
       figmaFrame = figmaPage.children.find(
         (figmaFrame: FigmaFrame) => figmaFrame.name === 'Gradients'
       );
-      gradients = new Gradients(figmaFrame);
+      const payload = { frame: figmaFrame } as TokenPayload;
+      gradients = Gradients(payload);
     });
 
     it('should create Gradients tokens', () => {
@@ -257,14 +268,15 @@ describe('Tokens', () => {
   });
 
   describe('Shadows', () => {
-    let shadows: Shadows;
+    let shadows: DesignTokensGenerator;
     let figmaFrame: any;
 
     beforeAll(() => {
       figmaFrame = figmaPage.children.find(
         (figmaFrame: FigmaFrame) => figmaFrame.name === 'Shadows'
       );
-      shadows = new Shadows(figmaFrame);
+      const payload = { frame: figmaFrame } as TokenPayload;
+      shadows = Shadows(payload);
     });
 
     it('should create Shadows tokens', () => {
@@ -330,14 +342,15 @@ describe('Tokens', () => {
   });
 
   describe('Spacings', () => {
-    let spacings: Spacings;
+    let spacings: DesignTokensGenerator;
     let figmaFrame: any;
 
     beforeAll(() => {
       figmaFrame = figmaPage.children.find(
         (figmaFrame: FigmaFrame) => figmaFrame.name === 'Spacings'
       );
-      spacings = new Spacings(figmaFrame);
+      const payload = { frame: figmaFrame } as TokenPayload;
+      spacings = Spacings(payload);
     });
 
     it('should create Spacings tokens', () => {
@@ -379,14 +392,15 @@ describe('Tokens', () => {
   });
 
   describe('Typography', () => {
-    let typography: Typographies;
+    let typography: DesignTokensGenerator;
     let figmaFrame: any;
 
     beforeAll(() => {
       figmaFrame = figmaPage.children.find(
         (figmaFrame: FigmaFrame) => figmaFrame.name === 'Typography'
       );
-      typography = new Typographies(figmaFrame);
+      const payload = { frame: figmaFrame } as TokenPayload;
+      typography = Typographies(payload);
     });
 
     it('should create Typography tokens', () => {

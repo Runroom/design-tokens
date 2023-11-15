@@ -3,15 +3,6 @@ import response from './mocks/figmaTree.json';
 import fileConfig from './mocks/template.config.json';
 import { isFigmaResponse } from '../src/functions';
 import { parseFigma } from '../src/api';
-import {
-  Borders,
-  Breakpoints,
-  Colors,
-  Gradients,
-  Shadows,
-  Spacings,
-  Typographies
-} from '../src/classes';
 
 jest.mock('node-fetch', () => jest.fn());
 
@@ -38,13 +29,17 @@ describe('Figma parser', () => {
     }
 
     generatedTokens = parseFigma(response, fileConfig.figmaPages as FigmaPages);
-    colors = generatedTokens?.find(token => token instanceof Colors);
-    gradients = generatedTokens?.find(token => token instanceof Gradients);
-    typographies = generatedTokens?.find(token => token instanceof Typographies);
-    shadows = generatedTokens?.find(token => token instanceof Shadows);
-    spacings = generatedTokens?.find(token => token instanceof Spacings);
-    borders = generatedTokens?.find(token => token instanceof Borders);
-    breakpoints = generatedTokens?.find(token => token instanceof Breakpoints);
+    colors = generatedTokens?.find((token: DesignTokensGenerator) => token.name === 'Colors');
+    gradients = generatedTokens?.find((token: DesignTokensGenerator) => token.name === 'Gradients');
+    typographies = generatedTokens?.find(
+      (token: DesignTokensGenerator) => token.name === 'Typographies'
+    );
+    shadows = generatedTokens?.find((token: DesignTokensGenerator) => token.name === 'Shadows');
+    spacings = generatedTokens?.find((token: DesignTokensGenerator) => token.name === 'Spacings');
+    borders = generatedTokens?.find((token: DesignTokensGenerator) => token.name === 'Borders');
+    breakpoints = generatedTokens?.find(
+      (token: DesignTokensGenerator) => token.name === 'Breakpoints'
+    );
   });
 
   it("shouldn't be undefined", () => {

@@ -1,5 +1,11 @@
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
-import { DesignTokensGenerator, TokenCollection, Tokens, Truthy } from '@/types/designTokens';
+import {
+  DesignTokensGenerator,
+  TokenCollection,
+  TokenPayload,
+  Tokens,
+  Truthy
+} from '@/types/designTokens';
 import { snakeCase } from './stringManipulation.ts';
 import { DESIGN_TOKENS, DesignPages } from '@/designTokensPages.ts';
 import { validateFrameName } from './ensureType.ts';
@@ -70,14 +76,14 @@ const designTokensBuilder = <T>(
   name: DesignPages,
   pages: string[],
   frame: FigmaFrame,
-  designToken: new (figmaFrame: FigmaFrame, themes?: string[] | undefined) => T,
+  designToken: ({ frame, themes }: TokenPayload) => T,
   themes?: string[]
 ): T | undefined => {
   if (!pages.includes(name)) {
     return;
   }
 
-  return new designToken(frame, themes);
+  return designToken({ frame, themes });
 };
 
 const generateDesignTokens = (
@@ -91,13 +97,13 @@ const generateDesignTokens = (
         return;
       }
       const frameName = frame.name;
-      const classToken = DESIGN_TOKENS[frame.name];
+      const tokenGenerator = DESIGN_TOKENS[frame.name];
 
       return designTokensBuilder<DesignTokensGenerator>(
         frameName,
         pages,
         frame,
-        classToken,
+        tokenGenerator,
         themes
       );
     })

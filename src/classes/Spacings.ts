@@ -2,60 +2,70 @@ import {
   CreateFile,
   DesignTokensGenerator,
   SpacingCollection,
-  SpacingToken
+  SpacingToken,
+  TokenPayload
 } from '@/types/designTokens';
-import { FigmaFrame, FigmaSpacingComponent } from '@/types/figma';
+import { FigmaSpacingComponent } from '@/types/figma';
 import { createRootString, getTokens, pixelate, remify, snakeCase } from '@/functions';
 
-export class Spacings implements DesignTokensGenerator {
-  readonly tokens: SpacingCollection;
+const generateCssSpacingVariables = ({ spacings }: SpacingCollection) => {
+  let spacingsVars = '';
+  const spacingBaseName = 'spacing';
 
-  constructor(figmaFrame: FigmaFrame) {
-    this.tokens = getTokens<FigmaSpacingComponent, SpacingCollection, SpacingToken>(
-      'Spacings',
-      figmaFrame,
-      this.getBoundingWidth
-    );
+  for (const key in spacings) {
+    const spacingVarsName = `--${spacingBaseName}-${key}`;
+    const spacingRemValue = `${spacingVarsName}: ${spacings[key].remValue}`;
+    spacingsVars = `${spacingsVars}${spacingRemValue};`;
   }
 
-  writeTokens(createFile: CreateFile, outputDir: string, name = 'spacings') {
-    return [createFile(name, this.tokens, outputDir, 'json')];
+  return {
+    spacingsVars: createRootString(spacingsVars)
+  };
+};
+
+const getBoundingWidth = (component: FigmaSpacingComponent): SpacingToken | false => {
+  if (!(component && component.name)) {
+    return false;
   }
 
-  writeCssVariables(createFile: CreateFile, outputDir: string, name = 'spacings-vars') {
-    const { spacingsVars } = this.generateCssSpacingVariables(this.tokens);
+  const name = snakeCase(component.name);
+  const value = pixelate(component.absoluteBoundingBox.height);
+  const remValue = remify(component.absoluteBoundingBox.height);
+
+  return {
+    [name]: {
+      value,
+      remValue
+    }
+  };
+};
+
+const writeTokens =
+  (tokens: SpacingCollection) =>
+  (createFile: CreateFile, outputDir: string, name = 'spacings') => {
+    return [createFile(name, tokens, outputDir, 'json')];
+  };
+
+const writeCssVariables =
+  (tokens: SpacingCollection) =>
+  (createFile: CreateFile, outputDir: string, name = 'spacings-vars') => {
+    const { spacingsVars } = generateCssSpacingVariables(tokens);
     return [createFile(name, spacingsVars, outputDir, 'css')];
-  }
+  };
 
-  private generateCssSpacingVariables({ spacings }: SpacingCollection) {
-    let spacingsVars = '';
-    const spacingBaseName = 'spacing';
+const Spacings = ({ frame }: TokenPayload): DesignTokensGenerator => {
+  const tokens = getTokens<FigmaSpacingComponent, SpacingCollection, SpacingToken>(
+    'Spacings',
+    frame,
+    getBoundingWidth
+  );
 
-    for (const key in spacings) {
-      const spacingVarsName = `--${spacingBaseName}-${key}`;
-      const spacingRemValue = `${spacingVarsName}: ${spacings[key].remValue}`;
-      spacingsVars = `${spacingsVars}${spacingRemValue};`;
-    }
+  return {
+    name: 'Spacings',
+    tokens,
+    writeTokens: writeTokens(tokens),
+    writeCssVariables: writeCssVariables(tokens)
+  };
+};
 
-    return {
-      spacingsVars: createRootString(spacingsVars)
-    };
-  }
-
-  private getBoundingWidth(component: FigmaSpacingComponent): SpacingToken | false {
-    if (!(component && component.name)) {
-      return false;
-    }
-
-    const name = snakeCase(component.name);
-    const value = pixelate(component.absoluteBoundingBox.height);
-    const remValue = remify(component.absoluteBoundingBox.height);
-
-    return {
-      [name]: {
-        value,
-        remValue
-      }
-    };
-  }
-}
+export { Spacings };
