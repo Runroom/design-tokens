@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 3.1.0
+
+### Minor Changes
+
+- [#47](https://github.com/Runroom/design-tokens/pull/47)
+  [`633b842`](https://github.com/Runroom/design-tokens/commit/633b842dc14f6336d8bbf18c11bcde762467b1f1)
+  Thanks [@izm20](https://github.com/izm20)! - Add styleDictionary parsers
+
 ## 3.0.0
 
 ### Major Changes
