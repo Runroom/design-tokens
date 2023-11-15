@@ -1,4 +1,4 @@
-import styleDictionary from '@/functions/styleDictionary.ts';
+import styleDictionary from '@/styleDictionary/styleDictionary.ts';
 import { Arguments } from 'yargs-parser';
 import { ParseConfig } from '@/types/designTokens';
 import { figmaApiConnection } from '@/api';
@@ -8,16 +8,16 @@ const designTokens = (args: Arguments, config: ParseConfig) => {
   const command = args._[0];
   const { settings, configFile } = config;
 
-  figmaApiConnection(settings).then(generatedTokens => {
+  figmaApiConnection(settings).then(async generatedTokens => {
     log('Generating design tokens...', EMOJIS.workingInProgress);
 
-    createJsonTokenFiles(generatedTokens, settings);
-    createCssTokenFiles(generatedTokens, settings);
-  });
+    await createJsonTokenFiles(generatedTokens, settings);
+    await createCssTokenFiles(generatedTokens, settings);
 
-  if (command === 'platforms') {
-    styleDictionary(configFile);
-  }
+    if (command === 'platforms') {
+      styleDictionary(configFile);
+    }
+  });
 };
 
 export default designTokens;
