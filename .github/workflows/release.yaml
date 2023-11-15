@@ -16,7 +16,7 @@ jobs:
                   node-version: ${{ matrix.node }}
                   registry-url: https://registry.npmjs.org
             - name: Install Dependencies
-              run: npm install
+              run: npm ci
 
             - name: Build
               run: npm run build

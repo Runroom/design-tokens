@@ -50,8 +50,8 @@ export class Borders implements DesignTokensGenerator {
     const corner = component.cornerRadius
       ? component.cornerRadius
       : component.children
-      ? component.children[0].cornerRadius
-      : 0;
+        ? component.children[0].cornerRadius
+        : 0;
 
     const name = snakeCase(component.name);
     const value = remify(corner);
