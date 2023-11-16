@@ -75,13 +75,13 @@ const getShadowsEffects = (component: FigmaShadowComponent): ShadowToken | false
   };
 };
 
-const writeTokens =
+const writeShadowTokens =
   (tokens: ShadowCollection) =>
   (createFile: CreateFile, outputDir: string, name = 'shadows') => {
     return [createFile(name, tokens, outputDir, 'json')];
   };
 
-const writeCssVariables =
+const writeShadowVariables =
   (tokens: ShadowCollection) =>
   (createFile: CreateFile, outputDir: string, name = 'shadows-vars') => {
     const { shadowsVars } = generateCssShadowVariables(tokens);
@@ -99,8 +99,8 @@ const Shadows = ({ frame }: TokenPayload): DesignTokensGenerator => {
   return {
     name: 'Shadows',
     tokens,
-    writeTokens: writeTokens(tokens),
-    writeCssVariables: writeCssVariables(tokens)
+    writeTokens: writeShadowTokens(tokens),
+    writeCssVariables: writeShadowVariables(tokens)
   };
 };
 

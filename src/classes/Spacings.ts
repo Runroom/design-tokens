@@ -40,13 +40,13 @@ const getBoundingWidth = (component: FigmaSpacingComponent): SpacingToken | fals
   };
 };
 
-const writeTokens =
+const writeSpacingTokens =
   (tokens: SpacingCollection) =>
   (createFile: CreateFile, outputDir: string, name = 'spacings') => {
     return [createFile(name, tokens, outputDir, 'json')];
   };
 
-const writeCssVariables =
+const writeSpacingVariables =
   (tokens: SpacingCollection) =>
   (createFile: CreateFile, outputDir: string, name = 'spacings-vars') => {
     const { spacingsVars } = generateCssSpacingVariables(tokens);
@@ -63,8 +63,8 @@ const Spacings = ({ frame }: TokenPayload): DesignTokensGenerator => {
   return {
     name: 'Spacings',
     tokens,
-    writeTokens: writeTokens(tokens),
-    writeCssVariables: writeCssVariables(tokens)
+    writeTokens: writeSpacingTokens(tokens),
+    writeCssVariables: writeSpacingVariables(tokens)
   };
 };
 
