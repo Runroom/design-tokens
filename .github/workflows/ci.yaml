@@ -34,4 +34,4 @@ jobs:
             - name: Coverage Report
               uses: ArtiomTr/jest-coverage-report-action@v2
               with:
-                annotations: none
+                  annotations: none
