@@ -1,14 +1,29 @@
 import fetch from 'node-fetch';
-import { Config } from '@/types/designTokens';
+import { Config, DesignTokensGenerator } from '@/types/designTokens';
 import { parseFigma } from './parseFigma.ts';
 import { EMOJIS, isFigmaResponse, log } from '@/functions';
+
+type FigmaResponseError = { status: number; err?: string };
+
+const isFigmaResponseError = (response: unknown): response is FigmaResponseError =>
+  typeof response === 'object' && response !== null && 'status' in response && 'err' in response;
+
+const checkFigmaErrors = (response: unknown) => {
+  if (!isFigmaResponseError(response)) {
+    return;
+  }
+
+  if (response.status !== 200) {
+    throw new Error(`${response.status} - ${response.err}`);
+  }
+};
 
 const figmaApiConnection = async ({
   figmaApiKey,
   figmaProjectId,
   figmaPages,
   figmaThemes
-}: Config) => {
+}: Config): Promise<DesignTokensGenerator[]> => {
   log('Connecting with Figma...', EMOJIS.workingInProgress);
 
   const url = `https://api.figma.com/v1/files/${figmaProjectId}`;
@@ -22,7 +37,10 @@ const figmaApiConnection = async ({
   try {
     const response = await fetch(url, options);
     log('Figma connection established', EMOJIS.success);
+
     const responseJson = await response.json();
+
+    checkFigmaErrors(responseJson);
 
     if (!isFigmaResponse(responseJson)) {
       throw new Error(`No styles found`);
