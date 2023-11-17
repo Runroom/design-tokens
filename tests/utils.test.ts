@@ -267,6 +267,8 @@ describe('Utils functions', () => {
     const ext = 'json';
     const payload = 'test';
     const generatedToken: DesignTokensGenerator = {
+      name: 'test',
+      tokens: {},
       writeTokens(
         createFile: CreateFile,
         outputDir: string,
