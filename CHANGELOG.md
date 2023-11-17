@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 3.1.1
+
+### Patch Changes
+
+- [#49](https://github.com/Runroom/design-tokens/pull/49)
+  [`7cd3252`](https://github.com/Runroom/design-tokens/commit/7cd325240371f33a3f20a8f7123147d2e8cb6be1)
+  Thanks [@izm20](https://github.com/izm20)! - Move from classes to functions
+
 ## 3.1.0
 
 ### Minor Changes
