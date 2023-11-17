@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 3.1.2
+
+### Patch Changes
+
+- [#51](https://github.com/Runroom/design-tokens/pull/51)
+  [`423be4b`](https://github.com/Runroom/design-tokens/commit/423be4b5d56664fe345b1a65ed38f13a3d5f8fa2)
+  Thanks [@izm20](https://github.com/izm20)! - Improve the figma api handle error
+
 ## 3.1.1
 
 ### Patch Changes
