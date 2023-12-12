@@ -34,16 +34,13 @@ array of the figma frames that contains the tokens
 `figmaThemes`: An array of your's figma project themes. If you aren't usign themes, just remove the key (first element of the
 array, will be setted as default)
 
-`source`: It is used by the platforms option to determine the json file
-
-`platforms`: You can set here your's platforms setting in case you are using it (design-tokens platforms).
+### Optional config fields for [Style Dictionary](https://amzn.github.io/style-dictionary/#/config)
 
 ### Execution
 
 Then execute:
 
 - `npx design-tokens`: If you want to sync with figma.
-- `npx design-tokens platforms`: If you want to sync and compile assets.
 
 You can specify a different config file name using the parameter `--config-file=FILENAME`. For
 example:
@@ -69,10 +66,10 @@ Expanding the design tokens in your project is a straightforward process. Here's
     - Add an entry for the new tokens in `src/designTokensPages.ts`. This entry should include the name of the page and
       the class for this token.
 
-4. **Create a Token Class:**
+4. **Create a Token:**
     - To manage and process the new tokens, you'll need to create a corresponding class.
-    - Inside the `src/classes` directory, create a new TypeScript class that extends the `DesignTokens` class.
-    - Implement the necessary methods for handling the new tokens. These methods may include generating CSS, writing to
+    - Inside the `src/tokens` directory, create a new TypeScript file with a method that return a `DesignTokensGenerator`.
+    - Implement the necessary methods for handling the new tokens. These methods may include writing to
       files, or other token-specific functionality.
 
 5. **Define Token Types:**
