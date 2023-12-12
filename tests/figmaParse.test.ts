@@ -17,9 +17,9 @@ describe('Figma parser', () => {
   let breakpoints: any;
   const NEUTRAL_WHITE = {
     name: 'neutral-white',
-    hexColor: '#fff',
-    rgbColor: { r: 255, g: 255, b: 255, a: 1 },
-    hslColor: { h: 0, s: 0, l: 100, a: 1 }
+    value: '#fff',
+    valueRgb: { r: 255, g: 255, b: 255, a: 1 },
+    valueHsl: { h: 0, s: 0, l: 100, a: 1 }
   };
   const NEUTRAL_WHITE_KEY = 'neutralWhite';
 
@@ -67,9 +67,9 @@ describe('Figma parser', () => {
 
     it('should have colors with name, hex, rgb, hsl', () => {
       expect(color).toHaveProperty('name');
-      expect(color).toHaveProperty('hexColor');
-      expect(color).toHaveProperty('rgbColor');
-      expect(color).toHaveProperty('hslColor');
+      expect(color).toHaveProperty('value');
+      expect(color).toHaveProperty('valueRgb');
+      expect(color).toHaveProperty('valueHsl');
     });
 
     it('should have colors well built', () => {
@@ -77,34 +77,34 @@ describe('Figma parser', () => {
     });
 
     it('Hex value is valid', () => {
-      const { hexColor } = color;
+      const { value } = color;
 
-      expect(typeof hexColor).toBe('string');
-      expect(/#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})/i.test(hexColor)).toBe(true);
+      expect(typeof value).toBe('string');
+      expect(/#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})/i.test(value)).toBe(true);
     });
 
     it('RGB value to be an object', () => {
-      const { rgbColor } = color;
+      const { valueRgb } = color;
 
-      expect(typeof rgbColor).toBe('object');
-      expect(rgbColor.r).toBeGreaterThanOrEqual(0);
-      expect(rgbColor.r).toBeLessThanOrEqual(255);
-      expect(rgbColor.g).toBeGreaterThanOrEqual(0);
-      expect(rgbColor.g).toBeLessThanOrEqual(255);
-      expect(rgbColor.b).toBeGreaterThanOrEqual(0);
-      expect(rgbColor.b).toBeLessThanOrEqual(255);
-      expect(rgbColor.a).toBeGreaterThanOrEqual(0);
-      expect(rgbColor.a).toBeLessThanOrEqual(1);
+      expect(typeof valueRgb).toBe('object');
+      expect(valueRgb.r).toBeGreaterThanOrEqual(0);
+      expect(valueRgb.r).toBeLessThanOrEqual(255);
+      expect(valueRgb.g).toBeGreaterThanOrEqual(0);
+      expect(valueRgb.g).toBeLessThanOrEqual(255);
+      expect(valueRgb.b).toBeGreaterThanOrEqual(0);
+      expect(valueRgb.b).toBeLessThanOrEqual(255);
+      expect(valueRgb.a).toBeGreaterThanOrEqual(0);
+      expect(valueRgb.a).toBeLessThanOrEqual(1);
     });
 
     it('HSL value to be an array of decimals', () => {
-      const { hslColor } = color;
+      const { valueHsl } = color;
 
-      expect(typeof hslColor).toBe('object');
-      expect(hslColor.h).toBeGreaterThanOrEqual(0);
-      expect(hslColor.h).toBeLessThanOrEqual(360);
-      expect(hslColor.s).toBeGreaterThanOrEqual(0);
-      expect(hslColor.a).toBeLessThanOrEqual(1);
+      expect(typeof valueHsl).toBe('object');
+      expect(valueHsl.h).toBeGreaterThanOrEqual(0);
+      expect(valueHsl.h).toBeLessThanOrEqual(360);
+      expect(valueHsl.s).toBeGreaterThanOrEqual(0);
+      expect(valueHsl.a).toBeLessThanOrEqual(1);
     });
   });
 
@@ -121,26 +121,26 @@ describe('Figma parser', () => {
     });
 
     it('should have typographies with correct properties', () => {
-      expect(typography).toHaveProperty('fontFamily');
-      expect(typography).toHaveProperty('fontSize');
-      expect(typography).toHaveProperty('fontWeight');
-      expect(typography).toHaveProperty('letterSpacing');
-      expect(typography).toHaveProperty('lineHeight');
+      expect(typography.value).toHaveProperty('fontFamily');
+      expect(typography.value).toHaveProperty('fontSize');
+      expect(typography.value).toHaveProperty('fontWeight');
+      expect(typography.value).toHaveProperty('letterSpacing');
+      expect(typography.value).toHaveProperty('lineHeight');
     });
 
     it('has correct props', () => {
-      expect(typography.fontFamily).toBeDefined();
-      expect(typography.fontSize).toBeDefined();
-      expect(typography.fontWeight).toBeDefined();
-      expect(typography.letterSpacing).toBeDefined();
-      expect(typography.lineHeight).toBeDefined();
+      expect(typography.value.fontFamily).toBeDefined();
+      expect(typography.value.fontSize).toBeDefined();
+      expect(typography.value.fontWeight).toBeDefined();
+      expect(typography.value.letterSpacing).toBeDefined();
+      expect(typography.value.lineHeight).toBeDefined();
     });
 
     it('props have valid types', () => {
-      expect(typeof typography.fontFamily).toBe('string');
-      expect(typeof typography.fontSize).toBe('string');
-      expect(typeof typography.fontWeight).toBe('number');
-      expect(typeof typography.lineHeight).toBe('number');
+      expect(typeof typography.value.fontFamily).toBe('string');
+      expect(typeof typography.value.fontSize).toBe('string');
+      expect(typeof typography.value.fontWeight).toBe('number');
+      expect(typeof typography.value.lineHeight).toBe('number');
     });
   });
 
@@ -157,7 +157,6 @@ describe('Figma parser', () => {
     });
 
     it('should have spacings with correct properties', () => {
-      expect(spacing).toHaveProperty('remValue');
       expect(spacing).toHaveProperty('value');
     });
 
@@ -166,11 +165,7 @@ describe('Figma parser', () => {
     });
 
     it('value is pixelated', () => {
-      expect(/([0-9]+)px/.test(spacing.value)).toBe(true);
-    });
-
-    it('remValue is string', () => {
-      expect(/([0-9]+)rem/.test(spacing.remValue)).toBe(true);
+      expect(/([0-9]+)rem/.test(spacing.value)).toBe(true);
     });
   });
 
@@ -184,7 +179,6 @@ describe('Figma parser', () => {
       const breakpoint = breakpoints?.tokens.breakpoints[breakpointKeys[0]];
 
       expect(breakpoint).toHaveProperty('value');
-      expect(breakpoint).toHaveProperty('remValue');
     });
   });
 
@@ -196,7 +190,7 @@ describe('Figma parser', () => {
     it('should have shadows with correct properties', () => {
       const shadowKeys = Object.keys(shadows?.tokens.shadows);
       const shadow = shadows?.tokens.shadows[shadowKeys[0]];
-      const subShadow = shadow[0];
+      const subShadow = shadow.value[0];
 
       expect(subShadow).toHaveProperty('color');
       expect(subShadow).toHaveProperty('offset');
@@ -232,9 +226,9 @@ describe('Figma parser', () => {
       const gradientKeys = Object.keys(gradients?.tokens.gradients);
       const gradient = gradients?.tokens.gradients[gradientKeys[0]];
 
-      expect(gradient).toHaveProperty('type');
-      expect(gradient).toHaveProperty('deg');
-      expect(gradient).toHaveProperty('colors');
+      expect(gradient.value).toHaveProperty('type');
+      expect(gradient.value).toHaveProperty('deg');
+      expect(gradient.value).toHaveProperty('colors');
     });
   });
 });

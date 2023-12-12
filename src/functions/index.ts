@@ -5,6 +5,6 @@ export * from './fileIO.ts';
 export * from './getTokens.ts';
 export * from './logger.ts';
 export * from './stringManipulation.ts';
-export * from '../styleDictionary/styleDictionary.ts';
+export * from '../styleDictionary/StyleDictionary.ts';
 export * from './unitsConvert.ts';
 export * from './ensureType.ts';

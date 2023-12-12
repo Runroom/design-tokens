@@ -1,4 +1,4 @@
-import { createRootString, getTokens, remify, snakeCase } from '@/functions';
+import { getTokens, remify, snakeCase } from '@/functions';
 import {
   BorderCollection,
   BorderToken,
@@ -7,21 +7,6 @@ import {
   TokenPayload
 } from '@/types/designTokens';
 import { FigmaBorderComponent } from '@/types/figma';
-
-const generateCssBordersVariables = ({ borders }: BorderCollection) => {
-  let bordersVars = '';
-  const borderBaseName = '--border-radius';
-
-  for (const key in borders) {
-    const borderName = `${borderBaseName}-${key}`;
-    const borderValue = borders[key].value;
-    bordersVars = `${bordersVars}${borderName}: ${borderValue};`;
-  }
-
-  return {
-    bordersVars: createRootString(bordersVars)
-  };
-};
 
 const getBoundingWidth = (component: FigmaBorderComponent): BorderToken | false => {
   if (!(component && component.name)) {
@@ -50,13 +35,6 @@ const writeBorderTokens =
     return [createFile(name, tokens, outputDir, 'json')];
   };
 
-const writeBorderVariables =
-  (tokens: BorderCollection) =>
-  (createFile: CreateFile, outputDir: string, name = 'borders-vars') => {
-    const { bordersVars } = generateCssBordersVariables(tokens);
-    return [createFile(name, bordersVars, outputDir, 'css')];
-  };
-
 const Borders = ({ frame }: TokenPayload): DesignTokensGenerator => {
   const tokens = getTokens<FigmaBorderComponent, BorderCollection, BorderToken>(
     'Borders',
@@ -67,8 +45,7 @@ const Borders = ({ frame }: TokenPayload): DesignTokensGenerator => {
   return {
     name: 'Borders',
     tokens,
-    writeTokens: writeBorderTokens(tokens),
-    writeCssVariables: writeBorderVariables(tokens)
+    writeTokens: writeBorderTokens(tokens)
   };
 };
 

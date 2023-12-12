@@ -1,5 +1,4 @@
 import {
-  createRootString,
   formatDecimals,
   getTokens,
   gradientDegree,
@@ -10,6 +9,7 @@ import {
 import {
   CreateFile,
   DesignTokensGenerator,
+  Gradient,
   GradientCollection,
   GradientColor,
   GradientToken,
@@ -17,23 +17,10 @@ import {
   TokenPayload
 } from '@/types/designTokens';
 import { FigmaGradientComponent, GradientFills } from '@/types/figma';
+import { DesignTokens } from 'style-dictionary/types/DesignToken';
+import { Parser } from 'style-dictionary/types/Parser';
 
-const generateCssGradientsVariables = ({ gradients }: GradientCollection) => {
-  let gradientsVars = '';
-  const gradientBaseName = '--gradient';
-
-  for (const key in gradients) {
-    const gradientName = key.startsWith('gradient') ? `--${key}` : `${gradientBaseName}-${key}`;
-    const gradientValue = gradients[key].colors
-      .map(({ color, position }) => `${parseRgba(color)} ${position * 100}%`)
-      .join(', ');
-    gradientsVars = `${gradientsVars}${gradientName}: ${gradients[key].type}(${gradients[key].deg}, ${gradientValue});`;
-  }
-
-  return {
-    gradientsVars: createRootString(gradientsVars)
-  };
-};
+const GRADIENTS_NAME = 'gradients';
 
 const getGradients = (component: FigmaGradientComponent): GradientToken | false => {
   if (!(component && component.name)) {
@@ -78,25 +65,57 @@ const getGradients = (component: FigmaGradientComponent): GradientToken | false 
 
   return {
     [name]: {
-      type: gradientType,
-      deg: gradientAngle,
-      colors: gradientColors
+      value: {
+        type: gradientType,
+        deg: gradientAngle,
+        colors: gradientColors
+      }
     }
   };
 };
 
 const writeGradientTokens =
   (tokens: GradientCollection) =>
-  (createFile: CreateFile, outputDir: string, name = 'gradients') => {
+  (createFile: CreateFile, outputDir: string, name = GRADIENTS_NAME) => {
     return [createFile(name, tokens, outputDir, 'json')];
   };
 
-const writeGradientVariables =
-  (tokens: GradientCollection) =>
-  (createFile: CreateFile, outputDir: string, name = 'gradients-vars') => {
-    const { gradientsVars } = generateCssGradientsVariables(tokens);
-    return [createFile(name, gradientsVars, outputDir, 'css')];
+const buildGradient = (gradient: Gradient) => {
+  const gradientValue = gradient.colors
+    .map(({ color, position }) => `${parseRgba(color)} ${position * 100}%`)
+    .join(', ');
+  return `${gradient.type}(${gradient.deg}, ${gradientValue})`;
+};
+
+const getGradientsParser = (): Parser => {
+  const pattern = new RegExp(`${GRADIENTS_NAME}.json$`);
+
+  return {
+    pattern,
+    parse: ({ contents }) => {
+      const { gradients } = JSON.parse(contents);
+      const output: DesignTokens = {};
+
+      Object.keys(gradients).forEach(key => {
+        const gradient: Gradient = gradients[key].value;
+        const styleValue = buildGradient(gradient);
+
+        if (gradient.type === 'radial-gradient') {
+          output[`gradient-radial-${key}`] = {
+            value: styleValue
+          };
+          return;
+        }
+
+        output[`gradient-${key}`] = {
+          value: styleValue
+        };
+      });
+
+      return output;
+    }
   };
+};
 
 const Gradients = ({ frame }: TokenPayload): DesignTokensGenerator => {
   const tokens = getTokens<FigmaGradientComponent, GradientCollection, GradientToken>(
@@ -108,9 +127,8 @@ const Gradients = ({ frame }: TokenPayload): DesignTokensGenerator => {
   return {
     name: 'Gradients',
     tokens,
-    writeTokens: writeGradientTokens(tokens),
-    writeCssVariables: writeGradientVariables(tokens)
+    writeTokens: writeGradientTokens(tokens)
   };
 };
 
-export { Gradients };
+export { Gradients, getGradientsParser };

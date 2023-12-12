@@ -8,7 +8,6 @@ export interface SpacingCollection extends TokenCollection {
 
 export interface Spacing {
   value: string;
-  remValue: string;
 }
 
 export interface SpacingToken extends Tokens {

@@ -35,17 +35,4 @@ const createJsonTokenFiles = (
   return writeBatch(jsonFiles, 'JSON Tokens generated');
 };
 
-const createCssTokenFiles = (
-  tokens: DesignTokensGenerator[],
-  { outputDir }: Config
-): Promise<void> => {
-  const cssFiles: Promise<void>[] = [];
-
-  for (const token of tokens) {
-    cssFiles.push(...token.writeCssVariables(createFile, outputDir));
-  }
-
-  return writeBatch(cssFiles, 'CSS Tokens generated');
-};
-
-export { createFile, writeBatch, createJsonTokenFiles, createCssTokenFiles };
+export { createFile, writeBatch, createJsonTokenFiles };
