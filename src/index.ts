@@ -11,7 +11,12 @@ const designTokens = (args: Arguments, config: ParseConfig) => {
     log('Generating design tokens...', EMOJIS.workingInProgress);
 
     await createJsonTokenFiles(generatedTokens, settings);
-    buildStyleDictionary(configFile);
+
+    if (settings.platforms) {
+      buildStyleDictionary(configFile);
+    } else {
+      log('No Style Dictionary config found', EMOJIS.warning);
+    }
   });
 };
 
