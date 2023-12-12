@@ -6,7 +6,7 @@ import {
   TokenPayload
 } from '@/types/designTokens';
 import { FigmaColorComponent } from '@/types/figma';
-import { camelCase, fullColorHex, fullColorHsl, getTokens, rgbaGenObject } from '@/functions';
+import { fullColorHex, fullColorHsl, getTokens, rgbaGenObject } from '@/functions';
 
 const getColors = (component: FigmaColorComponent): ColorToken | false => {
   if (
@@ -23,10 +23,24 @@ const getColors = (component: FigmaColorComponent): ColorToken | false => {
   }
 
   const { r, g, b, a } = component.children[0].fills[0].color;
-  const name = camelCase(component.name);
+  const [prefix, suffix] = component.name.split('-');
+  const name = component.name;
   const rgbColor = rgbaGenObject(r, g, b, a);
   const hexColor = fullColorHex(rgbColor.r, rgbColor.g, rgbColor.b);
   const hslColor = fullColorHsl(rgbColor.r, rgbColor.g, rgbColor.b, rgbColor.a);
+
+  if (suffix && prefix) {
+    return {
+      [prefix]: {
+        [suffix]: {
+          name,
+          value: hexColor,
+          valueRgb: rgbColor,
+          valueHsl: hslColor
+        }
+      }
+    };
+  }
 
   return {
     [name]: {

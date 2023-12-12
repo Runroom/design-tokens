@@ -63,7 +63,17 @@ const getTokens = <T extends FigmaComponent, P extends TokenCollection, K extend
     const data = decorator(component);
 
     if (data) {
-      Object.assign(payload[componentsIndex], data);
+      const key = Object.keys(data)[0];
+
+      if (payload[componentsIndex][key]) {
+        const accumulatedData = {
+          ...(payload[componentsIndex][key] as any),
+          ...(data[key] as any)
+        };
+        Object.assign(payload[componentsIndex], accumulatedData);
+      } else {
+        Object.assign(payload[componentsIndex], data);
+      }
     }
   });
 

@@ -28,5 +28,9 @@ export interface RgbColor {
 }
 
 export interface ColorToken extends Tokens {
-  [key: string]: Color;
+  [key: string]:
+    | Color
+    | {
+        [key: string]: Color;
+      };
 }
