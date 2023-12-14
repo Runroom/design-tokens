@@ -1,4 +1,5 @@
 import {
+  Color,
   ColorCollection,
   ColorToken,
   CreateFile,
@@ -7,6 +8,12 @@ import {
 } from '@/types/designTokens';
 import { FigmaColorComponent } from '@/types/figma';
 import { fullColorHex, fullColorHsl, getTokens, rgbaGenObject } from '@/functions';
+
+const buildColorToken = (component: FigmaColorComponent, tokenValue: Color): ColorToken => {
+  const keys = component.name.split('-').reverse();
+
+  return keys.reduce((acc: object, curr) => ({ [curr]: acc }), tokenValue) as ColorToken;
+};
 
 const getColors = (component: FigmaColorComponent): ColorToken | false => {
   if (
@@ -23,33 +30,18 @@ const getColors = (component: FigmaColorComponent): ColorToken | false => {
   }
 
   const { r, g, b, a } = component.children[0].fills[0].color;
-  const [prefix, suffix] = component.name.split('-');
   const name = component.name;
   const rgbColor = rgbaGenObject(r, g, b, a);
   const hexColor = fullColorHex(rgbColor.r, rgbColor.g, rgbColor.b);
   const hslColor = fullColorHsl(rgbColor.r, rgbColor.g, rgbColor.b, rgbColor.a);
-
-  if (suffix && prefix) {
-    return {
-      [prefix]: {
-        [suffix]: {
-          name,
-          value: hexColor,
-          valueRgb: rgbColor,
-          valueHsl: hslColor
-        }
-      }
-    };
-  }
-
-  return {
-    [name]: {
-      name: component.name,
-      value: hexColor,
-      valueRgb: rgbColor,
-      valueHsl: hslColor
-    }
+  const tokenValue: Color = {
+    name,
+    value: hexColor,
+    valueRgb: rgbColor,
+    valueHsl: hslColor
   };
+
+  return buildColorToken(component, tokenValue);
 };
 
 const writeColorTokens =
