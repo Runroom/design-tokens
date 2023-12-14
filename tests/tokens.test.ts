@@ -12,7 +12,6 @@ import { FigmaFrame } from '../src/types/figma';
 import {
   Border,
   Breakpoint,
-  Color,
   DesignTokensGenerator,
   GradientToken,
   ShadowToken,
@@ -126,7 +125,7 @@ describe('Tokens', () => {
 
     it('should build tokens', () => {
       const colorCollection = colors.tokens.colors;
-      const colorToken = colorCollection['neutral100'] as Color;
+      const colorToken = (colorCollection['neutral'] as any)['100'];
 
       expect(colorToken.value).toMatch('#f8f9fa');
       expect(colorToken.valueHsl).toMatchObject({

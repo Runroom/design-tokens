@@ -15,13 +15,12 @@ describe('Figma parser', () => {
   let spacings: any;
   let borders: any;
   let breakpoints: any;
-  const NEUTRAL_WHITE = {
-    name: 'neutral-white',
-    value: '#fff',
-    valueRgb: { r: 255, g: 255, b: 255, a: 1 },
-    valueHsl: { h: 0, s: 0, l: 100, a: 1 }
+  const NEUTRAL_100 = {
+    name: 'neutral-100',
+    value: '#f8f9fa',
+    valueRgb: { r: 248, g: 249, b: 250, a: 1 },
+    valueHsl: { h: 210, s: 17, l: 98, a: 1 }
   };
-  const NEUTRAL_WHITE_KEY = 'neutralWhite';
 
   beforeAll(() => {
     if (!isFigmaResponse(response)) {
@@ -58,7 +57,7 @@ describe('Figma parser', () => {
     let color: any;
 
     beforeAll(() => {
-      color = colors?.tokens.colors[NEUTRAL_WHITE_KEY];
+      color = colors?.tokens.colors['neutral']['100'];
     });
 
     it('should have colors', () => {
@@ -73,7 +72,7 @@ describe('Figma parser', () => {
     });
 
     it('should have colors well built', () => {
-      expect(color).toMatchObject(NEUTRAL_WHITE);
+      expect(color).toMatchObject(NEUTRAL_100);
     });
 
     it('Hex value is valid', () => {
