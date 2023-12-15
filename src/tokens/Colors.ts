@@ -44,13 +44,43 @@ const getColors = (component: FigmaColorComponent): ColorToken | false => {
   return buildColorToken(component, tokenValue);
 };
 
+const buildColorTokensWithThemes = (tokens: ColorCollection) => {
+  const tokensWithThemes: { [key: string]: ColorCollection } = {};
+
+  tokensWithThemes['dark'] = {
+    colors: tokens.colors['dark'] as any
+  } as ColorCollection;
+
+  delete tokens.colors['dark'];
+
+  tokensWithThemes.default = tokens;
+
+  return tokensWithThemes;
+};
+
+const getExt = (theme: string) => {
+  if (theme === 'default') {
+    return 'json';
+  }
+
+  return `${theme}.json`;
+};
+
 const writeColorTokens =
-  (tokens: ColorCollection) =>
+  (tokens: ColorCollection, darkMode?: boolean) =>
   (createFile: CreateFile, outputDir: string, name = 'colors') => {
+    if (darkMode) {
+      const tokensWithThemes = buildColorTokensWithThemes(tokens);
+
+      return Object.keys(tokensWithThemes).map(theme =>
+        createFile(name, tokensWithThemes[theme], outputDir, getExt(theme))
+      );
+    }
+
     return [createFile(name, tokens, outputDir, 'json')];
   };
 
-const Colors = ({ frame }: TokenPayload): DesignTokensGenerator => {
+const Colors = ({ frame, darkMode }: TokenPayload): DesignTokensGenerator => {
   const tokens = getTokens<FigmaColorComponent, ColorCollection, ColorToken>(
     'Colors',
     frame,
@@ -60,7 +90,7 @@ const Colors = ({ frame }: TokenPayload): DesignTokensGenerator => {
   return {
     name: 'Colors',
     tokens,
-    writeTokens: writeColorTokens(tokens)
+    writeTokens: writeColorTokens(tokens, darkMode)
   };
 };
 

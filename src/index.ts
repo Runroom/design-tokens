@@ -5,18 +5,14 @@ import { figmaApiConnection } from '@/api';
 import { createJsonTokenFiles, EMOJIS, log } from '@/functions';
 
 const designTokens = (args: Arguments, config: ParseConfig) => {
-  const { settings, configFile } = config;
+  const { settings } = config;
 
   figmaApiConnection(settings).then(async generatedTokens => {
     log('Generating design tokens...', EMOJIS.workingInProgress);
 
     await createJsonTokenFiles(generatedTokens, settings);
 
-    if (settings.platforms) {
-      buildStyleDictionary(configFile);
-    } else {
-      log('No Style Dictionary config found', EMOJIS.warning);
-    }
+    buildStyleDictionary(settings);
   });
 };
 

@@ -3,7 +3,7 @@ import { FigmaResponse } from '@/types/figma';
 import { generateDesignTokens } from '@/functions/getTokens.ts';
 import { DesignTokensGenerator, FigmaPages } from '@/types/designTokens';
 
-const parseFigma = (response: FigmaResponse, FIGMA_PAGES: FigmaPages, themes?: string[]) => {
+const parseFigma = (response: FigmaResponse, FIGMA_PAGES: FigmaPages, darkMode?: boolean) => {
   if (!response) {
     throw new Error(`\x1b[31m\n\n${EMOJIS.error} No styles found\n`);
   }
@@ -30,7 +30,7 @@ const parseFigma = (response: FigmaResponse, FIGMA_PAGES: FigmaPages, themes?: s
     }
 
     const figmaDesignTokensFrames = figmaPage.children;
-    const generateTokens = generateDesignTokens(frames, figmaDesignTokensFrames, themes);
+    const generateTokens = generateDesignTokens(frames, figmaDesignTokensFrames, darkMode);
     tokens.push(...generateTokens);
   }
 
