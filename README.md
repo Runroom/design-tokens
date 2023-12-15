@@ -31,10 +31,14 @@ array of the figma frames that contains the tokens
 
 `outputDir`: The source where will be stored the package's output
 
-`figmaThemes`: An array of your's figma project themes. If you aren't usign themes, just remove the key (first element of the
-array, will be setted as default)
+`darkMode`: Boolean to enable/disable the dark mode support
+
 
 ### Optional config fields for [Style Dictionary](https://amzn.github.io/style-dictionary/#/config)
+
+`styleDictionary`: The style dictionary config
+
+`darkModeStyleDictionary`: The style dictionary config for dark mode files **only works with CSS variables**
 
 ### Execution
 
@@ -76,6 +80,9 @@ Expanding the design tokens in your project is a straightforward process. Here's
     - Make sure to define the types associated with the new tokens.
     - In the `src/types/figma` directory, define types that reflect the structure of the new tokens in Figma.
     - In the `src/types/designTokens` directory, define types specific to how the tokens will be used.
+
+6. **Add Token to Style Dictionary:**
+   - If the token needs a specific parser, add it to the `src/styleDictionary/styleDictionary.ts` file.
 
 ## License
 
