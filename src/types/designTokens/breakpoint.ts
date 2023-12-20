@@ -8,7 +8,6 @@ export interface BreakpointCollection extends TokenCollection {
 
 export interface Breakpoint {
   value: string;
-  remValue: string;
 }
 
 export interface BreakpointToken extends Tokens {

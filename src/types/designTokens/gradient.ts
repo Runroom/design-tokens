@@ -25,5 +25,7 @@ export type GradientColor = {
 };
 
 export interface GradientToken extends Tokens {
-  [key: string]: Gradient;
+  [key: string]: {
+    value: Gradient;
+  };
 }

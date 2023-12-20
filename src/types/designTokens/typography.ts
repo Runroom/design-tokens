@@ -7,11 +7,13 @@ export interface TypographyCollection extends TokenCollection {
 }
 
 export interface Typography {
-  fontFamily: string;
-  fontSize: string;
-  fontWeight: number;
-  letterSpacing: string | number;
-  lineHeight: number;
+  value: {
+    fontFamily: string;
+    fontSize: string;
+    fontWeight: number;
+    letterSpacing: string | number;
+    lineHeight: number;
+  };
 }
 
 export interface TypographyToken extends Tokens {

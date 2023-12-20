@@ -1,6 +1,5 @@
 import {
   camelCase,
-  createCssTokenFiles,
   createFile,
   createJsonTokenFiles,
   createThemeRootString,
@@ -275,17 +274,6 @@ describe('Utils functions', () => {
         name: string = 'test'
       ): Promise<void>[] {
         return [createFile(name, payload, outputDir, 'json')];
-      },
-      writeCssVariables(
-        createFile: CreateFile,
-        outputDir: string,
-        name: string = 'test'
-      ): Promise<void>[] {
-        const promises: Promise<void>[] = [];
-        promises.push(createFile(name, payload, outputDir, 'css'));
-        promises.push(createFile(name, payload, outputDir, 'css'));
-        promises.push(createFile(name, payload, outputDir, 'css'));
-        return promises;
       }
     };
     const generatedTokens: DesignTokensGenerator[] = [
@@ -310,12 +298,6 @@ describe('Utils functions', () => {
       createJsonTokenFiles(generatedTokens, { outputDir: outDir } as Config);
 
       expect(fsp.writeFile).toHaveBeenCalledTimes(3);
-    });
-
-    it('should write a batch of css files', () => {
-      createCssTokenFiles(generatedTokens, { outputDir: outDir } as Config);
-
-      expect(fsp.writeFile).toHaveBeenCalledTimes(9);
     });
   });
 });

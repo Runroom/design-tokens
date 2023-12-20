@@ -6,7 +6,7 @@ import {
   Borders,
   Typographies,
   Gradients
-} from '@/classes';
+} from 'src/tokens';
 
 const DESIGN_TOKENS = {
   Colors: Colors,

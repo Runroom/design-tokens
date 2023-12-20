@@ -7,22 +7,26 @@ import {
   Shadows,
   Spacings,
   Typographies
-} from '../src/classes';
+} from '../src/tokens';
 import { FigmaFrame } from '../src/types/figma';
-import cssTokens from './mocks/cssTokens';
 import {
   Border,
   Breakpoint,
-  Color,
   DesignTokensGenerator,
-  TokenPayload
+  GradientToken,
+  ShadowToken,
+  SpacingToken,
+  TokenPayload,
+  TypographyToken
 } from '../src/types/designTokens';
+import StyleDictionary from 'style-dictionary';
 
 describe('Tokens', () => {
   let figmaPage: any;
 
   beforeAll(() => {
     figmaPage = response.document.children.find(figmaPage => figmaPage.name === '🔄 Design Tokens');
+    jest.spyOn(StyleDictionary, 'buildAllPlatforms');
   });
 
   describe('Borders', () => {
@@ -61,16 +65,6 @@ describe('Tokens', () => {
 
       expect(createFile).toHaveBeenCalledWith(name, borders.tokens, outputDir, 'json');
     });
-
-    it('should write css variables', () => {
-      const createFile = jest.fn();
-      const outputDir = 'tokens';
-      const name = 'borders-vars';
-
-      borders.writeCssVariables(createFile, outputDir, name);
-
-      expect(createFile).toHaveBeenCalledWith(name, cssTokens.Borders, outputDir, 'css');
-    });
   });
 
   describe('Breakpoints', () => {
@@ -98,7 +92,6 @@ describe('Tokens', () => {
       expect(breakpointCollection).toBeDefined();
       expect(breakpointToken).toBeDefined();
       expect(breakpointToken.value).toMatch('768px');
-      expect(breakpointToken.remValue).toMatch('48rem');
     });
 
     it('should write tokens', () => {
@@ -109,16 +102,6 @@ describe('Tokens', () => {
       breakpoints.writeTokens(createFile, outputDir, name);
 
       expect(createFile).toHaveBeenCalledWith(name, breakpoints.tokens, outputDir, 'json');
-    });
-
-    it('should write css variables', () => {
-      const createFile = jest.fn();
-      const outputDir = 'tokens';
-      const name = 'breakpoints-vars';
-
-      breakpoints.writeCssVariables(createFile, outputDir, name);
-
-      expect(createFile).toHaveBeenCalledWith(name, cssTokens.Breakpoints, outputDir, 'css');
     });
   });
 
@@ -142,16 +125,16 @@ describe('Tokens', () => {
 
     it('should build tokens', () => {
       const colorCollection = colors.tokens.colors;
-      const colorToken = colorCollection['neutral100'] as Color;
+      const colorToken = (colorCollection['neutral'] as any)['100'];
 
-      expect(colorToken.hexColor).toMatch('#f8f9fa');
-      expect(colorToken.hslColor).toMatchObject({
+      expect(colorToken.value).toMatch('#f8f9fa');
+      expect(colorToken.valueHsl).toMatchObject({
         h: 210,
         s: 17,
         l: 98,
         a: 1.0
       });
-      expect(colorToken.rgbColor).toMatchObject({
+      expect(colorToken.valueRgb).toMatchObject({
         r: 248,
         g: 249,
         b: 250,
@@ -167,33 +150,6 @@ describe('Tokens', () => {
       colors.writeTokens(createFile, outputDir, name);
 
       expect(createFile).toHaveBeenCalledWith(name, colors.tokens, outputDir, 'json');
-    });
-
-    it('should write css variables', () => {
-      const createFile = jest.fn();
-      const outputDir = 'tokens';
-
-      colors.writeCssVariables(createFile, outputDir);
-
-      expect(createFile).toHaveBeenCalledTimes(3);
-      expect(createFile).toHaveBeenCalledWith(
-        'rgb-color-vars',
-        cssTokens.Colors.rgb,
-        outputDir,
-        'css'
-      );
-      expect(createFile).toHaveBeenCalledWith(
-        'hex-color-vars',
-        cssTokens.Colors.hex,
-        outputDir,
-        'css'
-      );
-      expect(createFile).toHaveBeenCalledWith(
-        'hsl-color-vars',
-        cssTokens.Colors.hsl,
-        outputDir,
-        'css'
-      );
     });
   });
 
@@ -216,11 +172,11 @@ describe('Tokens', () => {
     });
 
     it('should build tokens', () => {
-      const gradientCollection = gradients.tokens.gradients;
+      const gradientCollection = gradients.tokens.gradients as GradientToken;
       const gradientToken = gradientCollection['radial_generic_dark'];
 
       expect(gradientToken).toBeDefined();
-      expect(gradientToken).toMatchObject({
+      expect(gradientToken.value).toMatchObject({
         type: 'radial-gradient',
         deg: 'circle',
         colors: [
@@ -255,16 +211,6 @@ describe('Tokens', () => {
 
       expect(createFile).toHaveBeenCalledWith(name, gradients.tokens, outputDir, 'json');
     });
-
-    it('should write css variables', () => {
-      const createFile = jest.fn();
-      const outputDir = 'tokens';
-      const name = 'gradients-vars';
-
-      gradients.writeCssVariables(createFile, outputDir, name);
-
-      expect(createFile).toHaveBeenCalledWith(name, cssTokens.Gradients, outputDir, 'css');
-    });
   });
 
   describe('Shadows', () => {
@@ -286,11 +232,11 @@ describe('Tokens', () => {
     });
 
     it('should build tokens', () => {
-      const shadowCollection = shadows.tokens.shadows;
+      const shadowCollection = shadows.tokens.shadows as ShadowToken;
       const shadowToken = shadowCollection['small'];
 
       expect(shadowToken).toBeDefined();
-      expect(shadowToken).toMatchObject([
+      expect(shadowToken.value).toMatchObject([
         {
           color: {
             r: 0.11764705926179886,
@@ -329,16 +275,6 @@ describe('Tokens', () => {
 
       expect(createFile).toHaveBeenCalledWith(name, shadows.tokens, outputDir, 'json');
     });
-
-    it('should write css variables', () => {
-      const createFile = jest.fn();
-      const outputDir = 'tokens';
-      const name = 'shadows-vars';
-
-      shadows.writeCssVariables(createFile, outputDir, name);
-
-      expect(createFile).toHaveBeenCalledWith(name, cssTokens.Shadows, outputDir, 'css');
-    });
   });
 
   describe('Spacings', () => {
@@ -360,13 +296,12 @@ describe('Tokens', () => {
     });
 
     it('should build tokens', () => {
-      const spacingCollection = spacings.tokens.spacings;
+      const spacingCollection = spacings.tokens.spacings as SpacingToken;
       const spacingToken = spacingCollection['sm'];
 
       expect(spacingToken).toBeDefined();
       expect(spacingToken).toMatchObject({
-        value: '16px',
-        remValue: '1rem'
+        value: '1rem'
       });
     });
 
@@ -378,16 +313,6 @@ describe('Tokens', () => {
       spacings.writeTokens(createFile, outputDir, name);
 
       expect(createFile).toHaveBeenCalledWith(name, spacings.tokens, outputDir, 'json');
-    });
-
-    it('should write css variables', () => {
-      const createFile = jest.fn();
-      const outputDir = 'tokens';
-      const name = 'spacings-vars';
-
-      spacings.writeCssVariables(createFile, outputDir, name);
-
-      expect(createFile).toHaveBeenCalledWith(name, cssTokens.Spacings, outputDir, 'css');
     });
   });
 
@@ -410,11 +335,11 @@ describe('Tokens', () => {
     });
 
     it('should build tokens', () => {
-      const typographyCollection = typography.tokens.typography;
+      const typographyCollection = typography.tokens.typography as TypographyToken;
       const typographyToken = typographyCollection['mobileTitle1'];
 
       expect(typographyToken).toBeDefined();
-      expect(typographyToken).toMatchObject({
+      expect(typographyToken.value).toMatchObject({
         fontFamily: 'Roboto',
         fontSize: '3.81437rem',
         fontWeight: 500,
@@ -431,16 +356,6 @@ describe('Tokens', () => {
       typography.writeTokens(createFile, outputDir, name);
 
       expect(createFile).toHaveBeenCalledWith(name, typography.tokens, outputDir, 'json');
-    });
-
-    it('should write css variables', () => {
-      const createFile = jest.fn();
-      const outputDir = 'tokens';
-      const name = 'typography-vars';
-
-      typography.writeCssVariables(createFile, outputDir, name);
-
-      expect(createFile).toHaveBeenCalledWith(name, cssTokens.Typographies, outputDir, 'css');
     });
   });
 });

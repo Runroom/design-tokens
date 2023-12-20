@@ -8,9 +8,9 @@ export interface ColorCollection extends TokenCollection {
 
 export interface Color {
   name: string;
-  rgbColor: RgbColor;
-  hexColor: string;
-  hslColor: HslColor;
+  value: string;
+  valueRgb: RgbColor;
+  valueHsl: HslColor;
 }
 
 export interface HslColor {
@@ -28,5 +28,9 @@ export interface RgbColor {
 }
 
 export interface ColorToken extends Tokens {
-  [key: string]: Color;
+  [key: string]:
+    | Color
+    | {
+        [key: string]: Color;
+      };
 }

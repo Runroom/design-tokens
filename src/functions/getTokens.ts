@@ -44,10 +44,26 @@ const getComponents = <T extends FigmaComponent>(artBoard: FigmaFrame): T[] => {
   return treeParser<T>(frames);
 };
 
-const initPayload = <P extends TokenCollection>(componentsIndex: string): P => {
-  const payload: P = {} as P;
-  Object.assign(payload, { [componentsIndex]: {} });
-  return payload;
+const buildPayload = <P extends TokenCollection>(payload: object, componentsKey: string): P => {
+  return {
+    [componentsKey]: payload
+  } as P;
+};
+
+const mergeTokens = (payload: any, token: any): any | undefined => {
+  const key = Object.keys(token)[0];
+  if (!payload[key]) {
+    Object.assign(payload, token);
+
+    return payload;
+  }
+
+  const newPayload = mergeTokens(payload[key], token[key]);
+
+  return {
+    ...payload,
+    [key]: newPayload
+  };
 };
 
 const getTokens = <T extends FigmaComponent, P extends TokenCollection, K extends Tokens>(
@@ -56,18 +72,18 @@ const getTokens = <T extends FigmaComponent, P extends TokenCollection, K extend
   decorator: (component: T) => K | false
 ): P => {
   const components = getComponents<T>(artBoard);
-  const componentsIndex = snakeCase(artBoardName);
-  const payload = initPayload<P>(componentsIndex);
+  const componentsKey = snakeCase(artBoardName);
+  let payload = {} as P;
 
   components.map(component => {
     const data = decorator(component);
 
     if (data) {
-      Object.assign(payload[componentsIndex], data);
+      payload = mergeTokens(payload, data);
     }
   });
 
-  return payload;
+  return buildPayload(payload, componentsKey);
 };
 
 const truthy = <T>(value: T): value is Truthy<T> => !!value;

@@ -11,10 +11,12 @@ export type Shadow = {
   color: RgbColor;
   offset: Offset;
   radius: number;
-}[];
+};
 
 export interface ShadowToken extends Tokens {
-  [key: string]: Shadow;
+  [key: string]: {
+    value: Shadow[];
+  };
 }
 
 export type Offset = {
