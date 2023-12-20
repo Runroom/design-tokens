@@ -1,5 +1,21 @@
 # @runroom/design-tokens
 
+## 4.0.0
+
+### Major Changes
+
+- [#53](https://github.com/Runroom/design-tokens/pull/53)
+  [`646a330`](https://github.com/Runroom/design-tokens/commit/646a330f78cf9678cd1a37d44fda1568d0bf4ec9)
+  Thanks [@izm20](https://github.com/izm20)! - Move style variables to StyleDictionary
+
+- [#54](https://github.com/Runroom/design-tokens/pull/54)
+  [`1b7ed3b`](https://github.com/Runroom/design-tokens/commit/1b7ed3b5a2edfc60ecd9af50103b7192ec457456)
+  Thanks [@izm20](https://github.com/izm20)! - - Move the `StyleDictionary` config to a
+  `styleDictionary` entry in the design tokens config
+  - Add support for dark mode in the CSS variables with the `darkMode` and the
+    `darkModeStyleDictionary` entries in the design tokens config
+  - Remove `figmaThemes`
+
 ## 3.1.2
 
 ### Patch Changes
