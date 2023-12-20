@@ -6,8 +6,10 @@ export type Config = {
   figmaProjectId: string;
   figmaPages: FigmaPages;
   outputDir: string;
-  figmaThemes?: string[];
-} & StyleDictionaryConfig;
+  darkMode?: boolean;
+  darkModeStyleDictionary?: StyleDictionaryConfig;
+  styleDictionary?: StyleDictionaryConfig;
+};
 
 export type ParseConfig = {
   settings: Config;

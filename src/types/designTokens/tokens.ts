@@ -12,5 +12,5 @@ export interface TokenCollection {
 
 export type TokenPayload = {
   frame: FigmaFrame;
-  themes?: string[];
+  darkMode?: boolean;
 };

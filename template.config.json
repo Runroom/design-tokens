@@ -4,22 +4,49 @@
     "outputDir": "design-tokens",
     "figmaPages": {
         "Colors": ["Colors"],
-        "Design Tokens v2": ["Gradients"],
-        "Design Tokens": ["Typography", "Shadows"],
+        "Other Page": ["Gradients"],
+        "Design Tokens": ["Typography", "Shadows", "Borders", "Breakpoints"],
         "Spacings": ["Spacings"]
     },
-    "figmaThemes": ["light", "dark"],
-    "source": ["design-tokens/**/*.json"],
-    "platforms": {
-        "scss": {
-            "transformGroup": "scss",
-            "buildPath": "tokens/variables/scss/",
-            "files": [
-                {
-                    "destination": "variables.scss",
-                    "format": "scss/variables"
-                }
-            ]
+    "darkMode": true,
+    "styleDictionary": {
+        "source": ["design-tokens/**/*.json"],
+        "platforms": {
+            "css": {
+                "transformGroup": "css",
+                "buildPath": "design-tokens/tokens/",
+                "files": [
+                    {
+                        "destination": "variables.css",
+                        "format": "css/variables"
+                    }
+                ]
+            },
+            "javascript": {
+                "transformGroup": "js",
+                "buildPath": "design-tokens/tokens/js/",
+                "files": [
+                    {
+                        "destination": "variables.ts",
+                        "format": "javascript/es6"
+                    }
+                ]
+            }
+        }
+    },
+    "darkModeStyleDictionary": {
+        "source": ["design-tokens/**/*.dark.json"],
+        "platforms": {
+            "css": {
+                "transformGroup": "css",
+                "buildPath": "design-tokens/tokens/",
+                "files": [
+                    {
+                        "destination": "variables-dark.css",
+                        "format": "css/variables"
+                    }
+                ]
+            }
         }
     }
 }
