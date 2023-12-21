@@ -26,7 +26,7 @@ example:
 
 ### Config
 
-Add a config file on the root directory of your project. This repository uses the standard config file naming by [cosmicconfig](https://www.npmjs.com/package/cosmiconfig).
+Add a config file on the root directory of your project. This repository uses the standard config file naming by [cosmiconfig](https://www.npmjs.com/package/cosmiconfig).
 By default, the config file name should be use `designtokens` as module name, like `.designtokensrc.json` or `.designtokensrc.js`, also as a `package.json` entry with the key `designtokens`. 
 
 If you want to use a different name for your config file, you can use the parameter `--config-file=FILENAME` when you execute the command.
