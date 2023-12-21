@@ -1,6 +1,6 @@
 import { DesignTokensGenerator, FigmaPages } from '../src/types/designTokens';
 import response from './mocks/figmaTree.json';
-import fileConfig from './mocks/template.config.json';
+import configFile from './mocks/designtokensrc.json';
 import { isFigmaResponse } from '../src/functions';
 import { parseFigma } from '../src/api';
 
@@ -27,7 +27,7 @@ describe('Figma parser', () => {
       throw new Error(`No styles found`);
     }
 
-    generatedTokens = parseFigma(response, fileConfig.figmaPages as FigmaPages);
+    generatedTokens = parseFigma(response, configFile.figmaPages as FigmaPages);
     colors = generatedTokens?.find((token: DesignTokensGenerator) => token.name === 'Colors');
     gradients = generatedTokens?.find((token: DesignTokensGenerator) => token.name === 'Gradients');
     typographies = generatedTokens?.find(
