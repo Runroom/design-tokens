@@ -11,11 +11,6 @@ export type Config = {
   styleDictionary?: StyleDictionaryConfig;
 };
 
-export type ParseConfig = {
-  settings: Config;
-  configFile: string;
-};
-
 export type FigmaPages = {
   [key: string]: DesignPages[];
 };

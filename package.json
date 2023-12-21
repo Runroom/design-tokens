@@ -31,6 +31,7 @@
         "build": "tsc -noEmit && tsup",
         "dev": "tsc -noEmit && tsup --sourcemap",
         "design-tokens": "npm run dev && node dist/bin/index.js",
+        "design-tokens:config": "npm run dev && node dist/bin/index.js --config-file=designtokens.json",
         "lint": "run-p lint:*",
         "lint:eslint": "eslint src/**/*.ts tests/**/*.ts tsup.config.ts",
         "lint:prettier": "prettier --check src/**/*.ts tests/**/*.ts .github .eslintrc.json .prettierrc.json package.json template.config.json tsup.config.ts tsconfig.json",
@@ -45,6 +46,7 @@
         "node": ">= 16"
     },
     "dependencies": {
+        "cosmiconfig": "9.0.0",
         "node-fetch": "3.3.2",
         "style-dictionary": "3.9.0",
         "yargs-parser": "21.1"

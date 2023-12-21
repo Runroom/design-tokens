@@ -1,17 +1,15 @@
 import { buildStyleDictionary } from '@/styleDictionary/styleDictionary.ts';
-import { ParseConfig } from '@/types/designTokens';
+import { Config } from '@/types/designTokens';
 import { figmaApiConnection } from '@/api';
 import { createJsonTokenFiles, EMOJIS, log } from '@/functions';
 
-const designTokens = (config: ParseConfig) => {
-  const { settings } = config;
-
-  figmaApiConnection(settings).then(async generatedTokens => {
+const designTokens = (config: Config) => {
+  figmaApiConnection(config).then(async generatedTokens => {
     log('Generating design tokens...', EMOJIS.workingInProgress);
 
-    await createJsonTokenFiles(generatedTokens, settings);
+    await createJsonTokenFiles(generatedTokens, config);
 
-    buildStyleDictionary(settings);
+    buildStyleDictionary(config);
   });
 };
 

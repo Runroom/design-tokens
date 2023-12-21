@@ -16,12 +16,12 @@ const log = (message: string, emoji = '') => {
 
 const logError = (message: string) => {
   // eslint-disable-next-line no-console
-  console.error(`\n${EMOJIS.error} ${message}`);
+  console.error(`\x1b[31m${EMOJIS.error}  ${message}`);
 };
 
 const logWarning = (message: string) => {
   // eslint-disable-next-line no-console
-  console.warn(`\n${EMOJIS.warning} ${message}`);
+  console.warn(`\x1b[38;5;226m${EMOJIS.warning} ${message}`);
 };
 
 export { EMOJIS, log, logError, logWarning };
