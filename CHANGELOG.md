@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 5.0.0
+
+### Major Changes
+
+- [#56](https://github.com/Runroom/design-tokens/pull/56)
+  [`9dd41a9`](https://github.com/Runroom/design-tokens/commit/9dd41a9514caca6c33813d1088021ec133649d1a)
+  Thanks [@izm20](https://github.com/izm20)! - Add cosmiconfig and refactor configFileParser
+
 ## 4.0.0
 
 ### Major Changes
