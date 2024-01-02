@@ -1,6 +1,6 @@
 {
     "name": "@runroom/design-tokens",
-    "version": "4.0.0",
+    "version": "5.0.0",
     "description": "Figma design tokens",
     "type": "module",
     "repository": {
