@@ -33,10 +33,10 @@
         "design-tokens": "npm run dev && node dist/bin/index.js",
         "lint": "run-p lint:*",
         "lint:eslint": "eslint src/**/*.ts tests/**/*.ts tsup.config.ts",
-        "lint:prettier": "prettier --check src/**/*.ts tests/**/*.ts .github .eslintrc.json .prettierrc.json package.json template.config.json tsup.config.ts tsconfig.json",
+        "lint:prettier": "prettier --check src/**/*.ts tests/**/*.ts .github .eslintrc.json .prettierrc.json package.json .template-designtokensrc.json tsup.config.ts tsconfig.json",
         "fix": "run-p fix:*",
         "fix:eslint": "eslint --fix src/**/*.ts tests/**/*.ts tsup.config.ts",
-        "fix:prettier": "prettier --write src/**/*.ts tests/**/*.ts .github .eslintrc.json .prettierrc.json package.json template.config.json tsup.config.ts tsconfig.json",
+        "fix:prettier": "prettier --write src/**/*.ts tests/**/*.ts .github .eslintrc.json .prettierrc.json package.json .template-designtokensrc.json tsup.config.ts tsconfig.json",
         "release": "changeset publish",
         "test": "jest",
         "test:ci": "jest --ci --coverage"
@@ -45,6 +45,7 @@
         "node": ">= 16"
     },
     "dependencies": {
+        "cosmiconfig": "9.0.0",
         "node-fetch": "3.3.2",
         "style-dictionary": "3.9.0",
         "yargs-parser": "21.1"

@@ -7,7 +7,6 @@
         "\uD83D\uDD04 Design Tokens": ["Typography", "Shadows", "Borders", "Breakpoints", "Colors"],
         "Spacings": ["Spacings"]
     },
-    "figmaThemes": ["light", "dark"],
     "source": ["design-tokens/**/*.json"],
     "platforms": {
         "scss": {

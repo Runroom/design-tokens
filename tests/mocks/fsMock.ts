@@ -1,4 +1,4 @@
-import configFile from './template.config.json';
+import configFile from './designtokensrc.json';
 import fs from 'fs';
 
 jest.mock('fs', () => ({

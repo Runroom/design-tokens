@@ -13,12 +13,25 @@ Originally inspired on: [figma-tokens](https://github.com/klaufel/figma-tokens).
 
 ## Usage
 
+### Execution
+
+Then execute:
+
+- `npx design-tokens`: If you want to sync with figma.
+
+You can specify a different config file name using the parameter `--config-file=FILENAME`. For
+example:
+
+- `npx design-tokens --config-file=myfile.{json,js}`
+
 ### Config
 
-Add a config file on the root directory of your project with the default name
-`designtokens.config.json` or `design-tokens.config.json`. If you chose to call it differently,
-specify a different config file while executing. You can find a template for your config file
-[here](template.config.json)
+Add a config file on the root directory of your project. This repository uses the standard config file naming by [cosmiconfig](https://www.npmjs.com/package/cosmiconfig).
+By default, the config file name should be use `designtokens` as module name, like `.designtokensrc.json` or `.designtokensrc.js`, also as a `package.json` entry with the key `designtokens`. 
+
+If you want to use a different name for your config file, you can use the parameter `--config-file=FILENAME` when you execute the command.
+
+You can find a template for your config file [here](.template-designtokensrc.json).
 
 #### Explanation of config file fields
 
@@ -33,23 +46,11 @@ array of the figma frames that contains the tokens
 
 `darkMode`: Boolean to enable/disable the dark mode support
 
-
 ### Optional config fields for [Style Dictionary](https://amzn.github.io/style-dictionary/#/config)
 
 `styleDictionary`: The style dictionary config
 
 `darkModeStyleDictionary`: The style dictionary config for dark mode files **only works with CSS variables**
-
-### Execution
-
-Then execute:
-
-- `npx design-tokens`: If you want to sync with figma.
-
-You can specify a different config file name using the parameter `--config-file=FILENAME`. For
-example:
-
-- `npx design-tokens --config-file=myfile.json`
 
 ## For Devs:
 
