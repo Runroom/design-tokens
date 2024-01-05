@@ -73,7 +73,7 @@ const writeColorTokens =
     if (themes && themes.length > 0) {
       const tokensWithThemes = buildColorTokensWithThemes(tokens, themes);
 
-       return [createFile(name, tokensWithThemes, outputDir, 'json')]
+      return [createFile(name, tokensWithThemes, outputDir, 'json')];
     }
 
     return [createFile(name, tokens, outputDir, 'json')];
