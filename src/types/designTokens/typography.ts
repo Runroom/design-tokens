@@ -1,4 +1,4 @@
-import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
+import { Token, TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
 export interface TypographyCollection extends TokenCollection {
   typography: {
@@ -6,7 +6,7 @@ export interface TypographyCollection extends TokenCollection {
   };
 }
 
-export interface Typography {
+export interface Typography extends Token {
   value: {
     fontFamily: string;
     fontSize: string;

@@ -22,7 +22,7 @@ const figmaApiConnection = async ({
   figmaApiKey,
   figmaProjectId,
   figmaPages,
-  darkMode
+  figmaThemes
 }: Config): Promise<DesignTokensGenerator[]> => {
   log('Connecting with Figma...', EMOJIS.workingInProgress);
 
@@ -46,7 +46,7 @@ const figmaApiConnection = async ({
       throw new Error(`No styles found`);
     }
 
-    const parsedTokens = parseFigma(responseJson, figmaPages, darkMode);
+    const parsedTokens = parseFigma(responseJson, figmaPages, figmaThemes);
 
     if (!parsedTokens || !parsedTokens.length) {
       throw new Error(`No styles found`);

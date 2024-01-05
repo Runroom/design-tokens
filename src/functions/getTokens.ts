@@ -92,20 +92,20 @@ const designTokensBuilder = <T>(
   name: DesignPages,
   pages: string[],
   frame: FigmaFrame,
-  designToken: ({ frame, darkMode }: TokenPayload) => T,
-  darkMode?: boolean
+  designToken: ({ frame, themes }: TokenPayload) => T,
+  themes?: string[]
 ): T | undefined => {
   if (!pages.includes(name)) {
     return;
   }
 
-  return designToken({ frame, darkMode });
+  return designToken({ frame, themes });
 };
 
 const generateDesignTokens = (
   pages: string[],
   figmaDesignTokensFrames: FigmaFrame[],
-  darkMode?: boolean
+  figmaThemes?: string[]
 ) => {
   const writeFilePromises: DesignTokensGenerator[] = figmaDesignTokensFrames
     .map(frame => {
@@ -120,7 +120,7 @@ const generateDesignTokens = (
         pages,
         frame,
         tokenGenerator,
-        darkMode
+        figmaThemes
       );
     })
     .filter(truthy);

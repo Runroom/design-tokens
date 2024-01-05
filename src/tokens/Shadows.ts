@@ -12,6 +12,7 @@ import { DesignTokens } from 'style-dictionary/types/DesignToken';
 import { Parser } from 'style-dictionary/types/Parser';
 
 const SHADOWS_NAME = 'shadows';
+const SHADOW_TYPE = 'shadow';
 
 const getShadows = (component: FigmaShadowComponent): ShadowToken | false => {
   if (!(component && component.name)) {
@@ -43,6 +44,8 @@ const getShadows = (component: FigmaShadowComponent): ShadowToken | false => {
 
   return {
     [name]: {
+      name,
+      type: SHADOW_TYPE,
       value: effects
     }
   };
@@ -54,12 +57,12 @@ const writeShadowTokens =
     return [createFile(name, tokens, outputDir, 'json')];
   };
 
-const buildShadow = (shadow: Shadow[]) => {
+const buildShadow = (shadow: Shadow) => {
   let formattedShadow = '';
   let formattedDropShadow = '';
 
-  for (const index in shadow) {
-    const { color, offset, radius } = shadow[index];
+  for (const index in shadow.value) {
+    const { color, offset, radius } = shadow.value[index];
     const { r, g, b, a } = color;
     const rgba = rgbaGen(r, g, b, a);
     const offsetString = `${offset.x}px ${offset.y}px`;
@@ -84,7 +87,7 @@ const getShadowsParser = (): Parser => {
       const output: DesignTokens = {};
 
       Object.keys(shadows).forEach(key => {
-        const shadow: Shadow[] = shadows[key].value;
+        const shadow: Shadow = shadows[key];
         const { formattedShadow, formattedDropShadow } = buildShadow(shadow);
 
         output[`shadow-drop-filter-${key}`] = {
@@ -115,4 +118,4 @@ const Shadows = ({ frame }: TokenPayload): DesignTokensGenerator => {
   };
 };
 
-export { Shadows, getShadowsParser };
+export { Shadows, getShadowsParser, SHADOW_TYPE };
