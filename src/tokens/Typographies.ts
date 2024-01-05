@@ -7,7 +7,7 @@ import {
   TypographyToken
 } from '@/types/designTokens';
 import { FigmaTypographyComponent } from '@/types/figma';
-import { getTokens, remify, snakeCase } from '@/functions';
+import { getTokens, kebabCase, remify } from '@/functions';
 import { Parser, ParserOptions } from 'style-dictionary/types/Parser';
 import { DesignTokens } from 'style-dictionary/types/DesignToken';
 
@@ -29,7 +29,7 @@ const getTypography = (component: FigmaTypographyComponent): TypographyToken | f
     token.style;
   const lineHeight = Math.floor(lineHeightPercentFontSize) / 100;
   const letterSpacingRounded = Math.floor(letterSpacing);
-  const name = snakeCase(component.name);
+  const name = kebabCase(component.name);
 
   return {
     [name]: {
