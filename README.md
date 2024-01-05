@@ -56,6 +56,19 @@ we take as theme the first block of the name. For example: `dark-primary` or `da
 
 `styleDictionary`: The style dictionary config
 
+## Theming: How to use the themes
+
+The themes are generated in the same file as the tokens, but if you want to extract the themes to a different file with
+the selector `[data-theme="THEME_NAME"]`, you can add the following config to the css files, in the style dictionary
+config, how you can see in the config template:
+
+```json
+{
+    "destination": "variables-themes.css",
+    "format": "css/variables-themes"
+}
+```
+
 ## For Devs:
 
 ### Adding New Figma Tokens
