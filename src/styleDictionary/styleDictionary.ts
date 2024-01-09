@@ -85,6 +85,10 @@ const addColorsThemeFormat = (themes: string[]) => {
   });
 };
 
+const isThereThemeFormat = (styleDictionary: StyleDictionaryConfig) => {
+  return styleDictionary.platforms.css.files?.some(file => file.format === 'css/variables-themes');
+};
+
 const buildStyleDictionary = (settings: Config) => {
   if (!settings.styleDictionary) {
     log('No Style Dictionary config found', EMOJIS.warning);
@@ -95,7 +99,7 @@ const buildStyleDictionary = (settings: Config) => {
 
   const { styleDictionary, figmaThemes } = settings;
 
-  if (figmaThemes) {
+  if (figmaThemes && isThereThemeFormat(styleDictionary)) {
     addColorsThemeFormat(figmaThemes);
   }
 
