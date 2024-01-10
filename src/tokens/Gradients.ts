@@ -21,6 +21,7 @@ import { DesignTokens } from 'style-dictionary/types/DesignToken';
 import { Parser } from 'style-dictionary/types/Parser';
 
 const GRADIENTS_NAME = 'gradients';
+const GRADIENT_TYPE = 'gradient';
 
 const getGradients = (component: FigmaGradientComponent): GradientToken | false => {
   if (!(component && component.name)) {
@@ -65,6 +66,8 @@ const getGradients = (component: FigmaGradientComponent): GradientToken | false 
 
   return {
     [name]: {
+      name,
+      type: GRADIENT_TYPE,
       value: {
         type: gradientType,
         deg: gradientAngle,
@@ -81,10 +84,11 @@ const writeGradientTokens =
   };
 
 const buildGradient = (gradient: Gradient) => {
-  const gradientValue = gradient.colors
+  const { type, deg, colors } = gradient.value;
+  const gradientValue = colors
     .map(({ color, position }) => `${parseRgba(color)} ${position * 100}%`)
     .join(', ');
-  return `${gradient.type}(${gradient.deg}, ${gradientValue})`;
+  return `${type}(${deg}, ${gradientValue})`;
 };
 
 const getGradientsParser = (): Parser => {
@@ -97,7 +101,7 @@ const getGradientsParser = (): Parser => {
       const output: DesignTokens = {};
 
       Object.keys(gradients).forEach(key => {
-        const gradient: Gradient = gradients[key].value;
+        const gradient: Gradient = gradients[key];
         const styleValue = buildGradient(gradient);
 
         if (gradient.type === 'radial-gradient') {
@@ -131,4 +135,4 @@ const Gradients = ({ frame }: TokenPayload): DesignTokensGenerator => {
   };
 };
 
-export { Gradients, getGradientsParser };
+export { Gradients, getGradientsParser, GRADIENT_TYPE };

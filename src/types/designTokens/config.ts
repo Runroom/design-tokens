@@ -6,8 +6,7 @@ export type Config = {
   figmaProjectId: string;
   figmaPages: FigmaPages;
   outputDir: string;
-  darkMode?: boolean;
-  darkModeStyleDictionary?: StyleDictionaryConfig;
+  figmaThemes?: string[];
   styleDictionary?: StyleDictionaryConfig;
 };
 

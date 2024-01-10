@@ -1,4 +1,4 @@
-import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
+import { Token, TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
 export interface SpacingCollection extends TokenCollection {
   spacings: {
@@ -6,7 +6,7 @@ export interface SpacingCollection extends TokenCollection {
   };
 }
 
-export interface Spacing {
+export interface Spacing extends Token {
   value: string;
 }
 

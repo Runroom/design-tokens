@@ -8,6 +8,8 @@ import {
 import { FigmaBreakPointComponent } from '@/types/figma';
 import { getTokens, pixelate, snakeCase } from '@/functions';
 
+const BREAKPOINT_TYPE = 'breakpoint';
+
 const getBoundingWidth = (component: FigmaBreakPointComponent): BreakpointToken | false => {
   if (!(component && component.name)) {
     return false;
@@ -18,6 +20,8 @@ const getBoundingWidth = (component: FigmaBreakPointComponent): BreakpointToken 
 
   return {
     [name]: {
+      name,
+      type: BREAKPOINT_TYPE,
       value
     }
   };
@@ -43,4 +47,4 @@ const Breakpoints = ({ frame }: TokenPayload): DesignTokensGenerator => {
   };
 };
 
-export { Breakpoints };
+export { Breakpoints, BREAKPOINT_TYPE };

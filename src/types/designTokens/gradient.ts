@@ -1,4 +1,4 @@
-import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
+import { Token, TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 import { RgbColor } from '@/types/designTokens/color.ts';
 
 export type GradientType = 'linear' | 'radial';
@@ -13,10 +13,12 @@ export interface GradientCollection extends TokenCollection {
   };
 }
 
-export interface Gradient {
-  type: GradientCSSType;
-  deg: 'circle' | `${string}deg`;
-  colors: GradientColor[];
+export interface Gradient extends Token {
+  value: {
+    type: GradientCSSType;
+    deg: 'circle' | `${string}deg`;
+    colors: GradientColor[];
+  };
 }
 
 export type GradientColor = {
@@ -25,7 +27,5 @@ export type GradientColor = {
 };
 
 export interface GradientToken extends Tokens {
-  [key: string]: {
-    value: Gradient;
-  };
+  [key: string]: Gradient;
 }

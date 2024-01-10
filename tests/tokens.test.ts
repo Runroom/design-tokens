@@ -336,7 +336,7 @@ describe('Tokens', () => {
 
     it('should build tokens', () => {
       const typographyCollection = typography.tokens.typography as TypographyToken;
-      const typographyToken = typographyCollection['mobileTitle1'];
+      const typographyToken = typographyCollection['mobile-title-1'];
 
       expect(typographyToken).toBeDefined();
       expect(typographyToken.value).toMatchObject({

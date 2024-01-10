@@ -8,6 +8,8 @@ import {
 } from '@/types/designTokens';
 import { FigmaBorderComponent } from '@/types/figma';
 
+const BORDER_TYPE = 'border';
+
 const getBoundingWidth = (component: FigmaBorderComponent): BorderToken | false => {
   if (!(component && component.name)) {
     return false;
@@ -24,6 +26,8 @@ const getBoundingWidth = (component: FigmaBorderComponent): BorderToken | false 
 
   return {
     [name]: {
+      name,
+      type: BORDER_TYPE,
       value
     }
   };
@@ -49,4 +53,4 @@ const Borders = ({ frame }: TokenPayload): DesignTokensGenerator => {
   };
 };
 
-export { Borders };
+export { Borders, BORDER_TYPE };

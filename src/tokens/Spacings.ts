@@ -8,6 +8,8 @@ import {
 import { FigmaSpacingComponent } from '@/types/figma';
 import { getTokens, remify, snakeCase } from '@/functions';
 
+const SPACING_TYPE = 'spacing';
+
 const getBoundingWidth = (component: FigmaSpacingComponent): SpacingToken | false => {
   if (!(component && component.name)) {
     return false;
@@ -18,6 +20,8 @@ const getBoundingWidth = (component: FigmaSpacingComponent): SpacingToken | fals
 
   return {
     [name]: {
+      name,
+      type: SPACING_TYPE,
       value
     }
   };
@@ -43,4 +47,4 @@ const Spacings = ({ frame }: TokenPayload): DesignTokensGenerator => {
   };
 };
 
-export { Spacings };
+export { Spacings, SPACING_TYPE };

@@ -8,7 +8,7 @@
         "Design Tokens": ["Typography", "Shadows", "Borders", "Breakpoints"],
         "Spacings": ["Spacings"]
     },
-    "darkMode": true,
+    "figmaThemes": ["dark"],
     "styleDictionary": {
         "source": ["design-tokens/**/*.json"],
         "platforms": {
@@ -19,6 +19,10 @@
                     {
                         "destination": "variables.css",
                         "format": "css/variables"
+                    },
+                    {
+                        "destination": "variables-themes.css",
+                        "format": "css/variables-themes"
                     }
                 ]
             },
@@ -29,21 +33,6 @@
                     {
                         "destination": "variables.ts",
                         "format": "javascript/es6"
-                    }
-                ]
-            }
-        }
-    },
-    "darkModeStyleDictionary": {
-        "source": ["design-tokens/**/*.dark.json"],
-        "platforms": {
-            "css": {
-                "transformGroup": "css",
-                "buildPath": "design-tokens/tokens/",
-                "files": [
-                    {
-                        "destination": "variables-dark.css",
-                        "format": "css/variables"
                     }
                 ]
             }

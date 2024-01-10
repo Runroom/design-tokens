@@ -7,11 +7,12 @@ import {
   TypographyToken
 } from '@/types/designTokens';
 import { FigmaTypographyComponent } from '@/types/figma';
-import { camelCase, getTokens, remify } from '@/functions';
+import { getTokens, kebabCase, remify } from '@/functions';
 import { Parser, ParserOptions } from 'style-dictionary/types/Parser';
 import { DesignTokens } from 'style-dictionary/types/DesignToken';
 
 const TYPOGRAPHIES_NAME = 'typographies';
+const TYPOGRAPHY_TYPE = 'typography';
 
 const getTypography = (component: FigmaTypographyComponent): TypographyToken | false => {
   if (!(component && component.name && component.children && component.children.length)) {
@@ -28,9 +29,12 @@ const getTypography = (component: FigmaTypographyComponent): TypographyToken | f
     token.style;
   const lineHeight = Math.floor(lineHeightPercentFontSize) / 100;
   const letterSpacingRounded = Math.floor(letterSpacing);
+  const name = kebabCase(component.name);
 
   return {
-    [camelCase(component.name)]: {
+    [name]: {
+      name,
+      type: TYPOGRAPHY_TYPE,
       value: {
         fontFamily,
         fontSize: remify(fontSize),
@@ -93,4 +97,4 @@ const Typographies = ({ frame }: TokenPayload): DesignTokensGenerator => {
   };
 };
 
-export { Typographies, getTypographiesParser };
+export { Typographies, getTypographiesParser, TYPOGRAPHY_TYPE };

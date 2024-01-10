@@ -1,4 +1,4 @@
-import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
+import { Token, TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
 export interface BreakpointCollection extends TokenCollection {
   breakpoints: {
@@ -6,7 +6,7 @@ export interface BreakpointCollection extends TokenCollection {
   };
 }
 
-export interface Breakpoint {
+export interface Breakpoint extends Token {
   value: string;
 }
 

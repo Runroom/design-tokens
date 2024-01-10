@@ -1,4 +1,7 @@
-import StyleDictionary, { Config as StyleDictionaryConfig } from 'style-dictionary';
+import StyleDictionary, {
+  Config as StyleDictionaryConfig,
+  TransformedToken
+} from 'style-dictionary';
 import { EMOJIS, log } from '@/functions';
 import { getGradientsParser, getShadowsParser, getTypographiesParser } from '@/tokens';
 import { Config } from '@/types/designTokens';
@@ -9,59 +12,6 @@ const registerParsers = () => {
   StyleDictionary.registerParser(getGradientsParser());
 };
 
-const getDarkModeSource = (source?: string[], outputDir?: string) => {
-  const defaultJsonPath = `${outputDir}/**/*.dark.json`;
-
-  if (!source) {
-    return [defaultJsonPath];
-  }
-
-  return source.map(path => {
-    if (path.indexOf(`.dark.json`) > -1) {
-      return path;
-    }
-
-    return `${path.replace(`.json`, `.dark.json`)}`;
-  });
-};
-
-const getDarkModeStyleDictionaryDefaultConfig = (settings: Config) => {
-  const source = getDarkModeSource(settings.styleDictionary?.source, settings.outputDir);
-  const buildPath =
-    settings.styleDictionary!.platforms.css.buildPath ?? `${settings.outputDir}/tokens/`;
-
-  return {
-    include: source,
-    source,
-    filter: {
-      dark: ({ filePath }: { filePath: string }) => filePath.indexOf(`.dark`) > -1
-    },
-    platforms: {
-      css: {
-        transformGroup: `css`,
-        buildPath,
-        files: [
-          {
-            destination: `variables-dark.css`,
-            format: `css/variables`
-          }
-        ]
-      }
-    }
-  };
-};
-
-const buildDarkModeStyles = (settings: Config) => {
-  const darkModeConfig =
-    settings.darkModeStyleDictionary ?? getDarkModeStyleDictionaryDefaultConfig(settings);
-
-  const extendedDictionary = StyleDictionary.extend(darkModeConfig);
-
-  log('Compiling dark mode styles...', EMOJIS.workingInProgress);
-  extendedDictionary.buildAllPlatforms();
-  log('Dark mode styles compiled', EMOJIS.success);
-};
-
 const buildStyles = (styleDictionary: StyleDictionaryConfig) => {
   const extendedDictionary = StyleDictionary.extend(styleDictionary);
 
@@ -70,21 +20,73 @@ const buildStyles = (styleDictionary: StyleDictionaryConfig) => {
   log('Styles compiled', EMOJIS.success);
 };
 
-const getStyleDictionaryWithoutDarkFiles = (
-  styleDictionary: StyleDictionaryConfig
-): StyleDictionaryConfig => {
-  const source = styleDictionary.source
-    ? styleDictionary.source.map(sourcePath => sourcePath.replace('*.json', '!(*.dark).json'))
-    : [];
+const formatTokenToCssVariable = (token: TransformedToken) => `--${token.name}: ${token.value};`;
 
+const formatTokenValueWithTheme = (token: TransformedToken) => {
+  const name = token.name.split('-').slice(1).join('-');
   return {
-    ...styleDictionary,
-    source,
-    filter: {
-      ...styleDictionary.filter,
-      dark: ({ filePath }: { filePath: string }) => filePath.indexOf(`.dark`) === -1
-    }
+    ...token,
+    name
   };
+};
+
+const getColorTheme = (token: TransformedToken) => token.name.split('-')[0];
+
+const splitColorsByTheme = (colors: TransformedToken[]) => {
+  const colorsByTheme = {} as any;
+  colors.forEach(token => {
+    const theme = getColorTheme(token);
+    if (!colorsByTheme[theme]) colorsByTheme[theme] = [];
+    colorsByTheme[theme].push(formatTokenValueWithTheme(token));
+  });
+  return colorsByTheme;
+};
+
+const isColorToken = (token: TransformedToken) => token.type === 'color';
+
+const addColorsThemeFormat = (themes: string[]) => {
+  StyleDictionary.registerFormat({
+    name: 'css/variables',
+    formatter({ dictionary }) {
+      const variables = dictionary.allProperties
+        .map(token => {
+          if (token.type === 'color') {
+            const theme = getColorTheme(token);
+            if (theme === 'default') {
+              return formatTokenToCssVariable(formatTokenValueWithTheme(token));
+            }
+            return false;
+          }
+
+          return formatTokenToCssVariable(token);
+        })
+        .filter(Boolean)
+        .join(' ');
+
+      return `:root { ${variables} }\n`;
+    }
+  });
+
+  StyleDictionary.registerFormat({
+    name: 'css/variables-themes',
+    formatter({ dictionary }) {
+      const colors = dictionary.allProperties.filter(isColorToken);
+      const colorsByTheme = splitColorsByTheme(colors);
+      const variables = themes
+        .map(theme => {
+          const themeColors = colorsByTheme[theme];
+          const cssVariables = themeColors.map(formatTokenToCssVariable).join(' ');
+          return `[data-theme="${theme}"] { ${cssVariables} }`;
+        })
+        .join(' ');
+
+      return `${variables}\n`;
+    }
+  });
+};
+
+const isThereThemeFormat = (styleDictionary: StyleDictionaryConfig) => {
+  return styleDictionary.platforms.css.files?.some(file => file.format === 'css/variables-themes');
 };
 
 const buildStyleDictionary = (settings: Config) => {
@@ -95,13 +97,10 @@ const buildStyleDictionary = (settings: Config) => {
 
   registerParsers();
 
-  const { darkMode, styleDictionary } = settings;
+  const { styleDictionary, figmaThemes } = settings;
 
-  if (darkMode) {
-    const styleDictionaryWithoutDarkFiles = getStyleDictionaryWithoutDarkFiles(styleDictionary);
-    buildStyles(styleDictionaryWithoutDarkFiles);
-    buildDarkModeStyles(settings);
-    return;
+  if (figmaThemes && isThereThemeFormat(styleDictionary)) {
+    addColorsThemeFormat(figmaThemes);
   }
 
   buildStyles(styleDictionary);

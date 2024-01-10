@@ -1,4 +1,4 @@
-import { TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
+import { Token, TokenCollection, Tokens } from '@/types/designTokens/tokens.ts';
 
 export interface BorderCollection extends TokenCollection {
   borders: {
@@ -6,7 +6,7 @@ export interface BorderCollection extends TokenCollection {
   };
 }
 
-export interface Border {
+export interface Border extends Token {
   value: string;
 }
 
