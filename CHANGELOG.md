@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 6.0.0
+
+### Major Changes
+
+- [#58](https://github.com/Runroom/design-tokens/pull/58)
+  [`e4f8329`](https://github.com/Runroom/design-tokens/commit/e4f83298b6bfa91cf4e38100f7cb2eed07624f8d)
+  Thanks [@izm20](https://github.com/izm20)! - Remove darkmode and add themes
+
 ## 5.0.0
 
 ### Major Changes
