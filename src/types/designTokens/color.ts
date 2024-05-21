@@ -11,6 +11,7 @@ export interface Color extends Token {
   value: string;
   valueRgb: RgbColor;
   valueHsl: HslColor;
+  type: 'color';
 }
 
 export interface HslColor {

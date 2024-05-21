@@ -7,6 +7,7 @@ export type Config = {
   figmaPages: FigmaPages;
   outputDir: string;
   figmaThemes?: string[];
+  experimentalColorName?: boolean;
   styleDictionary?: StyleDictionaryConfig;
 };
 
