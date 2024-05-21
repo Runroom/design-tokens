@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 6.0.1
+
+### Patch Changes
+
+- [#60](https://github.com/Runroom/design-tokens/pull/60)
+  [`3bf5f9f`](https://github.com/Runroom/design-tokens/commit/3bf5f9f0ae66ddb5083c475f4689b4ef4e13c64e)
+  Thanks [@izm20](https://github.com/izm20)! - Add experimentalColorName
+
 ## 6.0.0
 
 ### Major Changes
