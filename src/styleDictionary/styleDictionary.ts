@@ -3,7 +3,12 @@ import StyleDictionary, {
   TransformedToken
 } from 'style-dictionary';
 import { EMOJIS, log } from '@/functions';
-import { getGradientsParser, getShadowsParser, getTypographiesParser } from '@/tokens';
+import {
+  getColorsParser,
+  getGradientsParser,
+  getShadowsParser,
+  getTypographiesParser
+} from '@/tokens';
 import { Config } from '@/types/designTokens';
 
 const registerParsers = () => {
@@ -11,6 +16,8 @@ const registerParsers = () => {
   StyleDictionary.registerParser(getShadowsParser());
   StyleDictionary.registerParser(getGradientsParser());
 };
+
+const registerColorsParser = () => StyleDictionary.registerParser(getColorsParser());
 
 const buildStyles = (styleDictionary: StyleDictionaryConfig) => {
   const extendedDictionary = StyleDictionary.extend(styleDictionary);
@@ -97,10 +104,14 @@ const buildStyleDictionary = (settings: Config) => {
 
   registerParsers();
 
-  const { styleDictionary, figmaThemes } = settings;
+  const { styleDictionary, figmaThemes, experimentalColorName = false } = settings;
 
   if (figmaThemes && isThereThemeFormat(styleDictionary)) {
     addColorsThemeFormat(figmaThemes);
+  }
+
+  if (experimentalColorName) {
+    registerColorsParser();
   }
 
   buildStyles(styleDictionary);

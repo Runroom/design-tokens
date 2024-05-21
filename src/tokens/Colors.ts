@@ -8,8 +8,13 @@ import {
 } from '@/types/designTokens';
 import { FigmaColorComponent } from '@/types/figma';
 import { fullColorHex, fullColorHsl, getTokens, rgbaGenObject } from '@/functions';
+import { Parser } from 'style-dictionary/types/Parser';
+import { DesignTokens } from 'style-dictionary/types/DesignToken';
 
 const COLOR_TYPE = 'color';
+const COLOR_NAME = 'colors';
+type ColorKeys = keyof Color;
+const colorKeysArray: ColorKeys[] = ['name', 'value', 'valueRgb', 'valueHsl', 'type'];
 
 const buildColorToken = (component: FigmaColorComponent, tokenValue: Color): ColorToken => {
   const keys = component.name.split('-').reverse();
@@ -79,6 +84,52 @@ const writeColorTokens =
     return [createFile(name, tokens, outputDir, 'json')];
   };
 
+const parseColors = (colors: any, name = ''): Array<Pick<Color, 'name' | 'value'>> => {
+  const result = [];
+
+  if (colors.value) {
+    result.push({
+      name: name ?? colors.name,
+      value: colors.value
+    });
+  }
+
+  const keys = Object.keys(colors);
+  const newColors = keys.filter(key => !colorKeysArray.includes(key as ColorKeys));
+  if (newColors.length) {
+    newColors.forEach(key => {
+      const realName = name ? `${name}-${key}` : key;
+      result.push(...parseColors(colors[key], realName));
+    });
+  }
+
+  return result;
+};
+
+const getColorsParser = (): Parser => {
+  const pattern = new RegExp(`${COLOR_NAME}.json$`);
+
+  return {
+    pattern,
+    parse: ({ contents }) => {
+      const { colors }: { colors: ColorToken } = JSON.parse(contents);
+      const output: DesignTokens = {};
+
+      Object.keys(colors).forEach(key => {
+        const parsedColors = parseColors(colors[key], key);
+
+        parsedColors.forEach(parsedColor => {
+          output[`${COLOR_NAME}-${parsedColor.name}`] = {
+            value: parsedColor.value
+          };
+        });
+      });
+
+      return output;
+    }
+  };
+};
+
 const Colors = ({ frame, themes }: TokenPayload): DesignTokensGenerator => {
   const tokens = getTokens<FigmaColorComponent, ColorCollection, ColorToken>(
     'Colors',
@@ -93,4 +144,4 @@ const Colors = ({ frame, themes }: TokenPayload): DesignTokensGenerator => {
   };
 };
 
-export { Colors, COLOR_TYPE };
+export { Colors, COLOR_TYPE, getColorsParser };
