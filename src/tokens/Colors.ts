@@ -118,7 +118,7 @@ const getColorsParser = (): Parser => {
       Object.keys(colors).forEach(key => {
         const parsedColors = parseColors(colors[key], key);
 
-        parsedColors.forEach((parsedColor) => {
+        parsedColors.forEach(parsedColor => {
           output[`${COLOR_NAME}-${parsedColor.name}`] = {
             value: parsedColor.value
           };
