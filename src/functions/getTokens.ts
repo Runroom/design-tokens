@@ -1,6 +1,7 @@
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
 import {
-  DesignTokensGenerator, Token,
+  DesignTokensGenerator,
+  Token,
   TokenCollection,
   TokenPayload,
   Tokens,
@@ -51,12 +52,19 @@ const buildPayload = <P extends TokenCollection>(payload: object, componentsKey:
   } as P;
 };
 
-const isKeyDuplicated = <T extends TokenCollection, K extends Tokens>(payload: T, token: K, key: string) => Object.keys(payload).filter(payloadKey => payloadKey === (token[key] as any).name).length;
+const isKeyDuplicated = <T extends TokenCollection, K extends Tokens>(
+  payload: T,
+  token: K,
+  key: string
+) => Object.keys(payload).filter(payloadKey => payloadKey === (token[key] as any).name).length;
 
-const renameDuplicatedToken = <T extends TokenCollection, K extends Tokens>(payload: T, token: K) => {
+const renameDuplicatedToken = <T extends TokenCollection, K extends Tokens>(
+  payload: T,
+  token: K
+) => {
   let duplicatedToken = token;
-  Object.keys(payload).forEach((key) => {
-    const payloadToken= payload[key] as any as Token;
+  Object.keys(payload).forEach(key => {
+    const payloadToken = payload[key] as any as Token;
 
     if (payloadToken.name === (duplicatedToken[key] as Token).name) {
       const duplicatedKey = `${key}-duplicate`;
@@ -82,7 +90,7 @@ const mergeTokens = <T extends TokenCollection, K extends Tokens>(payload: T, to
     const duplicatedToken = renameDuplicatedToken(payload, token);
 
     Object.assign(payload, duplicatedToken);
-    return (payload);
+    return payload;
   }
 
   const newPayload: T = mergeTokens(payload[key] as T, token[key] as K);
