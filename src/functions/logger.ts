@@ -10,8 +10,9 @@ const EMOJIS = {
 };
 
 const log = (message: string, emoji = '') => {
+  const reset = '\x1b[0m';
   // eslint-disable-next-line no-console
-  console.log(`\n${message} ${emoji}`);
+  console.info(`\n${reset}${emoji} ${message}\n`);
 };
 
 const logError = (message: string) => {

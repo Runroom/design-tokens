@@ -1,6 +1,6 @@
 import { FigmaComponent, FigmaFrame } from '@/types/figma';
 import {
-  DesignTokensGenerator,
+  DesignTokensGenerator, Token,
   TokenCollection,
   TokenPayload,
   Tokens,
@@ -9,6 +9,7 @@ import {
 import { snakeCase } from './stringManipulation.ts';
 import { DESIGN_TOKENS, DesignPages } from '@/designTokensPages.ts';
 import { validateFrameName } from './ensureType.ts';
+import { logWarning } from '@/functions/logger.ts';
 
 const treeParser = <T extends FigmaComponent>(frames: (FigmaFrame | FigmaComponent)[]): T[] => {
   const components: T[] = [];
@@ -50,15 +51,41 @@ const buildPayload = <P extends TokenCollection>(payload: object, componentsKey:
   } as P;
 };
 
-const mergeTokens = (payload: any, token: any): any | undefined => {
+const isKeyDuplicated = <T extends TokenCollection, K extends Tokens>(payload: T, token: K, key: string) => Object.keys(payload).filter(payloadKey => payloadKey === (token[key] as any).name).length;
+
+const renameDuplicatedToken = <T extends TokenCollection, K extends Tokens>(payload: T, token: K) => {
+  let duplicatedToken = token;
+  Object.keys(payload).forEach((key) => {
+    const payloadToken= payload[key] as any as Token;
+
+    if (payloadToken.name === (duplicatedToken[key] as Token).name) {
+      const duplicatedKey = `${key}-duplicate`;
+      (duplicatedToken[key] as Token).name = `${(duplicatedToken[key] as Token).name}-duplicate`;
+      duplicatedToken = { [duplicatedKey]: duplicatedToken[key] } as K;
+    }
+  });
+
+  return duplicatedToken;
+};
+
+const mergeTokens = <T extends TokenCollection, K extends Tokens>(payload: T, token: K): T => {
   const key = Object.keys(token)[0];
+
   if (!payload[key]) {
     Object.assign(payload, token);
 
     return payload;
   }
 
-  const newPayload = mergeTokens(payload[key], token[key]);
+  if (isKeyDuplicated(payload, token, key)) {
+    logWarning(`Duplicated token name: ${(token[key] as Token).name}`);
+    const duplicatedToken = renameDuplicatedToken(payload, token);
+
+    Object.assign(payload, duplicatedToken);
+    return (payload);
+  }
+
+  const newPayload: T = mergeTokens(payload[key] as T, token[key] as K);
 
   return {
     ...payload,
