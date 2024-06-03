@@ -1,5 +1,13 @@
 # @runroom/design-tokens
 
+## 6.0.2
+
+### Patch Changes
+
+- [#63](https://github.com/Runroom/design-tokens/pull/63)
+  [`a7f3ff3`](https://github.com/Runroom/design-tokens/commit/a7f3ff3d7201f403b401f0c5122fc6c2a0769549)
+  Thanks [@izm20](https://github.com/izm20)! - Add detection for duplicate tokens name
+
 ## 6.0.1
 
 ### Patch Changes
